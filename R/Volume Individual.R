@@ -69,11 +69,3 @@ indvol <- function(x, d=NULL, h=NULL, myeq=NULL, veg=NULL, f=NULL, circ=F, ...) 
   
   return(x)
 }
-
-indvol(x=IF1, d = IF1$Diameter, h=IF1$Height, myeq= (d*2)+h)
-
-library(forestry)
-library(FIELDimageR)
-?indices
-
-?acs
