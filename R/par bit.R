@@ -185,6 +185,7 @@ vahh<-as.data.frame(vah)
   erel <- (eabs/y)*100
 
   #Estimativa do volume total da populacao
+  
   #N
   N<-A/a
   
