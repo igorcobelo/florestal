@@ -185,6 +185,8 @@ vahh<-as.data.frame(vah)
   erel <- (eabs/y)*100
 
   #Estimativa do volume total da populacao
+  N<-A/a
+  
   Y<-y*N
 
   #Intervalo de Confian?a
