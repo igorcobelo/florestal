@@ -167,7 +167,7 @@ vahh<-as.data.frame(vah)
   s<-sqrt(var)
   CV<-s/y*100
 
-  invt<-invt<-qt(1-p/2, df=n-1)
+  invt<-qt(1-p/2, df=n-1)
 
   s2y<- var/n
 
