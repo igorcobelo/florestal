@@ -186,7 +186,7 @@ vahh<-as.data.frame(vah)
 
   #Estimativa do volume total da populacao
   
-  #N
+  #NN
   N<-A/a
   
   Y<-y*N
