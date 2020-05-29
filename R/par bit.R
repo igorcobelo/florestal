@@ -1,5 +1,17 @@
 bit<-function(x,A,k,E=0.1,p=0.05,rn=F,pt=T,ampl=5,prot=NULL,...){
 
+  x=bit
+  A=27
+  k=2
+  E=0.1
+  p=0.05
+  rn=F
+  ampl=5
+  prot=NULL
+  pt=T
+  
+  
+  
   nm <-deparse(substitute(x))
 
   max<-ceiling(max(x[,5],na.rm=T))
@@ -185,7 +197,7 @@ vahh<-as.data.frame(vah)
   erel <- (eabs/y)*100
 
   #Estimativa do volume total da populacao
-  Y<-vha*A
+  Y<-mean(vha*A)
 
   #Intervalo de Confian?a
 
