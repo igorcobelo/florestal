@@ -8,13 +8,14 @@ Phytosociological Parameters
 Calculates the phytosociological sampling parameters.
 }
 \usage{
-fito(sp,plot,d,stratum=NULL,spivi=15,pt=T,...)
+fito(sp,plot,d,A,stratum=NULL,spivi=15,pt=T,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{sp}{A vector or data frame with the species.}
   \item{plot}{A vector or data frame with the plots.}
   \item{d}{A vector or data frame with the diameter.}
+  \item{A}{Total area, in hectares.}
   \item{stratum}{Optional. A vector or data frame with the strata.}
   \item{spivi}{number of species in the IVI plot. Default is 15.}       \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
 
