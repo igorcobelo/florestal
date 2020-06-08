@@ -1,7 +1,7 @@
 ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...){
 
 
-  #para que o arquivo docx seja nomeado com o mesmo nome do input
+  ##para que o arquivo docx seja nomeado com o mesmo nome do input
   nm <-deparse(substitute(x))
 
   #para que seja feito o ggplot

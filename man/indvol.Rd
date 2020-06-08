@@ -72,7 +72,7 @@ Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 }
 \examples{
 
-#Using an equation entered manually:
+##Using an equation entered manually:
 
 indvol(x = IF1, d = IF1$Diameter, h = IF1$Height, myeq = 0.000065661*d^(2.475293)* h^(0.300022))
 

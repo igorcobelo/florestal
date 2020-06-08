@@ -47,13 +47,13 @@ The function calculates the critical distance to check for inclusion or exclusio
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-#Set current directory or just check.
+##Set current directory or just check.
 
 getwd()
 
 #Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent.
 
-bit(x,A=12,k=2)
+bit(IF_bitvol,A=12,k=2)
 
 
 

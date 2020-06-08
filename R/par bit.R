@@ -6,7 +6,7 @@ bit<-function(x,A,k,E=0.1,p=0.05,ampl=5,rn=F,pt=T,...){
   max<-max(x[,5],na.rm=T)+2
 
 
-  #Criar coluna com distancia critica
+  ##Criar coluna com distancia critica
   x$`Distancia critica`<-50*(x[,5]/100)/sqrt(k)
 
   #Eliminar linhas com distancia radial>=dist critica

@@ -4,7 +4,7 @@ nm <-deparse(substitute(x))
 
   max<-ceiling(max(x[,5],na.rm=T))
 
-  #Distribuicao diametrica
+  ##Distribuicao diametrica
 
   x<-as.data.frame(x)
 

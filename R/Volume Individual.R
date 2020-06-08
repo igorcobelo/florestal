@@ -1,6 +1,6 @@
 indvol <- function(x, d=NULL, h=NULL, myeq=NULL, veg=NULL, f=NULL, circ=F, ...) {
   
-  #tranformar circunferencia em diametro:
+  ##tranformar circunferencia em diametro:
   if(circ==T){
     d<-d/pi
   }

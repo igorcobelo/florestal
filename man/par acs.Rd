@@ -54,9 +54,9 @@ Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 
 getwd()
 
-#Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent.
+##Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent.
 
-acs(x,A=27,a=0.1)
+acs(IF1_vol,A=27,a=0.1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
