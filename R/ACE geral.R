@@ -1,4 +1,4 @@
-ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,pt=T,...){
+ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...){
 
 
   #para que o arquivo docx seja nomeado com o mesmo nome do input
@@ -496,69 +496,69 @@ if(pt==T){
 
 #Ajeitar dados para grafico e tabela
 
-  x[,1]<-as.numeric(x[,1])
-
+  x[,1] <- as.numeric(x[,1])
+  
   Estrato<-x[,1]
   Especie<-x[,4]
   parcela<-x[,2]
-  d<-x[,6]
-
-
-
+  d<-x[,5]
+  
+  
+  
   fito <- data.table(Estrato=Estrato,Especie=Especie, parcela=parcela, d=d)
-
+  
   fito$gi<-pi*d^2/40000 #coluna com area seccional por individuo
-
+  
   fito<-as.data.frame(fito)
-
+  
   #quantidade de individuos por especies (n)
-
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       qt<-c(length(subset(fito[,2], fito[,2]==i & fito[,1]==j)))
     }
   }
-
+  
   qt<-as.data.frame(qt)
-
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       qt[i,j]<-c(length(subset(fito[,2], fito[,2]==i & fito[,1]==j)))
     }
   }
-
+  
   qt<-as.data.frame(qt)
   qt<-qt[-1,]
   qt2<-data.frame(n = unlist(qt,use.names = F))
-
-
+  
+  
   #quantidade de parcelas em que as especies estao presentes (UA)
-
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       sp<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
     }
   }
   sp<-as.data.frame(sp)
-
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       sp[i,j]<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
     }
   }
-    sp<-as.data.frame(sp)
+  sp<-as.data.frame(sp)
   sp<-sp[-1,]
   sp2<-data.frame(UA = unlist(sp,use.names = F))
-
-#area basal por especie
-
+  
+  #area basal por especie
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       g<-c(sum(subset(fito[,5], fito[,2]==i & fito[,1]==j)))
     }
   }
   g<-as.data.frame(g)
-
+  
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
       g[i,j]<-c(sum(subset(fito[,5], fito[,2]==i & fito[,1]==j)))
@@ -567,221 +567,225 @@ if(pt==T){
   g<-as.data.frame(g)
   g<-g[-1,]
   g2<-data.frame(g = unlist(g,use.names = F))
-
-
-
-#criacao da tabela de parametros fitossociologicos
-
-dtt<-data.table(qt2,g2,sp2)
-dtt$especie<-rep(rownames(qt), ncol(qt))
-dtt$estrato<-rep(1:ncol(qt),each=nrow(qt))
-
-dtt<-dtt[!(dtt$n==0),]
-
-    colnames(dtt)[1]<-"n"
-    colnames(dtt)[2]<-"G (m2)"
-    colnames(dtt)[3]<-"UA"
-    colnames(dtt)[4]<-"Especie"
-    colnames(dtt)[5]<-"Estrato"
-
-
-    dtt$`DA (n/ha)`<-dtt$n/A #coluna de Densidade Absoluta (DA)
-
-    #soma de DA pra cada estrato
-    dtt<-dtt[order(dtt[,5]),]
-
-
-    dtt<-as.data.frame(dtt)
-    for(i in 1:max(dtt[,5])){
-      sumda<-c(sum(subset(dtt[,6], dtt[,5]==1)))
-    }
-    sumda<-as.data.frame(sumda)
-
-    for(i in 1:max(dtt[,5])){
-      sumda[i]<-c(sum(subset(dtt[,6], dtt[,5]==i)))
-    }
-    sumda<-as.data.frame(sumda)
-
-    sumda<-as.numeric(sumda)
-
-
-    for(i in 1:max(dtt[,5])){
-
-      sumdac<-with(dtt, ifelse(dtt$Estrato==i, sumda[i], ""))
-
-    }
-
-    sumdac<-as.data.frame(sumdac)
-
-    for(i in 1:max(dtt[,5])){
-
-      sumdac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumda[i], ""))
-
-    }
-
-    sumdac<-as.data.frame(sumdac)
-
-
-    sumdac2<-data.frame(sumdac = unlist(sumdac,use.names = T))
-
-
-
-    sumdac2<-sumdac2[!(sumdac2$sumdac==""),]
-
-    sumdac2<-as.matrix(sumdac2)
-    sumdac2<-as.numeric(sumdac2)
-
-    dtt$sumdac<-sumdac2
-
-
-    dtt$`DR (%)`<-dtt$`DA (n/ha)`/dtt$sumdac*100 #coluna Densidade Relativa
-    dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A #coluna Dominancia Absoluta (DoA)
-
-    #Soma de DoA por estrato
-
-    for(i in 1:max(dtt[,5])){
-      sumdoa<-c(sum(subset(dtt[,8], dtt[,5]==i)))
-    }
-    sumdoa<-as.data.frame(sumdoa)
-
-    for(i in 1:max(dtt[,5])){
-      sumdoa[i]<-c(sum(subset(dtt[,8], dtt[,5]==i)))
-    }
-    sumdoa<-as.data.frame(sumdoa)
-
-    sumdoa<-as.numeric(sumdoa)
-
-
-    for(i in 1:max(dtt[,5])){
-
-      sumdoac<-with(dtt, ifelse(dtt$Estrato==i, sumdoa[i], ""))
-
-    }
-
-    sumdoac<-as.data.frame(sumdoac)
-
-    for(i in 1:max(dtt[,5])){
-
-      sumdoac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumdoa[i], ""))
-
-    }
-
-    sumdoac<-as.data.frame(sumdoac)
-
-
-    sumdoac2<-data.frame(sumdoac = unlist(sumdoac,use.names = T))
-
-
-
-    sumdoac2<-sumdoac2[!(sumdoac2$sumdoac==""),]
-
-    sumdoac2<-as.matrix(sumdoac2)
-    sumdoac2<-as.numeric(sumdoac2)
-
-    dtt$sumdoac<-sumdoac2
-
-
-    dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/dtt$sumdoac*100 #coluna de Dominancia Relativa (DoR)
-
-
-    #parcelas/estrato
-    for(i in 1:max(x[,1])){
-      maxn<-c(length(unique(subset(x[,2], x[,1]==i))))
-    }
-    maxn<-as.data.frame(maxn)
-
-    for(i in 1:max(x[,1])){
-      maxn[i]<-c(length(unique(subset(x[,2], x[,1]==i))))
-    }
-    maxn<-as.data.frame(maxn)
-
-
-    m<-as.numeric(maxn)
-
-
-    for(i in 1:max(dtt[,5])){
-
-      test<-with(dtt, ifelse(dtt$Estrato==i, m[i], ""))
-
-    }
-
-   test<-as.data.frame(test)
-
-   for(i in 1:max(dtt[,5])){
-
-     test[i]<-with(dtt, ifelse(dtt$Estrato==i, m[i], ""))
-
-   }
-
-   test<-as.data.frame(test)
-
-
+  
+  
+  
+  #criacao da tabela de parametros fitossociologicos
+  
+  dtt<-data.table(qt2,g2,sp2)
+  dtt$especie<-rep(rownames(qt), ncol(qt))
+  dtt$estrato<-rep(1:ncol(qt),each=nrow(qt))
+  
+  dtt<-dtt[!(dtt$n==0),]
+  
+  colnames(dtt)[1]<-"n"
+  colnames(dtt)[2]<-"G (m2)"
+  colnames(dtt)[3]<-"UA"
+  colnames(dtt)[4]<-"Especie"
+  colnames(dtt)[5]<-"Estrato"
+  
+  
+  dtt$`DA (n/ha)`<-dtt$n/A #coluna de Densidade Absoluta (DA)
+  
+  #soma de DA pra cada estrato
+  dtt<-dtt[order(dtt[,5]),]
+  
+  
+  dtt<-as.data.frame(dtt)
+  for(i in 1:max(dtt[,5])){
+    sumda<-c(sum(subset(dtt[,6], dtt[,5]==1)))
+  }
+  sumda<-as.data.frame(sumda)
+  
+  for(i in 1:max(dtt[,5])){
+    sumda[i]<-c(sum(subset(dtt[,6], dtt[,5]==i)))
+  }
+  sumda<-as.data.frame(sumda)
+  
+  sumda<-as.numeric(sumda)
+  
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumdac<-with(dtt, ifelse(dtt$Estrato==i, sumda[i], ""))
+    
+  }
+  
+  sumdac<-as.data.frame(sumdac)
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumdac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumda[i], ""))
+    
+  }
+  
+  sumdac<-as.data.frame(sumdac)
+  
+  
+  sumdac2<-data.frame(sumdac = unlist(sumdac,use.names = T))
+  
+  
+  
+  sumdac2<-sumdac2[!(sumdac2$sumdac==""),]
+  
+  sumdac2<-as.matrix(sumdac2)
+  sumdac2<-as.numeric(sumdac2)
+  
+  dtt$sumdac<-sumdac2
+  
+  
+  dtt$`DR (%)`<-dtt$`DA (n/ha)`/dtt$sumdac*100 #coluna Densidade Relativa
+  dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A #coluna Dominancia Absoluta (DoA)
+  
+  #Soma de DoA por estrato
+  
+  for(i in 1:max(dtt[,5])){
+    sumdoa<-c(sum(subset(dtt[,9], dtt[,5]==i)))
+  }
+  sumdoa<-as.data.frame(sumdoa)
+  
+  for(i in 1:max(dtt[,5])){
+    sumdoa[i]<-c(sum(subset(dtt[,9], dtt[,5]==i)))
+  }
+  sumdoa<-as.data.frame(sumdoa)
+  
+  sumdoa<-as.numeric(sumdoa)
+  
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumdoac<-with(dtt, ifelse(dtt$Estrato==i, sumdoa[i], ""))
+    
+  }
+  
+  sumdoac<-as.data.frame(sumdoac)
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumdoac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumdoa[i], ""))
+    
+  }
+  
+  sumdoac<-as.data.frame(sumdoac)
+  
+  
+  sumdoac2<-data.frame(sumdoac = unlist(sumdoac,use.names = T))
+  
+  
+  
+  sumdoac2<-sumdoac2[!(sumdoac2$sumdoac==""),]
+  
+  sumdoac2<-as.matrix(sumdoac2)
+  sumdoac2<-as.numeric(sumdoac2)
+  
+  dtt$sumdoac<-sumdoac2
+  
+  
+  dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/dtt$sumdoac*100 #coluna de Dominancia Relativa (DoR)
+  
+  
+  #parcelas/estrato
+  
+  for(i in 1:max(fito$Estrato)){
+    maxn<-c(length(unique(subset(fito$parcela, fito$Estrato==i))))
+  }
+  maxn<-as.data.frame(maxn)
+  
+  for(i in 1:max(fito$Estrato)){
+    maxn[i]<-c(length(unique(subset(fito$parcela, fito$Estrato==i))))
+  }
+  maxn<-as.data.frame(maxn)
+  
+  
+  m<-as.numeric(maxn)
+  
+  
+  for(i in 1:max(dtt[,5])){
+    
+    test<-with(dtt, ifelse(dtt$Estrato==i, m[i], ""))
+    
+  }
+  
+  test<-as.data.frame(test)
+  
+  for(i in 1:max(dtt[,5])){
+    
+    test[i]<-with(dtt, ifelse(dtt$Estrato==i, m[i], ""))
+    
+  }
+  
+  test<-as.data.frame(test)
+  
+  
   test2<-data.frame(test = unlist(test,use.names = F))
-
+  
   test2<-test2[!(test2$test==""),]
-
+  
   test2<-as.matrix(test2)
   test2<-as.numeric(test2)
-
+  
   dtt$maxn<-test2
-
-    dtt$`FA (%)`<-dtt$UA/dtt$maxn*100 #coluna Frequencia Absoluta (FA)
-
-
-    #Soma de FA
-
-    for(i in 1:max(dtt[,5])){
-      sumfa<-c(sum(subset(dtt[,10], dtt[,5]==i)))
-    }
-    sumfa<-as.data.frame(sumfa)
-
-    for(i in 1:max(dtt[,5])){
-      sumfa[i]<-c(sum(subset(dtt[,10], dtt[,5]==i)))
-    }
-    sumfa<-as.data.frame(sumfa)
-
-    sumfa<-as.numeric(sumfa)
-
-
-    for(i in 1:max(dtt[,5])){
-
-      sumfac<-with(dtt, ifelse(dtt$Estrato==i, sumfa[i], ""))
-
-    }
-
-    sumfac<-as.data.frame(sumfac)
-
-    for(i in 1:max(dtt[,5])){
-
-      sumfac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumfa[i], ""))
-
-    }
-
-    sumfac<-as.data.frame(sumfac)
-
-
-    sumfac2<-data.frame(sumfac = unlist(sumfac,use.names = T))
-
-
-
-    sumfac2<-sumfac2[!(sumfac2$sumfac==""),]
-
-    sumfac2<-as.data.frame(sumfac2)
-
-    sumfac2<-as.matrix(sumfac2)
-    sumfac2<-as.numeric(sumfac2)
-
-    dtt$sumfac<-sumfac2
-
-    dtt$`FR (%)`<-dtt$`FA (%)`/dtt$sumfac*100 #coluna FR
-    dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)` #coluna IVI
-
-    dtt2<-dtt[,c(5,4,1,2,3,6,8,9,11,13,15,16)] #ordenar as colunas
-
+  
+  dtt$`FA (%)`<-dtt$UA/dtt$maxn*100 #coluna Frequencia Absoluta (FA)
+  
+  
+  #Soma de FA
+  
+  for(i in 1:max(dtt[,5])){
+    sumfa<-c(sum(subset(dtt[,13], dtt[,5]==i)))
+  }
+  sumfa<-as.data.frame(sumfa)
+  
+  for(i in 1:max(dtt[,5])){
+    sumfa[i]<-c(sum(subset(dtt[,13], dtt[,5]==i)))
+  }
+  sumfa<-as.data.frame(sumfa)
+  
+  sumfa<-as.numeric(sumfa)
+  
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumfac<-with(dtt, ifelse(dtt$Estrato==i, sumfa[i], ""))
+    
+  }
+  
+  sumfac<-as.data.frame(sumfac)
+  
+  for(i in 1:max(dtt[,5])){
+    
+    sumfac[i]<-with(dtt, ifelse(dtt$Estrato==i, sumfa[i], ""))
+    
+  }
+  
+  sumfac<-as.data.frame(sumfac)
+  
+  
+  sumfac2<-data.frame(sumfac = unlist(sumfac,use.names = T))
+  
+  
+  
+  sumfac2<-sumfac2[!(sumfac2$sumfac==""),]
+  
+  sumfac2<-as.data.frame(sumfac2)
+  
+  sumfac2<-as.matrix(sumfac2)
+  sumfac2<-as.numeric(sumfac2)
+  
+  dtt$sumfac<-sumfac2
+  
+  dtt$`FR (%)`<-dtt$`FA (%)`/dtt$sumfac*100 #coluna FR
+  dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)` #coluna IVI
+  
+  dtt2<-dtt[,c(5,4,1,2,3,6,8,9,11,13,15,16)] #ordenar as colunas
+  
   dtt2<-dtt2[order(dtt2$`IVI (%)`, decreasing = T),] #ordenar por IVI
-    dtt2<-dtt2[order(dtt2$Estrato),] #ordenar por Estrato
-
-#nomear as colunas em ingles
+  
+  dtt_g<- dtt2[1:spivi,] #seleciona os maiores IVI com spivi
+  
+  dtt2<-dtt2[order(dtt2$Estrato),] #ordenar por Estrato
+  
+  #nomear as colunas em ingles
   if(pt==F){
     colnames(dtt2)[1]<-"Stratum"
     colnames(dtt2)[2]<-"Specie"
@@ -795,39 +799,179 @@ dtt<-dtt[!(dtt$n==0),]
     colnames(dtt2)[10]<-"AF (%)"
     colnames(dtt2)[11]<-"RF (%)"
     colnames(dtt2)[12]<-"IVI (%)"
-
+    
   }
-
-    dtt3<-as.data.frame(dtt2)
-
-    dtt3[,1]<-format(round(dtt3[,1],0),nsmall=0)
-    dtt3[,3]<-format(round(dtt3[,3],0),nsmall=0)
-    dtt3[,4]<-format(round(dtt3[,4],4),nsmall=4)
-    dtt3[,5]<-format(round(dtt3[,5],0),nsmall=0)
-    dtt3[,6]<-format(round(dtt3[,6],2),nsmall=2)
-    dtt3[,7]<-format(round(dtt3[,7],2),nsmall=2)
-    dtt3[,8]<-format(round(dtt3[,8],2),nsmall=2)
-    dtt3[,9]<-format(round(dtt3[,9],2),nsmall=2)
-    dtt3[,10]<-format(round(dtt3[,10],2),nsmall=2)
-    dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
-    dtt3[,12]<-format(round(dtt3[,12],2),nsmall=2)
-
-
-
-
-    #transformar em flextable
-    fitot <- flextable(dtt3)
-    fitot<-autofit(fitot)
-    fitot <- align(fitot, align = "center", part="all")
-    fitot<-italic(fitot,j=2)
-
-
-  #Gr?fico fito
-
-
+  
+  dtt3<-as.data.frame(dtt2)
+  
+  dtt3[,1]<-format(round(dtt3[,1],0),nsmall=0)
+  dtt3[,3]<-format(round(dtt3[,3],0),nsmall=0)
+  dtt3[,4]<-format(round(dtt3[,4],4),nsmall=4)
+  dtt3[,5]<-format(round(dtt3[,5],0),nsmall=0)
+  dtt3[,6]<-format(round(dtt3[,6],2),nsmall=2)
+  dtt3[,7]<-format(round(dtt3[,7],2),nsmall=2)
+  dtt3[,8]<-format(round(dtt3[,8],2),nsmall=2)
+  dtt3[,9]<-format(round(dtt3[,9],2),nsmall=2)
+  dtt3[,10]<-format(round(dtt3[,10],2),nsmall=2)
+  dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
+  dtt3[,12]<-format(round(dtt3[,12],2),nsmall=2)
+  
+  
+  
+  
+  #transformar em flextable
+  fitot <- flextable(dtt3)
+  fitot<-autofit(fitot)
+  fitot <- align(fitot, align = "center", part="all")
+  fitot<-italic(fitot,j=2)
+  
+  
+  
+  #PARA UMA ESPECIE APENAS:
+  
+if(un==T){
+  
   if(pt==T){
+    colnames(x)[1]<-"Estrato"
+    colnames(x)[2]<-"Parcela"
+    colnames(x)[3]<-"Individuo"
+    colnames(x)[4]<-"Especie"
+    colnames(x)[5]<-"Altura (m)"
+    colnames(x)[6]<-"Diametro (cm)"
+    colnames(x)[7]<-"Volume (m3)"
+  }else{
+    colnames(x)[1]<-"Stratum"
+    colnames(x)[2]<-"Plot"
+    colnames(x)[3]<-"Individual"
+    colnames(x)[4]<-"Specie"
+    colnames(x)[5]<-"Height (m)"
+    colnames(x)[6]<-"Diameter (cm)"
+    colnames(x)[7]<-"Volume (m3)"
+  }
+  
+  x2<-as.data.frame(x)
+  
+  x2[,1]<-format(round(x2[,1],0),nsmall=0)
+  x2[,2]<-format(round(x2[,2],0),nsmall=0)
+  x2[,3]<-format(round(x2[,3],0),nsmall=0)
+  x2[,5]<-format(round(x2[,5],2),nsmall=2)
+  x2[,6]<-format(round(x2[,6],2),nsmall=2)
+  x2[,7]<-format(round(x2[,7],4),nsmall=4)
+  
 
-    data <- dtt2[c(1, 2, 7, 9, 11)] %>%
+  x3 <- flextable(x2)
+  x3 <- autofit(x3)
+  x3 <- align(x3, align = "center", part="all")
+  x3<-italic(x3,j=4)
+  
+  
+  if(pt==T){
+    doc <- read_docx() %>%
+      body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
+      body_add_flextable(par) %>% #tabela de parametros volume
+      body_end_section_portrait() %>%
+      
+      body_add_break() %>%
+      body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+      body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
+      body_end_section_portrait() %>%
+      
+      body_add_break() %>%
+      body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
+      body_add_flextable(vopa) %>% #volume/parcela
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_par("Tabela 3. Volume lenhoso por estrato.", style = "centered") %>%
+      body_add_flextable(vol.estrat2) %>% #volume/estrato
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_par("Tabela 4. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
+      body_add_flextable(tabaux) %>% #tabela auxiliar
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_par("Tabela 5. Volume lenhoso individual.", style = "centered") %>%
+      body_add_flextable(x3) %>%
+      body_end_section_landscape()
+    
+  }else{
+    
+    doc <- read_docx() %>%
+      body_add_par("Table 1. Stratified casual sampling parameters.", style = "centered") %>%
+      body_add_flextable(par) %>% #tabela de parametros volume
+      body_end_section_portrait() %>%
+      
+      body_add_break() %>%
+      body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+      body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
+      body_end_section_portrait() %>%
+      
+      body_add_break() %>%
+      body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
+      body_add_flextable(vopa) %>% #volume/parcela
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_par("Table 3. Woody volume by stratum.", style = "centered") %>%
+      body_add_flextable(vol.estrat2) %>% #volume/estrato
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_par("Table 4. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
+      body_add_flextable(tabaux) %>% #tabela auxiliar
+      body_end_section_landscape() %>%
+     
+      body_add_break() %>%
+      body_add_par("Table 5. Individual woody volume.", style = "centered") %>%
+      body_add_flextable(x3) %>%
+      body_end_section_landscape()
+    
+  }
+  
+
+  
+  if(pt==T){
+    fileout <- tempfile(fileext = ".docx")
+    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+    print(doc, target = fileout)
+  }else{
+    fileout <- tempfile(fileext = ".docx")
+    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    print(doc, target = fileout)
+  }
+  
+  if(pt==T){
+    return(list(`vol individual`=x3,
+                `distribuicao diam`=diam,
+                `tabela aux`=tabaux,
+                `volume por estrato`=vol.estrat2,
+                `volume por parcela`=vopa,
+                `parametros vol`=par))
+  }else{
+    
+    return(list(`individual vol`=x3,
+                `diam distribuction`=diam,
+                `aux table`=tabaux,
+                `volume by stratum`=vol.estrat2,
+                `volume by plot`=vopa,
+                `vol parameters`=par))     
+  }
+  
+  
+}else{
+  
+  #Para mais de uma especie:
+  
+  
+  
+  #Grafico fito
+  
+  
+  if(pt==T){
+    
+    data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
       gather(Parametros, b, -Estrato, -Especie) %>%
       mutate(Parametros = case_when(
         grepl('^DR', Parametros) ~ 'Densidade Relativa (%)',
@@ -835,55 +979,64 @@ dtt<-dtt[!(dtt$n==0),]
         grepl('^FR', Parametros) ~ 'Frequencia Relativa (%)',
         TRUE ~ NA_character_
       ))
-
+    
     gg2<-ggplot(data, aes(reorder(Especie,b), b, fill = Parametros)) +
       geom_col(alpha = 0.8) +
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Especies") + ylab("Indice de Valor de Importancia (%)") +
+      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia (%)") +
       labs(fill = "Parametros") +
       theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
-    facet_wrap( ~ data[,1])
-
+      facet_wrap( ~ data[,1])
+    
     p2 <- gg2 + theme(legend.position = "none")
     le1 <- cowplot::get_legend(gg2)
     gg3<-cowplot::plot_grid(p2, le1,nrow = 2,rel_heights = c(1, 0.2))
-
-
-    }else{
-      data <- dtt2[c(1, 2, 7, 9, 11)] %>%
-        gather(Parameters, b, -Stratum, -Specie) %>%
-        mutate(Parameters = case_when(
-          grepl('^RDo', Parameters) ~ 'Relative Dominance (%)',
-          grepl('^RD', Parameters) ~ 'Relative Density (%)',
-          grepl('^RF', Parameters) ~ 'Relative Frequency (%)',
-          TRUE ~ NA_character_
-        ))
-
-      gg2<-ggplot(data, aes(reorder(Specie,b), b, fill = Parameters)) +
-        geom_col(alpha = 0.8) +
-        scale_fill_brewer(palette = "Dark2") +
-        theme_bw(16)  +
-        coord_flip() +
-        xlab("Species") + ylab("Importance Value Index (%)") +
-        labs(fill = "Parameters") +
-        theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
-              axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
-              axis.title.y=element_text(size=12),
-              legend.position="bottom",legend.direction = "horizontal")+
+    
+    
+  }else{
+    data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
+      gather(Parameters, b, -Estrato, -Especie) %>%
+      mutate(Parameters = case_when(
+        grepl('^DoR', Parameters) ~ 'Relative Dominance (%)',
+        grepl('^DR', Parameters) ~ 'Relative Density (%)',
+        grepl('^FR', Parameters) ~ 'Relative Frequency (%)',
+        TRUE ~ NA_character_
+      ))
+    
+    gg2<-ggplot(data, aes(reorder(Especie,b), b, fill = Parameters)) +
+      geom_col(alpha = 0.8) +
+      scale_fill_brewer(palette = "Dark2") +
+      theme_bw(16)  +
+      coord_flip() +
+      xlab("Species\n") + ylab("\nImportance Value Index (%)") +
+      labs(fill = "Parameters") +
+      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+            axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
+            axis.title.y=element_text(size=12),
+            legend.position="bottom",legend.direction = "horizontal")+
       facet_wrap( ~ data[,1])
-
-
-      p2 <- gg2 + theme(legend.position = "none")
-      le1 <- cowplot::get_legend(gg2)
-      gg3<-cowplot::plot_grid(p2, le1,nrow = 2,rel_heights = c(1, 0.2))
+    
+    
+    p2 <- gg2 + theme(legend.position = "none")
+    le1 <- cowplot::get_legend(gg2)
+    gg3<-cowplot::plot_grid(p2, le1,nrow = 2,rel_heights = c(1, 0.2))
   }
+    
+#CURVA ESPECIES-AREA
+    
+    freqsp<-as.data.frame.matrix(table(x$Plot, x$Specie))
+    rep<-data.frame(rep)
+    rep$site.totals<-apply(freqsp,1,sum)
+    accum <- accumresult(freqsp, y=rep, scale='site.totals', method='exact', conditioned=TRUE)
+    
 
-
+    #grafico no docx
+  
 
   #Tabela de volume por especie
 
@@ -989,6 +1142,8 @@ dtt<-dtt[!(dtt$n==0),]
     x3 <- flextable(x2)
     x3 <- autofit(x3)
     x3 <- align(x3, align = "center", part="all")
+    x3<-italic(x3,j=4)
+    
 
     #criar docx sem argumento prot
 
@@ -1000,7 +1155,7 @@ dtt<-dtt[!(dtt$n==0),]
       body_end_section_portrait() %>%
 
         body_add_break() %>%
-        body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+        body_add_gg(diam, style="centered", height=3.4,width=6) %>% #distribuicao diametrica
         body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
         body_end_section_portrait() %>%
 
@@ -1030,9 +1185,16 @@ dtt<-dtt[!(dtt$n==0),]
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+        body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
         body_add_par("Figura 2. Indice de Valor de Importancia por especie e por estrato (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
+                                        xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes, para cada estrato.", style = "centered") %>%
+        body_end_section_landscape() %>%
+        
 
         body_add_break() %>%
         body_add_par("Tabela 7. Volume lenhoso individual.", style = "centered") %>%
@@ -1080,6 +1242,12 @@ dtt<-dtt[!(dtt$n==0),]
         body_add_break() %>%
         body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
         body_add_par("Figure 2. Importance Value Index by specie and by stratum (sum of relative density, relative dominance and relative frequency).", style = "centered")%>%
+        body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
+                                          xlab="Plot", ylab="Richness", ci=ci) ) %>%
+        body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations, for each stratum.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break() %>%
@@ -1230,6 +1398,12 @@ dtt<-dtt[!(dtt$n==0),]
         body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
         body_add_par("Figura 2. Indice de Valor de Importancia por especie e por estrato (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
+                                          xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes, para cada estrato.", style = "centered") %>%
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
         body_add_par("Tabela 8. Volume lenhoso individual.", style = "centered") %>%
@@ -1282,6 +1456,12 @@ dtt<-dtt[!(dtt$n==0),]
         body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
         body_add_par("Figure 2. Importance Value Index by specie and by stratum (sum of relative density, relative dominance and relative frequency).", style = "centered")%>%
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
+                                          xlab="Plot", ylab="Richness", ci=ci)) %>%
+        body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations, for each stratum.", style = "centered") %>%
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
         body_add_par("Table 8. Individual woody volume.", style = "centered") %>%
@@ -1306,10 +1486,57 @@ dtt<-dtt[!(dtt$n==0),]
 
 
   if(missing(prot)){
-    return(list(x3,gg3,fitot,vtt,diam,tabaux,vol.estrat2,vopa,par))
+    
+    if(pt==T){
+    return(list(`vol individual`=x3,
+                `grafico ivi`=gg3,
+                `parametros fito`=fitot,
+                `volume por sp`=vtt,
+                `distribuicao diam`=diam,
+                `tabela aux`=tabaux,
+                `volume por estrato`=vol.estrat2,
+                `volume por parcela`=vopa,
+                `parametros vol`=par))
+    }else{
+      return(list(`individual vol`=x3,
+                  `ivi plot`=gg3,
+                  `phyto parameters`=fitot,
+                  `volume by sp`=vtt,
+                  `diam distribuction`=diam,
+                  `aux table`=tabaux,
+                  `volume by stratum`=vol.estrat2,
+                  `volume by plot`=vopa,
+                  `vol parameters`=par))
+    }
+      
+      
   }else{
-    return(list(x3,gg3,fitot,phi,vtt,diam,tabaux,vol.estrat2,vopa,par))
-  }
+    
+    if(pt==T){
+    return(list(`vol individual`=x3,
+                `grafico ivi`=gg3,
+                `parametros fito`=fitot,
+                `spp prot`=phi,
+                `volume por sp`=vtt,
+                `distribuicao diam`=diam,
+                `tabela aux`=tabaux,
+                `volume por estrato`=vol.estrat2,
+                `volume por parcela`=vopa,
+                `parametros vol`=par))
+      }else{
+                  
+        return(list(`individual vol`=x3,
+                    `ivi plot`=gg3,
+                    `phyto parameters`=fitot,
+                    `prot spp`=phi,
+                    `volume by sp`=vtt,
+                    `diam distribuction`=diam,
+                    `aux table`=tabaux,
+                    `volume by stratum`=vol.estrat2,
+                    `volume by plot`=vopa,
+                    `vol parameters`=par))     
+  }}
+    
 }
-
-
+}
+  

@@ -1,4 +1,4 @@
-acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,pt=T,...){
+acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,ci=2,un=F,pt=T,...){
 
 nm <-deparse(substitute(x))
 
@@ -73,7 +73,7 @@ nm <-deparse(substitute(x))
   vopa2<-autofit(vopa2)
 
 
-  #par?metros
+  #parametros
   n<-ncol(vv)
   vv<-as.numeric(vv)
   y<-mean(vv)
@@ -131,15 +131,15 @@ nm <-deparse(substitute(x))
   }
   }
 
-  #Continua par?metros
+  #Continua parametros
   sy<-sqrt(s2y)
   eabs <- invt*sy
   erel <- (eabs/y)*100
 
-  #Estimativa do volume total da popula??o
+  #Estimativa do volume total da populacao
   Y<-y*N
 
-  #Intervalo de Confian?a
+  #Intervalo de Confianca
   ICparmax<-y+eabs
   ICparmin<-y-eabs
 
@@ -234,6 +234,7 @@ nm <-deparse(substitute(x))
   par <- align(par, align = "center")
   par <- align_text_col(par, align = "center")
   par<-autofit(par)
+
 
   #FITO
 
@@ -344,23 +345,25 @@ nm <-deparse(substitute(x))
   dtt3 <- align(dtt3, align = "center", part="all")
   dtt3<-italic(dtt3,j=1)
 
-
-  #Gr?fico fito
+  
+  #Grafico fito
 
 
 
   if(pt==T){
 
-    t<-t(data.frame(dtt$Especie,dtt$`DR (%)`,dtt$`DoR (%)`,dtt$`FR (%)`))
+    t<-t(data.frame(dtt$Especie[1:spivi],dtt$`DR (%)`[1:spivi],dtt$`DoR (%)`[1:spivi],dtt$`FR (%)`[1:spivi]))
     t<-data.frame(t)
 
+    rownames(t)[1]<-"Especie"
     rownames(t)[2]<-"Densidade Relativa (%)"
     rownames(t)[3]<-"Dominancia Relativa (%)"
     rownames(t)[4]<-"Frequencia Relativa (%)"
   }else{
-    t<-t(data.frame(dtt$Specie,dtt$`RD (%)`,dtt$`RDo (%)`,dtt$`RF (%)`))
+    t<-t(data.frame(dtt$Specie[1:spivi],dtt$`RD (%)`[1:spivi],dtt$`RDo (%)`[1:spivi],dtt$`RF (%)`[1:spivi]))
     t<-data.frame(t)
 
+    rownames(t)[1]<-"Specie"
     rownames(t)[2]<-"Relative Density (%)"
     rownames(t)[3]<-"Relative Dominance (%)"
     rownames(t)[4]<-"Relative Frequency (%)"
@@ -371,7 +374,91 @@ nm <-deparse(substitute(x))
   value<-data.frame(b=unlist(t[2:4,],use.names=F))
   condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
   data <- data.frame(specie,condition,value)
-
+  
+  
+  # se tiver uma unica especie
+  if(un==T){
+  
+    if(pt==T){
+      doc<-read_docx() %>%
+        
+        body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
+        body_add_flextable(par) %>%
+        body_end_section_portrait() %>%
+        
+        body_add_break() %>%
+        body_add_gg(diam,style="centered", height=4,width=6) %>%
+        body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
+        body_end_section_portrait() %>%
+        
+        body_add_break() %>%
+        body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
+        body_add_flextable(vopa2) %>%
+        body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Tabela 3. Volume lenhoso individual.", style = "centered") %>%
+        body_add_flextable(anex) %>%
+        body_end_section_landscape()
+      
+      
+    }else{
+      
+      doc<-read_docx() %>%
+        
+        body_add_par("Table 1. Simple casual sampling parameters.", style = "centered") %>%
+        body_add_flextable(par) %>%
+        body_end_section_portrait() %>%
+        
+        body_add_break() %>%
+        body_add_gg(diam,style="centered", height=4,width=6) %>%
+        body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
+        body_end_section_portrait() %>%
+        
+        body_add_break() %>%
+        body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
+        body_add_flextable(vopa2) %>%
+        body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Table 3. Individual woody volume.", style = "centered") %>%
+        body_add_flextable(anex)%>%
+        body_end_section_landscape()
+      
+    }
+    
+  
+  if(pt==T){
+    fileout <- tempfile(fileext = ".docx")
+    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+    print(doc, target = fileout)
+  }else{
+    fileout <- tempfile(fileext = ".docx")
+    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    print(doc, target = fileout)
+    
+  }
+    
+    if(pt==T){
+      
+      return(list(`vol individual`=anex,
+                  `distribuicao diam`=diam,
+                  `volume por parcela`=vopa2,
+                  `parametros vol`=par))
+    }else{
+      
+      return(list(`individual vol`=anex,
+                  `diam distribuction`=diam,
+                  `volume by plot`=vopa2,
+                  `vol parameters`=par))
+    }
+    
+    
+    
+  }else{
+    
+    #mais de uma especie:
+    
   data$b<-as.character(data$b)
   data$b<-as.numeric(data$b)
 
@@ -393,7 +480,7 @@ nm <-deparse(substitute(x))
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Especies") + ylab("Indice de Valor de Importancia (%)") +
+      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia (%)") +
       labs(fill = "Parametros") +
       theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
@@ -412,7 +499,7 @@ nm <-deparse(substitute(x))
           scale_fill_brewer(palette = "Dark2") +
           theme_bw(16)  +
           coord_flip() +
-          xlab("Species") + ylab("Importance Value Index (%)") +
+          xlab("Species\n") + ylab("\nImportance Value Index (%)") +
           labs(fill = "Parameters") +
           theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
                 axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
@@ -426,6 +513,39 @@ nm <-deparse(substitute(x))
       }
 
 
+  #CURVA DE ACUMULACAO DE ESPECIES
+  
+  
+  cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
+
+  suppressMessages({sp2 <- accumresult(cc, method = "random")})
+
+  h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
+  
+  if(pt==T){
+  curve <- ggplot(h, aes(x=p, y=r))+
+    geom_line() +
+    geom_ribbon(aes(ymin=r-sd*ci, ymax=r+sd*ci), alpha = 0.2)+
+    theme_bw(16)+
+    theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
+          axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
+          axis.title.y=element_text(size=12))+
+    xlab("\nParcelas")+
+    ylab("Riqueza\n")
+  }else{
+    
+    curve <- ggplot(h, aes(x=p, y=r))+
+      geom_line() +
+      geom_ribbon(aes(ymin=r-sd*ci, ymax=r+sd*ci), alpha = 0.2)+
+      theme_bw(16)+
+      theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
+            axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
+            axis.title.y=element_text(size=12))+
+      xlab("\nPlot")+
+      ylab("Richness\n")
+  }
+  
+  
  #VOLUME POR SP
 
   x<-as.data.frame(x)
@@ -546,10 +666,15 @@ if(pt==T){
       body_end_section_landscape() %>%
 
       body_add_break() %>%
-      body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+      body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
-
+      
+      body_add_break() %>%
+      body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes.", style = "centered") %>%
+      body_end_section_landscape() %>%
+      
       body_add_break() %>%
       body_add_par("Tabela 5. Volume lenhoso individual.", style = "centered") %>%
       body_add_flextable(anex) %>%
@@ -583,8 +708,13 @@ if(pt==T){
     body_end_section_landscape() %>%
 
     body_add_break() %>%
-    body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+    body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
+    body_end_section_landscape() %>%
+    
+    body_add_break() %>%
+    body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break() %>%
@@ -710,8 +840,13 @@ if(pt==T){
       body_end_section_landscape() %>%
 
       body_add_break() %>%
-      body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+      body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
+      body_end_section_landscape() %>%
+      
+      body_add_break() %>%
+      body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes.", style = "centered") %>%
       body_end_section_landscape() %>%
 
       body_add_break() %>%
@@ -754,8 +889,13 @@ if(pt==T){
     body_end_section_landscape() %>%
 
     body_add_break() %>%
-    body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+    body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
+    body_end_section_landscape() %>%
+    
+    body_add_break() %>%
+    body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break() %>%
@@ -765,7 +905,7 @@ if(pt==T){
 
 }
 
-      }
+  }
 
   if(pt==T){
   fileout <- tempfile(fileext = ".docx")
@@ -779,9 +919,59 @@ if(pt==T){
   }
 
   if(missing(prot)){
-    return(list(anex,gg3,dtt3,vtt,diam,vopa2,par))
+    
+    if(pt==T){
+      
+    return(list(`vol individual`=anex,
+                `curva especies`=curve,
+                `grafico ivi`=gg3,
+                `parametros fito`=dtt3,
+                `volume por sp`=vtt,
+                `distribuicao diam`=diam,
+                `volume por parcela`=vopa2,
+                `parametros vol`=par))
+    }else{
+      
+      return(list(`individual vol`=anex,
+      `species curve`=curve,
+      `ivi plot`=gg3,
+      `phyto parameters`=dtt3,
+      `volume by sp`=vtt,
+      `diam distribuction`=diam,
+      `volume by plot`=vopa2,
+      `vol parameters`=par))
+    }
+      
+      
   }else{
-    return(list(anex,gg3,dtt3,phi,vtt,diam,vopa2,par))
+    
+    if(pt==T){
+      
+      return(list(`vol individual`=anex,
+                  `curva especies`=curve,
+                  `grafico ivi`=gg3,
+                  `parametros fito`=dtt3,
+                  `spp prot`=phi,
+                  `volume por sp`=vtt,
+                  `distribuicao diam`=diam,
+                  `volume por parcela`=vopa2,
+                  `parametros vol`=par))
+    }else{
+      
+      return(list(`individual vol`=anex,
+      `species curve`=curve,
+      `ivi plot`=gg3,
+      `phyto parameters`=dtt3,
+      `prot spp`=phi,
+      `volume by sp`=vtt,
+      `diam distribuction`=diam,
+      `volume by plot`=vopa2,
+      `vol parameters`=par))
+    }
   }
 
   }
+  }
+
+
+

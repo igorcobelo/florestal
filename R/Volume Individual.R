@@ -12,7 +12,7 @@ indvol <- function(x, d=NULL, h=NULL, myeq=NULL, veg=NULL, f=NULL, circ=F, ...) 
   #Para fator de forma (hf):
   
   if(!is.null(f)){
-    x$`Volume (m3)`<-(pi*d^2/4000)*h*f
+    x$`Volume (m3)`<-(pi*d^2/40000)*h*f
   }
   
   #Para veg:

@@ -2,13 +2,13 @@
 \alias{bit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Bitterlich Method Sampling and Phytosociological Parameters
+Bitterlich Method Sampling
 }
 \description{
-Calculates the Bitterlich method (or point sampling) and phytosociological sampling parameters.
+Calculates the Bitterlich method (or point sampling).
 }
 \usage{
-bit(x,A,k,E=0.1,p=0.05,rn=F,pt=T,ampl=5,...)
+bit(x,A,k,E=0.1,p=0.05,ampl=5,rn=F,pt=T,...)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -18,9 +18,9 @@ bit(x,A,k,E=0.1,p=0.05,rn=F,pt=T,ampl=5,...)
   \item{k}{Basal area factor.}
   \item{E}{Required error, in decimal value. Default is 0.1.}
   \item{p}{Significance level, in decimal value. Default is 0.05.}
+  \item{ampl}{Amplitude of diameter class range. Default is 5.}
   \item{rn}{Logical argument. If TRUE (default) calculates the sample intensity once again, with the degrees of freedom from the previous result.}
  \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
-  \item{ampl}{Amplitude of diameter class range. Default is 5.}
 
 }
 \details{
@@ -49,13 +49,11 @@ The function calculates the critical distance to check for inclusion or exclusio
 \examples{
 #Set current directory or just check.
 
-setwd("C:/Users/Igor/Documents")
 getwd()
 
-#Calculate sampling parameters with basal area factor equals 2 for a required
-error of 10 percent and a significance level of 5 percent.
+#Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent.
 
-bit(x,A=12,k=2,E=0.1,p=0.05)
+bit(x,A=12,k=2)
 
 
 

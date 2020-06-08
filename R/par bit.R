@@ -1,4 +1,5 @@
-bit<-function(x,A,k,E=0.1,p=0.05,rn=F,pt=T,ampl=5,prot=NULL,...){
+
+bit<-function(x,A,k,E=0.1,p=0.05,ampl=5,rn=F,pt=T,...){
 
   nm <-deparse(substitute(x))
 
@@ -270,143 +271,7 @@ vahh<-as.data.frame(vah)
   }
 
 
-  #FITO
-
-  Especie<-x[,3]
-  parcela<-x[,1]
-  d<-x[,5]
-  fito <- data.frame(Especie=Especie,parcela=parcela, d=d)
-
-  fito$gi<-pi*d^2/40000
-
-  fito<-as.data.frame(fito)
-
-  for(i in fito[,1]){
-    qt<-c(length(subset(fito[,1], fito[,1]==i)))
-  }
-  qt<-as.data.frame(qt)
-
-  for(i in fito[,1]){
-    tryCatch({
-      qt[i]<-c(length(subset(fito[,1], fito[,1]==i)))
-    }, error=function(e){})
-  }
-
-  qt<-as.data.frame(qt)
-  qt[,1]<-NULL
-
-  for(i in fito[,1]){
-    sp<-c(length(unique(subset(fito[,2], fito[,1]==i))))
-  }
-  sp<-as.data.frame(sp)
-
-  for(i in fito[,1]){
-    tryCatch({
-      sp[i]<-c(length(unique(subset(fito[,2], fito[,1]==i))))
-    }, error=function(e){})
-  }
-
-  sp<-as.data.frame(sp)
-  sp[,1]<-NULL
-
-  for(i in fito[,1]){
-    g<-c(sum(subset(fito[,4], fito[,1]==i)))
-  }
-  g<-as.data.frame(g)
-
-  for(i in fito[,1]){
-    tryCatch({
-      g[i]<-c(sum(subset(fito[,4], fito[,1]==i)))
-    },error=function(e){})
-  }
-
-  g<-as.data.frame(g)
-  g[,1]<-NULL
-
-  qtt<-as.data.frame(t(qt))
-  spt<-as.data.frame(t(sp))
-  gt<-as.data.frame(t(g))
-  rnn<-as.data.frame(rownames(qtt))
-
-  dtt<-data.table(rnn,qtt,gt,spt)
-
-  if(pt==T){
-    colnames(dtt)[1]<-"Especie"
-    colnames(dtt)[2]<-"n"
-    colnames(dtt)[3]<-"G (m2)"
-    colnames(dtt)[4]<-"UA"
-
-    dtt$`DA (n/ha)`<-dtt$n/A
-    dtt$`DR (%)`<-dtt$`DA (n/ha)`/sum(dtt$`DA (n/ha)`)*100
-    dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A
-    dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
-    dtt$`FA (%)`<-dtt$UA/max(x[,1],na.rm=T)*100
-    dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
-    dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`
-    dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
-  }else{
-    colnames(dtt)[1]<-"Specie"
-    colnames(dtt)[2]<-"n"
-    colnames(dtt)[3]<-"G (m2)"
-    colnames(dtt)[4]<-"SU"
-
-    dtt$`AD (n/ha)`<-dtt$n/A
-    dtt$`RD (%)`<-dtt$`AD (n/ha)`/sum(dtt$`AD (n/ha)`)*100
-    dtt$`ADo (G/ha)`<-dtt$`G (m2)`/A
-    dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
-    dtt$`AF (%)`<-dtt$SU/max(x[,1],na.rm=T)*100
-    dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
-    dtt$`IVI (%)`<-dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`
-    dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
-  }
-
-
-  dtt3<-data.table(dtt)
-
-
-  dtt3[,2]<-format(round(dtt3[,2],0),nsmall=0)
-  dtt3[,3]<-format(round(dtt3[,3],4),nsmall=4)
-  dtt3[,4]<-format(round(dtt3[,4],0),nsmall=0)
-  dtt3[,5]<-format(round(dtt3[,5],0),nsmall=0)
-  dtt3[,6]<-format(round(dtt3[,6],2),nsmall=2)
-  dtt3[,7]<-format(round(dtt3[,7],2),nsmall=2)
-  dtt3[,8]<-format(round(dtt3[,8],2),nsmall=2)
-  dtt3[,9]<-format(round(dtt3[,9],2),nsmall=2)
-  dtt3[,10]<-format(round(dtt3[,10],2),nsmall=2)
-  dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
-
-  dtt3 <- flextable(dtt3)
-  dtt3<-autofit(dtt3)
-  dtt3 <- align(dtt3, align = "center", part="all")
-  dtt3<-italic(dtt3,j=1)
-
-
-  #Gr?fico fito
-
-  if(pt==T){
-
-    t<-t(data.frame(dtt$Especie,dtt$`DR (%)`,dtt$`DoR (%)`,dtt$`FR (%)`))
-    t<-data.frame(t)
-
-    rownames(t)[2]<-"Densidade Relativa (%)"
-    rownames(t)[3]<-"Dominancia Relativa (%)"
-    rownames(t)[4]<-"Frequencia Relativa (%)"
-  }else{
-    t<-t(data.frame(dtt$Specie,dtt$`RD (%)`,dtt$`RDo (%)`,dtt$`RF (%)`))
-    t<-data.frame(t)
-
-    rownames(t)[2]<-"Relative Density (%)"
-    rownames(t)[3]<-"Relative Dominance (%)"
-    rownames(t)[4]<-"Relative Frequency (%)"
-  }
-
-
-  specie <- t(data.frame(rep(t[1,], each=3)))
-  value<-data.frame(b=unlist(t[2:4,],use.names=F))
-  condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
-
-  # se tiver uma unica especie
-  if(ncol(condition)==0){
+  
     if(pt==T){
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem pelo metodo de Bitterlich.", style = "centered") %>%
@@ -454,132 +319,8 @@ vahh<-as.data.frame(vah)
     }
 
 
-  }else{
 
-    #se tiver mais de uma especie, conclui a fito
-
-    data <- data.frame(specie,condition,value)
-
-    data$b<-as.character(data$b)
-    data$b<-as.numeric(data$b)
-
-    if(pt==T){
-      colnames(data)[1]<-"Especies"
-      colnames(data)[2]<-"Parametros"
-    }else{
-      colnames(data)[1]<-"Species"
-      colnames(data)[2]<-"Parameters"
-    }
-
-
-
-
-    if(pt==T){
-      gg2<-ggplot(data, aes(reorder(Especies,b), b, fill = Parametros)) +
-        geom_col(alpha = 0.8) +
-        scale_fill_brewer(palette = "Dark2") +
-        theme_bw(16)  +
-        coord_flip() +
-        xlab("Especies") + ylab("Indice de Valor de Importancia (%)") +
-        labs(fill = "Parametros") +
-        theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
-              axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
-              axis.title.y=element_text(size=12),
-              legend.position="bottom",legend.direction = "horizontal")
-
-      p2 <- gg2 + theme(legend.position = "none")
-      le1 <- cowplot::get_legend(gg2)
-      gg3<-cowplot::plot_grid(p2, le1,nrow = 2,rel_heights = c(1, 0.2))
-
-
-    }else{
-      gg2<-ggplot(data, aes(reorder(Species,b), b, fill = Parameters)) +
-        geom_col(alpha = 0.8) +
-        scale_fill_brewer(palette = "Dark2") +
-        theme_bw(16)  +
-        coord_flip() +
-        xlab("Species") + ylab("Importance Value Index (%)") +
-        labs(fill = "Parameters") +
-        theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
-              axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
-              axis.title.y=element_text(size=12),
-              legend.position="bottom",legend.direction = "horizontal")
-
-      p2 <- gg2 + theme(legend.position = "none")
-      le1 <- cowplot::get_legend(gg2)
-      gg3<-cowplot::plot_grid(p2, le1,nrow = 2,rel_heights = c(1, 0.2))
-
-
-    }
-
-
-    if(pt==T){
-      doc <- read_docx() %>%
-        body_add_par("Tabela 1. Parametros da amostragem pelo metodo de Bitterlich.", style = "centered") %>%
-        body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
-
-        body_add_break() %>%
-        body_add_gg(diam,style="centered") %>% #distribuicao diametrica
-        body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
-        body_end_section_portrait() %>%
-
-        body_add_break() %>%
-        body_add_par("Tabela 2. Volume, individuos e area basal por hectare, por ponto amostral.", style = "centered") %>%
-        body_add_flextable(vahh) %>%
-        body_end_section_landscape() %>%
-
-        body_add_break() %>%
-        body_add_par("Tabela 3. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
-        body_add_flextable(dtt3) %>%
-        body_end_section_landscape() %>%
-
-        body_add_break() %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
-        body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
-        body_end_section_landscape() %>%
-
-        body_add_break() %>%
-        body_add_par("Tabela 4. Volume lenhoso individual.", style = "centered") %>%
-        body_add_flextable(anex) %>%
-        body_end_section_landscape()
-
-    }else{
-
-      doc<-read_docx() %>%
-
-        body_add_par("Table 1. Sampling parameters by the Bitterlich method.", style = "centered") %>%
-        body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
-
-        body_add_break() %>%
-        body_add_gg(diam,style="centered") %>% #distribuicao diametrica
-        body_add_par("Figure 1. Diameter distribution", style = "centered") %>%
-        body_end_section_portrait() %>%
-
-        body_add_break() %>%
-        body_add_par("Table 2. Volume, individuals and basal area per hectare, by sample point.", style = "centered") %>%
-        body_add_flextable(vahh) %>%
-        body_end_section_landscape() %>%
-
-        body_add_break() %>%
-        body_add_par("Table 3. Phytosociological parameters, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered")%>%
-        body_add_flextable(dtt3) %>%
-        body_end_section_landscape() %>%
-
-       body_add_break() %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
-       body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
-        body_end_section_landscape()%>%
-
-        body_add_break() %>%
-       body_add_par("Table 4. Individual woody volume.", style = "centered")%>%
-       body_add_flextable(anex) %>%
-       body_end_section_landscape()
-
-    }
-
-  }
+    
 
   if(pt==T){
     fileout <- tempfile(fileext = ".docx")
@@ -592,10 +333,20 @@ vahh<-as.data.frame(vah)
 
   }
 
-  if(ncol(condition)==0){
-  return(list(anex,vahh,diam,par))
+  if(pt==T){
+  return(list(`vol individual`=anex,
+              `G, N e V/ha`=vahh,
+              `distribuicao diam`=diam,
+              `parametros vol`=par))
   }else{
-    return(list(anex,gg3,dtt3,vahh,diam,par))
+    
+    return(list(`individual vol`=anex,
+                `G, N and V/ha`=vahh,
+                `diam distribuction`=diam,
+                `vol parameters`=par))
+    
   }
 
 }
+
+
