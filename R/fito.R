@@ -1,5 +1,5 @@
 
-fito <- function(sp, plot, d, stratum=NULL, spivi=15, pt=T){
+fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=T){
 
   
 if(is.null(stratum)){   #sem estrato
