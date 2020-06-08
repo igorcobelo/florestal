@@ -637,5 +637,3 @@ doc<-read_docx() %>%
   }
   
   }
-
-fito(sp=IF1_ACE$Specie, plot=IF1_ACE$Plot, d=IF1_ACE$Diameter, stratum=IF1_ACE$Stratum)
