@@ -1,7 +1,14 @@
+sp<-IF1$Specie
+plot<-IF1$Plot
+d<-IF1$Diameter
+A<-0.1
+stratum<-NULL
+spivi<-15
+pt<-t
+
 
 fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=T){
 
-  
 if(is.null(stratum)){   ##sem estrato
   
 Especie<-sp
@@ -10,7 +17,6 @@ d<-d
 
 fito <- data.frame(Especie=Especie,parcela=parcela, d=d)
 
-fito()
 fito$gi<-pi*d^2/40000
 
 fito<-as.data.frame(fito)
@@ -30,18 +36,18 @@ qt<-as.data.frame(qt)
 qt[,1]<-NULL
 
 for(i in fito[,1]){
-  sp<-c(length(unique(subset(fito[,2], fito[,1]==i))))
+  spz<-c(length(unique(subset(fito[,2], fito[,1]==i))))
 }
-sp<-as.data.frame(sp)
+spz<-as.data.frame(spz)
 
 for(i in fito[,1]){
   tryCatch({
-    sp[i]<-c(length(unique(subset(fito[,2], fito[,1]==i))))
+    spz[i]<-c(length(unique(subset(fito[,2], fito[,1]==i))))
   }, error=function(e){})
 }
 
-sp<-as.data.frame(sp)
-sp[,1]<-NULL
+spz<-as.data.frame(spz)
+spz[,1]<-NULL
 
 for(i in fito[,1]){
   g<-c(sum(subset(fito[,4], fito[,1]==i)))
@@ -58,7 +64,7 @@ g<-as.data.frame(g)
 g[,1]<-NULL
 
 qtt<-as.data.frame(t(qt))
-spt<-as.data.frame(t(sp))
+spt<-as.data.frame(t(spz))
 gt<-as.data.frame(t(g))
 rnn<-as.data.frame(rownames(qtt))
 
@@ -239,19 +245,19 @@ if(pt==T){
   
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
-      sp<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
+      spz<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
     }
   }
-  sp<-as.data.frame(sp)
+  spz<-as.data.frame(spz)
   
   for(i in fito[,2]){
     for(j in 1:max(fito[,1])){
-      sp[i,j]<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
+      spz[i,j]<-c(length(unique(subset(fito[,3], fito[,2]==i & fito[,1]==j))))
     }
   }
-  sp<-as.data.frame(sp)
-  sp<-sp[-1,]
-  sp2<-data.frame(UA = unlist(sp,use.names = F))
+  spz<-as.data.frame(spz)
+  spz<-spz[-1,]
+  sp2<-data.frame(UA = unlist(spz,use.names = F))
   
   #area basal por especie
   
@@ -605,7 +611,7 @@ doc<-read_docx() %>%
   body_end_section_portrait()
 
  fileout <- tempfile(fileext = ".docx")
-  fileout <- paste(getwd(),"/Fitossociologia - ",nm,".docx",sep="")
+  fileout <- paste(getwd(),"/Fitossociologia.docx",sep="")
   print(doc, target = fileout)
 
 }else{
@@ -621,7 +627,7 @@ doc<-read_docx() %>%
     body_end_section_portrait()
   
   fileout <- tempfile(fileext = ".docx")
-  fileout <- paste(getwd(),"/Phytosociology - ",nm,".docx",sep="")
+  fileout <- paste(getwd(),"/Phytosociology.docx",sep="")
   print(doc, target = fileout)
   
   
@@ -637,4 +643,4 @@ doc<-read_docx() %>%
                 `phyto parameters`=fitot))     
   }
   
-  }
+}
