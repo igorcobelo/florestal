@@ -49,7 +49,7 @@ getwd()
 
 ##Calculate the phytosociological parameters and the IVI plot:
 
-fito(sp=IF1$Specie, plot=IF1$Plot, d=IF1$Diameter)
+fito(sp=IF1$Specie, plot=IF1$Plot, d=IF1$Diameter, A=0.1)
 
 
 }

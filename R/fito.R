@@ -2,7 +2,7 @@
 fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=T){
 
   
-if(is.null(stratum)){   #sem estrato
+if(is.null(stratum)){   ##sem estrato
   
 Especie<-sp
 parcela<-plot
@@ -10,6 +10,7 @@ d<-d
 
 fito <- data.frame(Especie=Especie,parcela=parcela, d=d)
 
+fito()
 fito$gi<-pi*d^2/40000
 
 fito<-as.data.frame(fito)
