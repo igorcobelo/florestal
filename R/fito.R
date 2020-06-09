@@ -1,12 +1,3 @@
-sp<-IF1$Specie
-plot<-IF1$Plot
-d<-IF1$Diameter
-A<-0.1
-stratum<-NULL
-spivi<-15
-pt<-t
-
-
 fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=T){
 
 if(is.null(stratum)){   ##sem estrato
