@@ -18,4 +18,5 @@ Imports:
   ggplot2,
   officer,
   rvg,
+  tidyr,
   tidyverse
