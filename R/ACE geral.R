@@ -1,3 +1,4 @@
+
 ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...){
 
 
@@ -972,7 +973,7 @@ if(un==T){
   if(pt==T){
     
     data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
-      gather(Parametros, b, -Estrato, -Especie) %>%
+      tidyr::gather(Parametros, b, -Estrato, -Especie) %>%
       mutate(Parametros = case_when(
         grepl('^DR', Parametros) ~ 'Densidade Relativa (%)',
         grepl('^DoR', Parametros) ~ 'Dominancia Relativa (%)',
