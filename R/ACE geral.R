@@ -1,7 +1,6 @@
-
 ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...){
 
-
+  
   ##para que o arquivo docx seja nomeado com o mesmo nome do input
   nm <-deparse(substitute(x))
 
@@ -49,7 +48,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=
   }
   vv<-as.data.frame(vv)
 
-  #Encontrar quantas parcelas h? em cada estrato
+  #Encontrar quantas parcelas ha em cada estrato
   for(i in 1:max(x[,1])){
     ss<-c(length(unique(subset(x[,2], x[,1]==i))))
   }
@@ -99,7 +98,7 @@ A<-sum(aj)
   vopa <- align_text_col(vopa, align = "center")
   vopa<-autofit(vopa)
 
-  #Vari?ncia por estrato
+  #Variancia por estrato
 
   vp<-data.frame(vp)
 
@@ -585,8 +584,19 @@ if(pt==T){
   colnames(dtt)[4]<-"Especie"
   colnames(dtt)[5]<-"Estrato"
   
+  #TESTANDO NUMERO DE PARCELAS/ESTRATO
   
-  dtt$`DA (n/ha)`<-dtt$n/A #coluna de Densidade Absoluta (DA)
+  result<-as.numeric()
+  for(i in 1:max(dtt$Estrato)){
+    result[i]<-nrow(subset(dtt, dtt$Estrato==i))
+  }
+  result<-as.matrix(result)
+  maxn2<-as.matrix(maxn)
+  par_est <- rep(maxn2,result)
+  
+  
+  
+  dtt$`DA (n/ha)`<-dtt$n/(par_est*a) #coluna de Densidade Absoluta (DA)
   
   #soma de DA pra cada estrato
   dtt<-dtt[order(dtt[,5]),]
@@ -636,7 +646,7 @@ if(pt==T){
   
   
   dtt$`DR (%)`<-dtt$`DA (n/ha)`/dtt$sumdac*100 #coluna Densidade Relativa
-  dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A #coluna Dominancia Absoluta (DoA)
+  dtt$`DoA (G/ha)`<-dtt$`G (m2)`/(par_est*a) #coluna Dominancia Absoluta (DoA)
   
   #Soma de DoA por estrato
   
@@ -827,6 +837,36 @@ if(pt==T){
   fitot<-italic(fitot,j=2)
   
   
+  #NOVA TABELA (individuos)
+  
+  
+  spind<-as.numeric()
+  for(i in dtt3[,2]){
+  
+  spind[i] <- sum(subset(as.numeric(dtt3[,6]), dtt3[,2]==i))
+    
+  }
+  
+  spind<-spind[order(-spind)]
+  spind<-as.data.frame(spind)
+
+  
+
+  if(pt==T){
+    inds<-data.table(Especie=c(rownames(spind), "Total"), `Ind./ha`= c(spind$spind, sum(spind$spind)), `Ind./Area Total`= c(spind$spind*A, sum(spind$spind*A)))
+    inds<-as.data.frame(inds)
+    
+  }else{
+    inds<-data.table(Specie=c(rownames(spind), "Total"), `Ind./ha`= c(spind$spind, sum(spind$spind)), `Ind./Total Area`= c(spind$spind*A, sum(spind$spind*A)))
+    inds<-as.data.frame(inds)
+  }
+  
+  inds <- flextable(inds)
+  inds <- autofit(inds)
+  inds <- align(inds, align = "center", part="all")
+  inds <- italic(inds,j=1,i=1:nrow(spind))
+
+
   
   #PARA UMA ESPECIE APENAS:
   
@@ -1061,6 +1101,8 @@ if(un==T){
   vvol<-as.data.frame(t(vvol))
   vvol[,2]<-rownames(vvol)
 
+  vvol<-vvol[order(-vvol[,1]),]
+  
 
   #tabela de volume/especie se nao houver o argumento prot
 
@@ -1071,6 +1113,8 @@ if(un==T){
       colnames(vt)[2]<-"Volume amostrado (m3)"
       colnames(vt)[3]<-"Volume/hectare (m3)"
       colnames(vt)[4]<-"Volume/area total (m3)"
+      
+      
 
       vt$`Volume amostrado (m3)`<-as.numeric(vt$`Volume amostrado (m3)`)
       vt$`Volume amostrado (m3)`<-format(round(vt$`Volume amostrado (m3)`,4),nsmall=4)
@@ -1179,9 +1223,14 @@ if(un==T){
         body_add_par("Tabela 5. Volume lenhoso por especie.", style = "centered") %>%
         body_add_flextable(vtt) %>% #volume/sp
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Tabela 6. Quantidade de individuos por especie.", style = "centered") %>%
+        body_add_flextable(inds) %>% #ind/sp
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Tabela 6. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+        body_add_par("Tabela 7. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
@@ -1193,12 +1242,12 @@ if(un==T){
         body_add_break() %>%
         body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
                                         xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
-        body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes, para cada estrato.", style = "centered") %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
         body_end_section_landscape() %>%
         
 
         body_add_break() %>%
-        body_add_par("Tabela 7. Volume lenhoso individual.", style = "centered") %>%
+        body_add_par("Tabela 8. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1234,9 +1283,14 @@ if(un==T){
         body_add_par("Table 5. Woody volume by specie.", style = "centered") %>%
         body_add_flextable(vtt) %>% #volume/sp
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Table 6. Number of individuals by specie.", style = "centered") %>%
+        body_add_flextable(inds) %>% #ind/sp
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Table 6. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+        body_add_par("Table 7. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
@@ -1248,11 +1302,11 @@ if(un==T){
         body_add_break() %>%
         body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
                                           xlab="Plot", ylab="Richness", ci=ci) ) %>%
-        body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations, for each stratum.", style = "centered") %>%
+        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Table 7. Individual woody volume.", style = "centered") %>%
+        body_add_par("Table 8. Individual woody volume.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1286,7 +1340,7 @@ if(un==T){
       vt$`Volume/area total (m3)`<-as.numeric(vt$`Volume/area total (m3)`)
       vt$`Volume/area total (m3)`<-format(round(vt$`Volume/area total (m3)`,4),nsmall=4)
 
-      ph<-data.table(Specie=c(prot,"Total protected","Total unprotected"), `Sampled volume (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/total area (m3)`=c(pp*A/a, sum(pp)*A/a, ((sum(x[,ncol(x)]))-(sum(pp)))*A/a))
+      ph<-data.table(Especie=c(prot,"Total protegido","Total desprotegido"), `Volume amostrado (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/area total (m3)`=c(pp*A/a, sum(pp)*A/a, ((sum(x[,ncol(x)]))-(sum(pp)))*A/a))
 
       ph$`Volume amostrado (m3)`<-as.numeric(ph$`Volume amostrado (m3)`)
       ph$`Volume amostrado (m3)`<-format(round(ph$`Volume amostrado (m3)`,4),nsmall=4)
@@ -1304,7 +1358,7 @@ if(un==T){
       vt$`Volume/total area (m3)`<-as.numeric(vt$`Volume/total area (m3)`)
       vt$`Volume/total area (m3)`<-format(round(vt$`Volume/total area (m3)`,4),nsmall=4)
 
-      ph<-data.table(Specie=c(prot,"Total protected","Total unprotected"), `Sampled volume (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/total area (m3)`=c(pp*A/a, sum(pp)*A/a, (sum(x[,ncol(x)]))-(sum(pp)*A/a)))
+      ph<-data.table(Specie=c(prot,"Total protected","Total unprotected"), `Sampled volume (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/total area (m3)`=c(pp*A/a, sum(pp)*A/a, ((sum(x[,ncol(x)]))-(sum(pp)))*A/a))
 
       ph$`Sampled volume (m3)`<-as.numeric(ph$`Sampled volume (m3)`)
       ph$`Sampled volume (m3)`<-format(round(ph$`Sampled volume (m3)`,4),nsmall=4)
@@ -1350,6 +1404,38 @@ if(un==T){
     phi <- align(phi, align = "center", part="all")
     phi<-italic(phi,j=1,i=c(1:length(prot)))
 
+    
+    if(pt==T){
+      colnames(x)[1]<-"Estrato"
+      colnames(x)[2]<-"Parcela"
+      colnames(x)[3]<-"Individuo"
+      colnames(x)[4]<-"Especie"
+      colnames(x)[5]<-"Altura (m)"
+      colnames(x)[6]<-"Diametro (cm)"
+      colnames(x)[7]<-"Volume (m3)"
+    }else{
+      colnames(x)[1]<-"Stratum"
+      colnames(x)[2]<-"Plot"
+      colnames(x)[3]<-"Individual"
+      colnames(x)[4]<-"Specie"
+      colnames(x)[5]<-"Height (m)"
+      colnames(x)[6]<-"Diameter (cm)"
+      colnames(x)[7]<-"Volume (m3)"
+    }
+    
+    x2<-as.data.frame(x)
+    
+    x2[,1]<-format(round(x2[,1],0),nsmall=0)
+    x2[,2]<-format(round(x2[,2],0),nsmall=0)
+    x2[,3]<-format(round(x2[,3],0),nsmall=0)
+    x2[,5]<-format(round(x2[,5],2),nsmall=2)
+    x2[,6]<-format(round(x2[,6],2),nsmall=2)
+    x2[,7]<-format(round(x2[,7],4),nsmall=4)
+    
+    x3 <- flextable(x2)
+    x3 <- autofit(x3)
+    x3 <- align(x3, align = "center", part="all")
+    x3<-italic(x3,j=4)
 
     #criar docx com argumento prot
 
@@ -1384,14 +1470,19 @@ if(un==T){
         body_add_par("Tabela 5. Volume lenhoso por especie.", style = "centered") %>%
         body_add_flextable(vtt) %>% #volume/sp
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Tabela 6. Quantidade de individuos por especie.", style = "centered") %>%
+        body_add_flextable(inds) %>% #ind/sp
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Tabela 6. Volume lenhoso por especie protegida.", style = "centered") %>%
+        body_add_par("Tabela 7. Volume lenhoso por especie protegida.", style = "centered") %>%
         body_add_flextable(phi) %>% #volume/sp
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Tabela 7. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+        body_add_par("Tabela 8. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
@@ -1403,11 +1494,11 @@ if(un==T){
         body_add_break() %>%
         body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
                                           xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
-        body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes, para cada estrato.", style = "centered") %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Tabela 8. Volume lenhoso individual.", style = "centered") %>%
+        body_add_par("Tabela 9. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1442,14 +1533,19 @@ if(un==T){
         body_add_par("Table 5. Woody volume by specie.", style = "centered") %>%
         body_add_flextable(vtt) %>% #volume/sp
         body_end_section_landscape() %>%
+        
+        body_add_break() %>%
+        body_add_par("Table 6. Number of individuals by specie.", style = "centered") %>%
+        body_add_flextable(inds) %>% #ind/sp
+        body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Table 6. Woody volume by protected specie.", style = "centered") %>%
+        body_add_par("Table 7. Woody volume by protected specie.", style = "centered") %>%
         body_add_flextable(phi) %>% #volume/sp
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Table 7. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+        body_add_par("Table 8. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
@@ -1461,11 +1557,11 @@ if(un==T){
         body_add_break() %>%
         body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
                                           xlab="Plot", ylab="Richness", ci=ci)) %>%
-        body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations, for each stratum.", style = "centered") %>%
+        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break() %>%
-        body_add_par("Table 8. Individual woody volume.", style = "centered") %>%
+        body_add_par("Table 9. Individual woody volume.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1492,6 +1588,7 @@ if(un==T){
     return(list(`vol individual`=x3,
                 `grafico ivi`=gg3,
                 `parametros fito`=fitot,
+                `ind por sp`=inds,
                 `volume por sp`=vtt,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
@@ -1502,6 +1599,7 @@ if(un==T){
       return(list(`individual vol`=x3,
                   `ivi plot`=gg3,
                   `phyto parameters`=fitot,
+                  `ind by sp`=inds,
                   `volume by sp`=vtt,
                   `diam distribuction`=diam,
                   `aux table`=tabaux,
@@ -1518,6 +1616,7 @@ if(un==T){
                 `grafico ivi`=gg3,
                 `parametros fito`=fitot,
                 `spp prot`=phi,
+                `ind por sp`=inds,
                 `volume por sp`=vtt,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
@@ -1530,6 +1629,7 @@ if(un==T){
                     `ivi plot`=gg3,
                     `phyto parameters`=fitot,
                     `prot spp`=phi,
+                    `ind by sp`=inds,
                     `volume by sp`=vtt,
                     `diam distribuction`=diam,
                     `aux table`=tabaux,
@@ -1540,4 +1640,3 @@ if(un==T){
     
 }
 }
-  
