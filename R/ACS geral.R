@@ -4,7 +4,7 @@ nm <-deparse(substitute(x))
 
   max<-ceiling(max(x[,5],na.rm=T))
 
-  ##Distribuicao diametrica
+  # #Distribuicao diametrica
 
   x<-as.data.frame(x)
 
@@ -302,9 +302,9 @@ nm <-deparse(substitute(x))
     colnames(dtt)[3]<-"G (m2)"
     colnames(dtt)[4]<-"UA"
 
-    dtt$`DA (n/ha)`<-dtt$n/A
+    dtt$`DA (n/ha)`<-dtt$n/(n*a)
     dtt$`DR (%)`<-dtt$`DA (n/ha)`/sum(dtt$`DA (n/ha)`)*100
-    dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A
+    dtt$`DoA (G/ha)`<-dtt$`G (m2)`/(n*a)
     dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
     dtt$`FA (%)`<-dtt$UA/max(x[,1],na.rm=T)*100
     dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
@@ -316,9 +316,9 @@ nm <-deparse(substitute(x))
     colnames(dtt)[3]<-"G (m2)"
     colnames(dtt)[4]<-"SU"
 
-    dtt$`AD (n/ha)`<-dtt$n/A
+    dtt$`AD (n/ha)`<-dtt$n/(n*a)
     dtt$`RD (%)`<-dtt$`AD (n/ha)`/sum(dtt$`AD (n/ha)`)*100
-    dtt$`ADo (G/ha)`<-dtt$G/A
+    dtt$`ADo (G/ha)`<-dtt$G/(n*a)
     dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
     dtt$`AF (%)`<-dtt$SU/max(x[,1],na.rm=T)*100
     dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
@@ -332,7 +332,7 @@ nm <-deparse(substitute(x))
   dtt3[,2]<-format(round(dtt3[,2],0),nsmall=0)
   dtt3[,3]<-format(round(dtt3[,3],4),nsmall=4)
   dtt3[,4]<-format(round(dtt3[,4],0),nsmall=0)
-  dtt3[,5]<-format(round(dtt3[,5],0),nsmall=0)
+  dtt3[,5]<-format(round(dtt3[,5],2),nsmall=2)
   dtt3[,6]<-format(round(dtt3[,6],2),nsmall=2)
   dtt3[,7]<-format(round(dtt3[,7],2),nsmall=2)
   dtt3[,8]<-format(round(dtt3[,8],2),nsmall=2)
@@ -345,6 +345,27 @@ nm <-deparse(substitute(x))
   dtt3 <- align(dtt3, align = "center", part="all")
   dtt3<-italic(dtt3,j=1)
 
+  
+#NOVA TABELA (individuos)
+  
+  dtt<-dtt[order(-dtt$n),]
+  
+
+  if(pt==T){
+    inds<-data.table(Especie=c(as.character(dtt$Especie),"Total"),`Ind. Amostrados`= c(dtt$n, sum(dtt$n)), `Ind./ha`= c(dtt$`DA (n/ha)`, sum(dtt$`DA (n/ha)`)), `Ind./Area Total`= c(dtt$`DA (n/ha)`*A, sum(dtt$`DA (n/ha)`*A)))
+    inds<-as.data.frame(inds)
+  }else{
+    inds<-data.table(Specie=c(as.character(dtt$Specie),"Total"),`Sampled Ind.`= c(dtt$n, sum(dtt$n)), `Ind./ha`= c(dtt$`AD (n/ha)`, sum(dtt$`AD (n/ha)`)), `Ind./Total Area`= c(dtt$`AD (n/ha)`*A, sum(dtt$`AD (n/ha)`*A)))
+    inds<-as.data.frame(inds)
+  }
+  
+  inds[,3]<-format(round(inds[,3],2),nsmall=2)
+
+  inds <- flextable(inds)
+  inds <- autofit(inds)
+  inds <- align(inds, align = "center", part="all")
+  inds <- italic(inds,j=1,i=1:nrow(dtt))
+  
   
   #Grafico fito
 
@@ -386,17 +407,17 @@ nm <-deparse(substitute(x))
         body_add_flextable(par) %>%
         body_end_section_portrait() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered", height=4,width=6) %>%
         body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
         body_end_section_portrait() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
         body_add_flextable(vopa2) %>%
         body_end_section_landscape() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_par("Tabela 3. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(anex) %>%
         body_end_section_landscape()
@@ -410,17 +431,17 @@ nm <-deparse(substitute(x))
         body_add_flextable(par) %>%
         body_end_section_portrait() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered", height=4,width=6) %>%
         body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
         body_end_section_portrait() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
         body_add_flextable(vopa2) %>%
         body_end_section_landscape() %>%
         
-        body_add_break() %>%
+        body_add_break(pos="on") %>%
         body_add_par("Table 3. Individual woody volume.", style = "centered") %>%
         body_add_flextable(anex)%>%
         body_end_section_landscape()
@@ -518,7 +539,7 @@ nm <-deparse(substitute(x))
   
   cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
 
-  suppressMessages({sp2 <- accumresult(cc, method = "random")})
+  suppressMessages({sp2 <- accumresult(cc, method = "random",permutations=1000)})
 
   h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
   
@@ -599,7 +620,8 @@ nm <-deparse(substitute(x))
   anex <- align(anex, align = "center", part="all")
   anex<-italic(anex,j=3)
 
-
+  vvol<-vvol[order(-vvol[,1]),]
+  
   if(missing(prot)) {
     if(pt==T){
       vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/a, sum(vvol[,1])/a), c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
@@ -645,38 +667,43 @@ if(pt==T){
       body_add_flextable(par) %>%
       body_end_section_portrait() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(diam,style="centered", height=4,width=6) %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
       body_end_section_portrait() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
       body_add_flextable(vopa2) %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_par("Tabela 3. Volume lenhoso por especie.", style = "centered") %>%
       body_add_flextable(vtt) %>%
       body_end_section_landscape() %>%
+      
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
+      body_add_flextable(inds) %>%
+      body_end_section_landscape() %>%
 
-      body_add_break() %>%
-      body_add_par("Tabela 4. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = densidade absoluta; DR (%) = densidade relativa; DoA (G/ha) = dominancia absoluta; DoR (%) = dominancia relativa; FA (%) = frequencia absoluta; FR (%) = frequencia relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 5. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = densidade absoluta; DR (%) = densidade relativa; DoA (G/ha) = dominancia absoluta; DoR (%) = dominancia relativa; FA (%) = frequencia absoluta; FR (%) = frequencia relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
       body_add_flextable(dtt3) %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
       
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes.", style = "centered") %>%
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
       body_end_section_landscape() %>%
       
-      body_add_break() %>%
-      body_add_par("Tabela 5. Volume lenhoso individual.", style = "centered") %>%
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 6. Volume lenhoso individual.", style = "centered") %>%
       body_add_flextable(anex) %>%
       body_end_section_landscape()
 
@@ -687,38 +714,43 @@ if(pt==T){
     body_add_flextable(par) %>%
     body_end_section_portrait() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(diam,style="centered", height=4,width=6) %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
     body_end_section_portrait() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
     body_add_flextable(vopa2) %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_par("Table 3. Woody volume by specie.", style = "centered") %>%
     body_add_flextable(vtt) %>%
     body_end_section_landscape() %>%
+    
+    body_add_break(pos="on") %>%
+    body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
+    body_add_flextable(inds) %>%
+    body_end_section_landscape() %>%
 
-    body_add_break() %>%
-    body_add_par("Table 4. Phytosociological parameters, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+    body_add_break(pos="on") %>%
+    body_add_par("Table 5. Phytosociological parameters, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
     body_add_flextable(dtt3) %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
     
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations.", style = "centered") %>%
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
-    body_add_par("Table 5. Individual woody volume.", style = "centered") %>%
+    body_add_break(pos="on") %>%
+    body_add_par("Table 6. Individual woody volume.", style = "centered") %>%
     body_add_flextable(anex)%>%
     body_end_section_landscape()
 
@@ -814,43 +846,48 @@ if(pt==T){
       body_add_flextable(par) %>%
       body_end_section_portrait() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(diam,style="centered", height=4,width=6) %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
       body_end_section_portrait() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
       body_add_flextable(vopa2) %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_par("Tabela 3. Volume lenhoso por especie.", style = "centered") %>%
       body_add_flextable(vtt) %>%
       body_end_section_landscape() %>%
+      
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
+      body_add_flextable(inds) %>%
+      body_end_section_landscape() %>%
 
-      body_add_break() %>%
-      body_add_par("Tabela 4. Volume lenhoso por especie protegida.", style = "centered") %>%
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 5. Volume lenhoso por especie protegida.", style = "centered") %>%
       body_add_flextable(phi) %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
-      body_add_par("Tabela 5. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = densidade absoluta; DR (%) = densidade relativa; DoA (G/ha) = dominancia absoluta; DoR (%) = dominancia relativa; FA (%) = frequencia absoluta; FR (%) = frequencia relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 6. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = densidade absoluta; DR (%) = densidade relativa; DoA (G/ha) = dominancia absoluta; DoR (%) = dominancia relativa; FA (%) = frequencia absoluta; FR (%) = frequencia relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
       body_add_flextable(dtt3) %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
       
-      body_add_break() %>%
+      body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria e 100 permutacoes.", style = "centered") %>%
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
       body_end_section_landscape() %>%
 
-      body_add_break() %>%
-      body_add_par("Tabela 6. Volume lenhoso individual.", style = "centered") %>%
+      body_add_break(pos="on") %>%
+      body_add_par("Tabela 7. Volume lenhoso individual.", style = "centered") %>%
       body_add_flextable(anex) %>%
       body_end_section_landscape()
 
@@ -863,43 +900,48 @@ if(pt==T){
     body_add_flextable(par) %>%
     body_end_section_portrait() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(diam,style="centered", height=4,width=6) %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
     body_end_section_portrait() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
     body_add_flextable(vopa2) %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_par("Table 3. Woody volume by specie.", style = "centered") %>%
     body_add_flextable(vtt) %>%
     body_end_section_landscape() %>%
+    
+    body_add_break(pos="on") %>%
+    body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
+    body_add_flextable(inds) %>%
+    body_end_section_landscape() %>%
 
-    body_add_break() %>%
-    body_add_par("Table 4. Woody volume by protected specie.", style = "centered") %>%
+    body_add_break(pos="on") %>%
+    body_add_par("Table 5. Woody volume by protected specie.", style = "centered") %>%
     body_add_flextable(phi) %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
-    body_add_par("Table 5. Phytosociological parameters, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+    body_add_break(pos="on") %>%
+    body_add_par("Table 6. Phytosociological parameters, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
     body_add_flextable(dtt3) %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
     
-    body_add_break() %>%
+    body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order and 100 permutations.", style = "centered") %>%
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
     body_end_section_landscape() %>%
 
-    body_add_break() %>%
-    body_add_par("Table 6. Individual woody volume.", style = "centered") %>%
+    body_add_break(pos="on") %>%
+    body_add_par("Table 7. Individual woody volume.", style = "centered") %>%
     body_add_flextable(anex)%>%
     body_end_section_landscape()
 
@@ -926,6 +968,7 @@ if(pt==T){
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
                 `parametros fito`=dtt3,
+                `ind por sp`=inds,
                 `volume por sp`=vtt,
                 `distribuicao diam`=diam,
                 `volume por parcela`=vopa2,
@@ -936,6 +979,7 @@ if(pt==T){
       `species curve`=curve,
       `ivi plot`=gg3,
       `phyto parameters`=dtt3,
+      `ind by sp`=inds,
       `volume by sp`=vtt,
       `diam distribuction`=diam,
       `volume by plot`=vopa2,
@@ -952,6 +996,7 @@ if(pt==T){
                   `grafico ivi`=gg3,
                   `parametros fito`=dtt3,
                   `spp prot`=phi,
+                  `ind por sp`=inds,
                   `volume por sp`=vtt,
                   `distribuicao diam`=diam,
                   `volume por parcela`=vopa2,
@@ -963,6 +1008,7 @@ if(pt==T){
       `ivi plot`=gg3,
       `phyto parameters`=dtt3,
       `prot spp`=phi,
+      `ind by sp`=inds,
       `volume by sp`=vtt,
       `diam distribuction`=diam,
       `volume by plot`=vopa2,
@@ -972,6 +1018,3 @@ if(pt==T){
 
   }
   }
-
-
-
