@@ -2,22 +2,26 @@
 \alias{indvol}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Individual Woody Volume
+Individual Woody Volume and Joins Multiple Shafts
 
 }
 \description{
-Calculates the individual woody volume from a manually entered equation, an equation from a listed vegetable formation or a form factor.
+Calculates the individual woody volume from a manually entered equation, an equation from a listed vegetable formation or a form factor. It joins multiple shafts of the same individual through the mean square diameter and greater height.
 
 }
 \usage{
-indvol(x, d=NULL, h=NULL, myeq=NULL, veg=NULL, f=NULL, circ=F, ...)
+indvol(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{A data frame.}
-  \item{d}{Optional. Column with diameter in the data frame, in centimeters.}
-  \item{h}{Optional. Column with height in the data frame, in meters.}
-  \item{myeq}{User can calculate a diferent equation using height and diameter, e.g.:
+  \item{x}{A data frame. If have strata (mens="strata"), there must be six columns: strata in the first (in numerals), plots in the second (in numerals), numbering of individuals in the third (in numerals), species in the fourth (in character), height in the fifth (in meters) and diameter in the sixth (in centimeters). If have only plots (mens="plot"), follows the same order but without the strata column. If have not plots (mens="census"), follows the same order but without the strata and plot columns. If the goal is only to join the multiple shafts, the volume column should be the last (vol=T).
+
+}
+  \item{mens}{Indicates whether there are columns of strata (mens="strata") or plots (mens="plot"), or neither (mens="census").
+}
+ \item{vol}{Logical. If already have a volume column (last), vol=T.
+}
+  \item{myeq}{Optional. User can calculate a diferent equation using height (h) and diameter (d), e.g.:
   0.000065661*d^(2.475293)* h^(0.300022)}
   \item{veg}{Optional. An equation for one of the following vegetable formation: "cerrado" (cerrado/brazilian savannah); "cer_regen" (cerrado in regeneration); "campo_cer" (cerrado field); "cerradao" (cerradao); "mata_pri" (primary forest); "mata_sec" (secondary forest); "mata_ciliar" (riparian forest); "mata_seca" (dry forest); "trans_cipo" (transition forest liana); "trans_jaiba" (jaiba transition forest); "caat_arborea" (arboreal caatinga); "caat_arbustiva" (shrub caatinga). See details.}
   \item{f}{Optional. Form factor.}
@@ -74,15 +78,15 @@ Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 
 ##Using an equation entered manually:
 
-indvol(x = IF1, d = IF1$Diameter, h = IF1$Height, myeq = 0.000065661*d^(2.475293)* h^(0.300022))
+indvol(x = IF1, mens="plot", myeq = 0.000065661*d^(2.475293)* h^(0.300022))
 
 #Using a vegetable formation equation:
 
-indvol(x = IF1, d = IF1$Diameter, h = IF1$Height, veg = "cerrado")
+indvol(x = IF1, mens="plot", veg = "cerrado")
 
 #Using a form factor:
 
-indvol(x = IF1, d = IF1$Diameter, h = IF1$Height, f = 0.7)
+indvol(x = IF1, mens="plot", f = 0.7)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
