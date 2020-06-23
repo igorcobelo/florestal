@@ -1,4 +1,5 @@
-acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,ci=2,un=F,pt=T,...){
+
+acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,un=F,pt=T,...){
 
 nm <-deparse(substitute(x))
 
@@ -408,7 +409,7 @@ nm <-deparse(substitute(x))
         body_end_section_portrait() %>%
         
         body_add_break(pos="on") %>%
-        body_add_gg(diam,style="centered", height=4,width=6) %>%
+        body_add_gg(diam,style="centered") %>%
         body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
         body_end_section_portrait() %>%
         
@@ -432,7 +433,7 @@ nm <-deparse(substitute(x))
         body_end_section_portrait() %>%
         
         body_add_break(pos="on") %>%
-        body_add_gg(diam,style="centered", height=4,width=6) %>%
+        body_add_gg(diam,style="centered") %>%
         body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
         body_end_section_portrait() %>%
         
@@ -546,7 +547,7 @@ nm <-deparse(substitute(x))
   if(pt==T){
   curve <- ggplot(h, aes(x=p, y=r))+
     geom_line() +
-    geom_ribbon(aes(ymin=r-sd*ci, ymax=r+sd*ci), alpha = 0.2)+
+    geom_ribbon(aes(ymin=r-sd*2, ymax=r+sd*2), alpha = 0.2)+
     theme_bw(16)+
     theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
@@ -557,7 +558,7 @@ nm <-deparse(substitute(x))
     
     curve <- ggplot(h, aes(x=p, y=r))+
       geom_line() +
-      geom_ribbon(aes(ymin=r-sd*ci, ymax=r+sd*ci), alpha = 0.2)+
+      geom_ribbon(aes(ymin=r-sd*2, ymax=r+sd*2), alpha = 0.2)+
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
@@ -624,7 +625,7 @@ nm <-deparse(substitute(x))
   
   if(missing(prot)) {
     if(pt==T){
-      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/a, sum(vvol[,1])/a), c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
+      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/(a*length(vv)), sum(vvol[,1])/(a*length(vv))), c(vvol[,1]*A/(a*length(vv)), sum(vvol[,1])*A/(a*length(vv))))
       colnames(vt)[1]<-"Especie"
       colnames(vt)[2]<-"Volume amostrado (m3)"
       colnames(vt)[3]<-"Volume/hectare (m3)"
@@ -639,7 +640,7 @@ nm <-deparse(substitute(x))
 
 
     }else{
-      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/a, sum(vvol[,1])/a), c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
+      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/(a*length(vv)), sum(vvol[,1])/(a*length(vv))), c(vvol[,1]*A/(a*length(vv)), sum(vvol[,1])*A/(a*length(vv))))
       colnames(vt)[1]<-"Specie"
       colnames(vt)[2]<-"Sampled volume (m3)"
       colnames(vt)[3]<-"Volume/hectare (m3)"
@@ -668,7 +669,7 @@ if(pt==T){
       body_end_section_portrait() %>%
 
       body_add_break(pos="on") %>%
-      body_add_gg(diam,style="centered", height=4,width=6) %>%
+      body_add_gg(diam,style="centered") %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
       body_end_section_portrait() %>%
 
@@ -693,13 +694,13 @@ if(pt==T){
       body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
-      body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
+      body_add_gg(gg3,style="centered")%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
-      body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
+      body_add_gg(curve,style="centered")%>%#grafico curva
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
       body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
@@ -715,7 +716,7 @@ if(pt==T){
     body_end_section_portrait() %>%
 
     body_add_break(pos="on") %>%
-    body_add_gg(diam,style="centered", height=4,width=6) %>%
+    body_add_gg(diam,style="centered") %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
     body_end_section_portrait() %>%
 
@@ -740,13 +741,13 @@ if(pt==T){
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
-    body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
+    body_add_gg(gg3,style="centered")%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
     
     body_add_break(pos="on") %>%
-    body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
+    body_add_gg(curve,style="centered")%>%#grafico curva
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
@@ -772,43 +773,43 @@ if(pt==T){
     pp<-as.data.frame(pp[,2:ncol(pp)])
 
     if(pt==T){
-      vt<-data.table(Especie=c(vvol[,2],"Media"), `Media amostrada (m3)`=c(vvol[,1]/n,sum((vvol[,1])/n)), `Media/hectare (m3)`=c((vvol[,1]/n)/a, sum((vvol[,1])/n)/a), `Media/area total (m3)`=c((vvol[,1]/n)*A/a, sum(vvol[,1]/n)*A/a))
+      vt<-data.table(Especie=c(vvol[,2],"Media"), `Volume/Parcela (m3)`=c(vvol[,1]/n,sum((vvol[,1])/n)), `Volume/ha (m3)`=c((vvol[,1]/n)/a, sum((vvol[,1])/n)/a), `Volume/Area Total (m3)`=c((vvol[,1]/n)*A/a, sum(vvol[,1]/n)*A/a))
 
-      vt$`Media amostrada (m3)`<-as.numeric(vt$`Media amostrada (m3)`)
-      vt$`Media amostrada (m3)`<-format(round(vt$`Media amostrada (m3)`,4),nsmall=4)
-      vt$`Media/hectare (m3)`<-as.numeric(vt$`Media/hectare (m3)`)
-      vt$`Media/hectare (m3)`<-format(round(vt$`Media/hectare (m3)`,4),nsmall=4)
-      vt$`Media/area total (m3)`<-as.numeric(vt$`Media/area total (m3)`)
-      vt$`Media/area total (m3)`<-format(round(vt$`Media/area total (m3)`,4),nsmall=4)
+      vt$`Volume/Parcela (m3)`<-as.numeric(vt$`Volume/Parcela (m3)`)
+      vt$`Volume/Parcela (m3)`<-format(round(vt$`Volume/Parcela (m3)`,4),nsmall=4)
+      vt$`Volume/ha (m3)`<-as.numeric(vt$`Volume/ha (m3)`)
+      vt$`Volume/ha (m3)`<-format(round(vt$`Volume/ha (m3)`,4),nsmall=4)
+      vt$`Volume/Area Total (m3)`<-as.numeric(vt$`Volume/Area Total (m3)`)
+      vt$`Volume/Area Total (m3)`<-format(round(vt$`Volume/Area Total (m3)`,4),nsmall=4)
 
 
 
-      ph<-data.table(Especie=c(prot,"Media protegida","Media desprotegida"), `Media amostrada (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Media/hectare (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Media/area total (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
+      ph<-data.table(Especie=c(prot,"Total Protegido","Total Desprotegido"), `Volume/Parcela (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Volume/Area Total (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
 
-      ph$`Media amostrada (m3)`<-as.numeric(ph$`Media amostrada (m3)`)
-      ph$`Media amostrada (m3)`<-format(round(ph$`Media amostrada (m3)`,4),nsmall=4)
-      ph$`Media/hectare (m3)`<-as.numeric(ph$`Media/hectare (m3)`)
-      ph$`Media/hectare (m3)`<-format(round(ph$`Media/hectare (m3)`,4),nsmall=4)
-      ph$`Media/area total (m3)`<-as.numeric(ph$`Media/area total (m3)`)
-      ph$`Media/area total (m3)`<-format(round(ph$`Media/area total (m3)`,4),nsmall=4)
+      ph$`Volume/Parcela (m3)`<-as.numeric(ph$`Volume/Parcela (m3)`)
+      ph$`Volume/Parcela (m3)`<-format(round(ph$`Volume/Parcela (m3)`,4),nsmall=4)
+      ph$`Volume/ha (m3)`<-as.numeric(ph$`Volume/ha (m3)`)
+      ph$`Volume/ha (m3)`<-format(round(ph$`Volume/ha (m3)`,4),nsmall=4)
+      ph$`Volume/Area Total (m3)`<-as.numeric(ph$`Volume/Area Total (m3)`)
+      ph$`Volume/Area Total (m3)`<-format(round(ph$`Volume/Area Total (m3)`,4),nsmall=4)
     }else{
-      vt<-data.table(Specie=c(vvol[,2],"Mean"), `Sampled mean (m3)`=c(vvol[,1]/n,sum((vvol[,1])/n)), `Mean/hectare (m3)`=c((vvol[,1]/n)/a, sum((vvol[,1])/n)/a), `Mean/total area (m3)`=c((vvol[,1]/n)*A/a, sum(vvol[,1]/n)*A/a))
+      vt<-data.table(Specie=c(vvol[,2],"Mean"), `Volume/Plot (m3)`=c(vvol[,1]/n,sum((vvol[,1])/n)), `Volume/ha (m3)`=c((vvol[,1]/n)/a, sum((vvol[,1])/n)/a), `Volume/Total Area (m3)`=c((vvol[,1]/n)*A/a, sum(vvol[,1]/n)*A/a))
 
-      vt$`Sampled mean (m3)`<-as.numeric(vt$`Sampled mean (m3)`)
-      vt$`Sampled mean (m3)`<-format(round(vt$`Sampled mean (m3)`,4),nsmall=4)
-      vt$`Mean/hectare (m3)`<-as.numeric(vt$`Mean/hectare (m3)`)
-      vt$`Mean/hectare (m3)`<-format(round(vt$`Mean/hectare (m3)`,4),nsmall=4)
-      vt$`Mean/total area (m3)`<-as.numeric(vt$`Mean/total area (m3)`)
-      vt$`Mean/total area (m3)`<-format(round(vt$`Mean/total area (m3)`,4),nsmall=4)
+      vt$`Volume/Plot (m3)`<-as.numeric(vt$`Volume/Plot (m3)`)
+      vt$`Volume/Plot (m3)`<-format(round(vt$`Volume/Plot (m3)`,4),nsmall=4)
+      vt$`Volume/ha (m3)`<-as.numeric(vt$`Volume/ha (m3)`)
+      vt$`Volume/ha (m3)`<-format(round(vt$`Volume/ha (m3)`,4),nsmall=4)
+      vt$`Volume/Total Area (m3)`<-as.numeric(vt$`Volume/Total Area (m3)`)
+      vt$`Volume/Total Area (m3)`<-format(round(vt$`Volume/Total Area (m3)`,4),nsmall=4)
 
-      ph<-data.table(Specie=c(prot,"Protected mean","Unprotected mean"), `Sampled mean (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Mean/hectare (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Mean/total area (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
+      ph<-data.table(Specie=c(prot,"Total Protected","Total Unprotected"), `Volume/Plot (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Volume/Total Area (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
 
-      ph$`Sampled mean (m3)`<-as.numeric(ph$`Sampled mean (m3)`)
-      ph$`Sampled mean (m3)`<-format(round(ph$`Sampled mean (m3)`,4),nsmall=4)
-      ph$`Mean/hectare (m3)`<-as.numeric(ph$`Mean/hectare (m3)`)
-      ph$`Mean/hectare (m3)`<-format(round(ph$`Mean/hectare (m3)`,4),nsmall=4)
-      ph$`Mean/total area (m3)`<-as.numeric(ph$`Mean/total area (m3)`)
-      ph$`Mean/total area (m3)`<-format(round(ph$`Mean/total area (m3)`,4),nsmall=4)
+      ph$`Volume/Plot (m3)`<-as.numeric(ph$`Volume/Plot (m3)`)
+      ph$`Volume/Plot (m3)`<-format(round(ph$`Volume/Plot (m3)`,4),nsmall=4)
+      ph$`Volume/ha (m3)`<-as.numeric(ph$`Volume/ha (m3)`)
+      ph$`Volume/ha (m3)`<-format(round(ph$`Volume/ha (m3)`,4),nsmall=4)
+      ph$`Volume/Total Area (m3)`<-as.numeric(ph$`Volume/Total Area (m3)`)
+      ph$`Volume/Total Area (m3)`<-format(round(ph$`Volume/Total Area (m3)`,4),nsmall=4)
 
     }
 
@@ -847,7 +848,7 @@ if(pt==T){
       body_end_section_portrait() %>%
 
       body_add_break(pos="on") %>%
-      body_add_gg(diam,style="centered", height=4,width=6) %>%
+      body_add_gg(diam,style="centered") %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
       body_end_section_portrait() %>%
 
@@ -877,13 +878,13 @@ if(pt==T){
       body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
-      body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
+      body_add_gg(gg3,style="centered")%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
-      body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
+      body_add_gg(curve,style="centered")%>%#grafico curva
+      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
       body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
@@ -901,7 +902,7 @@ if(pt==T){
     body_end_section_portrait() %>%
 
     body_add_break(pos="on") %>%
-    body_add_gg(diam,style="centered", height=4,width=6) %>%
+    body_add_gg(diam,style="centered") %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
     body_end_section_portrait() %>%
 
@@ -931,13 +932,13 @@ if(pt==T){
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
-    body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
+    body_add_gg(gg3,style="centered")%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
     
     body_add_break(pos="on") %>%
-    body_add_gg(curve,style="centered", height=4,width=6)%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
+    body_add_gg(curve,style="centered")%>%#grafico curva
+    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
@@ -1017,4 +1018,5 @@ if(pt==T){
   }
 
   }
-  }
+}
+

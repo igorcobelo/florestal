@@ -25,7 +25,7 @@ fito(sp,plot,d,A,stratum=NULL,spivi=15,pt=T,...)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-A list with a Importance Valor Index (IVI) plot and a phytosociological parameters table, and a docx file saved in the current directory.
+A list with an Importance Valor Index (IVI) plot and a phytosociological parameters table, and a docx file saved in the current directory.
 
 }
 \references{
@@ -47,9 +47,11 @@ Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 
 getwd()
 
-##Calculate the phytosociological parameters and the IVI plot:
+#Calculate the phytosociological parameters and the IVI plot:
 
-fito(sp=IF1$Specie, plot=IF1$Plot, d=IF1$Diameter, A=0.1)
+data("data3s")
+
+fito(sp=data3s$Specie, plot=data3s$Plot, d=data3s$Diameter, A=0.1)
 
 
 }

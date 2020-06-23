@@ -8,7 +8,7 @@ Stratified Casual Sampling and Phytosociological Parameters
 Calculates the stratified casual and phytosociological sampling parameters.
 }
 \usage{
-ace(x,a,aj,E=0.1,p=0.05,rn=F,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...)
+ace(x,a,aj,E=0.1,p=0.05,rn=F,ampl=5,prop=F,rn=F,spivi=15,un=F,pt=T,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,12 +17,10 @@ ace(x,a,aj,E=0.1,p=0.05,rn=F,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=
   \item{aj}{Area of each stratum, in hectares.}
   \item{E}{Required error, in decimal value. Default is 0.1.}
   \item{p}{Significance level, in decimal value. Default is 0.05.}
-   \item{prot}{Optional. Protected species.}
-    \item{ampl}{Amplitude of diameter class range. Default is 5.}
+  \item{ampl}{Amplitude of diameter class range. Default is 5.}
   \item{prop}{Logical argument. If FALSE (default), the allocation of plots by stratum will follow Neyman's optimal allocation method. If TRUE, will follow the proportional allocation by area.}
      \item{rn}{Logical argument. If TRUE (default) calculates the sample intensity once again, with the degrees of freedom from the previous result.}
     \item{spivi}{number of species in the IVI plot. Default is 15.} 
-    \item{ci}{Multiplier used to get confidence intervals from standard deviatione in the species accumulation curve plot. Default is 2.}
     \item{un}{Logical argument. If TRUE, the species column have an unique specie, as a planted forest. If FALSE (default), have multiple species (more than one).}
     \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
 
@@ -39,7 +37,7 @@ A list of tables and graphs, and a docx file saved in the current directory. The
 Pellico  Netto,  S.;  Brena,  D. (1997).  Inventario  florestal.  Curitiba:  Universidade  Federal  do  Parana, 316 p.
 }
 \author{
-Igor Cobelo Ferreira <cobelo.igor@gmail.com>
+Igor Cobelo Ferreira
 }
 \note{
 }

@@ -1,4 +1,4 @@
-ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=F,pt=T,...){
+ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,...){
 
   
   ##para que o arquivo docx seja nomeado com o mesmo nome do input
@@ -41,12 +41,10 @@ ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=
     vv<-c(sum(subset(x[,ncol(x)],x[,2]==i),na.rm = T))
   }
 
-  vv<-as.data.frame(vv)
 
   for(i in 1:max(x[,2])){
     vv[i]<-c(sum(subset(x[,ncol(x)],x[,2]==i),na.rm = T))
   }
-  vv<-as.data.frame(vv)
 
   #Encontrar quantas parcelas ha em cada estrato
   for(i in 1:max(x[,1])){
@@ -62,35 +60,26 @@ ace<-function(x,a,aj,E=0.1,p=0.05,prot=NULL,ampl=5,prop=F,rn=F,spivi=15,ci=2,un=
 
   #Tabela de volume/parcela
   rep<-rep(c(1:length(ss)),ss)
-A<-sum(aj)
+  A<-sum(aj)
 
   if(pt==T){
-  vp<-data.table(c(rep,"Media"), c(1:max(x[,2]),""), c(vv,sum(vv)/max(x[,2])), c(vv/a, (sum(vv)/max(x[,2]))/a), c(vv*A/a, (sum(vv)/max(x[,2]))*A/a))
+  vp<-data.table(rep, 1:max(x[,2]), vv)
   colnames(vp)[1]<-"Estrato"
   colnames(vp)[2]<-"Parcela"
-  colnames(vp)[3]<-"Volume/parcela (m3)"
-  colnames(vp)[4]<-"Volume/hectare (m3)"
-  colnames(vp)[5]<-"Volume/area total (m3)"
+  colnames(vp)[3]<-"Volume/Parcela (m3)"
 
   }else{
-    vp<-data.table(c(rep,"Mean"), c(1:max(x[,2]),""), c(vv,sum(vv)/max(x[,2])), c(vv/a, (sum(vv)/max(x[,2]))/a), c(vv*A/a, (sum(vv)/max(x[,2]))*A/a))
+    vp<-data.table(rep, 1:max(x[,2]), vv)
     colnames(vp)[1]<-"Stratum"
     colnames(vp)[2]<-"Plot"
-    colnames(vp)[3]<-"Volume/plot (m3)"
-    colnames(vp)[4]<-"Volume/hectare (m3)"
-    colnames(vp)[5]<-"Volume/total area (m3)"
+    colnames(vp)[3]<-"Volume/Plot (m3)"
 
   }
 
   vp2<-data.table(vp)
 
   vp2[,3]<-as.numeric(unlist(vp2[,3]))
-  vp2[,4]<-as.numeric(unlist(vp2[,4]))
-  vp2[,5]<-as.numeric(unlist(vp2[,5]))
-
   vp2[,3]<-format(round(vp2[,3],4),nsmall=4)
-  vp2[,4]<-format(round(vp2[,4],4),nsmall=4)
-  vp2[,5]<-format(round(vp2[,5],4),nsmall=4)
 
 
   vopa <- flextable(vp2)
@@ -116,20 +105,12 @@ A<-sum(aj)
   }
   var<-as.data.frame(var)
 
-  var[,1]<-NULL
 
   #soma de volumes por estrato
-  for(i in ph2[1:nrow(ph2)-1,1]){
-    tt<-c(sum(subset(ph2[,3], ph2[,1]==i)))
-  }
-  tt<-as.data.frame(tt)
-
+  tt<-as.numeric()
   for(i in ph2[1:nrow(ph2)-1,1]){
     tt[i]<-c(sum(subset(ph2[,3], ph2[,1]==i)))
   }
-  tt<-as.data.frame(tt)
-
-  tt[,1]<-NULL
 
 
   # Dados iniciais
@@ -137,11 +118,12 @@ A<-sum(aj)
   N<-A/a #parcelas que cabem na area total
   estrat<-aj/a #parcelas que cabem em cada estrato
   P<-estrat/N #P
-  yi<-tt/ss #media por estrato
-  y<-sum(P*yi) #media geral
+  yi<-tt/ss #media/parcela pra cada estrato
+  y<-sum(P*yi) #media estratificada (m3/parcela)
 
   s<-sqrt(var) #variancia geral
   erroabsreq<-y*E #erro requerido absoluto
+
 
 
 
@@ -318,56 +300,6 @@ if(f>=0.98){
   CV<-sum(P*s)/y*100
 
 
-  # Tabela de volume por estrato
-
-  if(pt==T){
-  vol.estrat<-data.table(c(1:length(ss),"Media"), c(tt,sum(tt)/length(tt)), c(tt/a,(sum(tt)/length(tt))/a),c(tt*A/a,(sum(tt)/length(tt))*A/a))
-  colnames(vol.estrat)[1]<-"Estrato"
-  colnames(vol.estrat)[2]<-"Volume amostrado/estrato (m3)"
-  colnames(vol.estrat)[3]<-"Volume/ha (m3)"
-  colnames(vol.estrat)[4]<-"Volume/area total (m3)"
-
-  vol.estrat$`Volume amostrado/estrato (m3)`<-as.numeric(vol.estrat$`Volume amostrado/estrato (m3)`)
-  vol.estrat$`Volume amostrado/estrato (m3)`<-format(round(vol.estrat$`Volume amostrado/estrato (m3)`,4),nsmall=4)
-  vol.estrat$`Volume/ha (m3)`<-as.numeric(vol.estrat$`Volume/ha (m3)`)
-  vol.estrat$`Volume/ha (m3)`<-format(round(vol.estrat$`Volume/ha (m3)`,4),nsmall=4)
-  vol.estrat$`Volume/area total (m3)`<-as.numeric(vol.estrat$`Volume/area total (m3)`)
-  vol.estrat$`Volume/area total (m3)`<-format(round(vol.estrat$`Volume/area total (m3)`,4),nsmall=4)
-
-
-  }else{
-    vol.estrat<-data.table(c(1:length(ss),"Mean"), c(tt,sum(tt)/length(tt)), c(tt/a,(sum(tt)/length(tt))/a),c(tt*A/a,(sum(tt)/length(tt))*A/a))
-    colnames(vol.estrat)[1]<-"Stratum"
-    colnames(vol.estrat)[2]<-"Sampled volume/stratum (m3)"
-    colnames(vol.estrat)[3]<-"Volume/ha (m3)"
-    colnames(vol.estrat)[4]<-"Volume/total area (m3)"
-
-    vol.estrat$`Sampled volume/stratum (m3)`<-as.numeric(vol.estrat$`Sampled volume/stratum (m3)`)
-    vol.estrat$`Sampled volume/stratum (m3)`<-format(round(vol.estrat$`Sampled volume/stratum (m3)`,4),nsmall=4)
-    vol.estrat$`Volume/ha (m3)`<-as.numeric(vol.estrat$`Volume/ha (m3)`)
-    vol.estrat$`Volume/ha (m3)`<-format(round(vol.estrat$`Volume/ha (m3)`,4),nsmall=4)
-    vol.estrat$`Volume/total area (m3)`<-as.numeric(vol.estrat$`Volume/total area (m3)`)
-    vol.estrat$`Volume/total area (m3)`<-format(round(vol.estrat$`Volume/total area (m3)`,4),nsmall=4)
-
-
-    }
-
-  vol.estrat2<-as.data.frame(vol.estrat)
-
-  vol.estrat2[,2]<-as.numeric(unlist(vol.estrat2[,2]))
-  vol.estrat2[,3]<-as.numeric(unlist(vol.estrat2[,3]))
-  vol.estrat2[,4]<-as.numeric(unlist(vol.estrat2[,4]))
-
-  vol.estrat2[,2]<-format(round(vol.estrat2[,2],4),nsmall=4)
-  vol.estrat2[,3]<-format(round(vol.estrat2[,3],4),nsmall=4)
-  vol.estrat2[,4]<-format(round(vol.estrat2[,4],4),nsmall=4)
-
-  vol.estrat2 <- flextable(vol.estrat2)
-  vol.estrat2  <- align(vol.estrat2 , align = "center")
-  vol.estrat2  <- align_text_col(vol.estrat2 , align = "center")
-  vol.estrat2 <-autofit(vol.estrat2)
-
-
 #Parametros estatisticos
 
 if(pt==T){
@@ -387,8 +319,8 @@ if(pt==T){
                                 "IC superior para area total"),
                    Estimativas=c(y, s2y,sy, Y, invt, eabs, erel, E*100,p*100,CV,f,sum(ss),n,ICparmin,
                                  ICparmax,IChecmin,IChecmax,ICtotmin,ICtotmax),
-                   Unidade=c("m3/estrato", "m3/estrato","m3/estrato","m3/area total",
-                             "","m3/estrato","%", "%", "%","%", pop,"Parcelas","Parcelas","m3/parcela","m3/parcela",
+                   Unidade=c("m3/parcela", "m3/parcela","m3/parcela","m3/area total",
+                             "","m3/parcela","%", "%", "%","%", pop,"Parcelas","Parcelas","m3/parcela","m3/parcela",
                              "m3/hectare","m3/hectare","m3/area total","m3/area total"))
 }else{
   df <- data.table(Parameters=c("Stratified mean", "Stratified mean variance",
@@ -407,8 +339,8 @@ if(pt==T){
                                 "Upper CI for total area"),
                    Estimates=c(y, s2y,sy, Y, invt, eabs, erel, E*100,p*100,CV,f,sum(ss),n,ICparmin,
                                  ICparmax,IChecmin,IChecmax,ICtotmin,ICtotmax),
-                   Unit=c("m3/stratum", "m3/stratum","m3/stratum","m3/total area",
-                             "","m3/stratum","%", "%", "%","%", pop,"Plots","Plots","m3/plot","m3/plot",
+                   Unit=c("m3/plot", "m3/plot","m3/plot","m3/total area",
+                             "","m3/plot","%", "%", "%","%", pop,"Plots","Plots","m3/plot","m3/plot",
                              "m3/hectare","m3/hectare","m3/total area","m3/total area"))
 
 }
@@ -462,35 +394,40 @@ if(pt==T){
   anova<-anova(modelo.anova)
   ftab<-qf (0.95, df1 = anova$Df[1], df2 = anova$Df[2])
 
+  res.aov <- aov(x[,ncol(x)] ~ x[,1], data= x)
+  tukey<-TukeyHSD(res.aov)
+  
+  
   if(anova$`F value`[1]>ftab){
 
     if(pt==T){
 
-    cat("------------------------------------------------------------------------------------")
     cat("\nHa diferenca significativa entre as medias dos estratos.\n")
-    cat("------------------------------------------------------------------------------------")
-    }else{
-      cat("------------------------------------------------------------------------------------")
-      cat("\nThere is significant difference between strata means.\n")
-      cat("------------------------------------------------------------------------------------")
 
+    print("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
+    
+    print(tukey$`x[, 1]`)
+    }else{
+      cat("\nThere is significant difference between strata means.\n")
+      print ("Tukey's test for significant differences between strata, with 95% confidence:")
+      
+      print(tukey$`x[, 1]`)      
     }
   }
 
   if(anova$`F value`[1]<ftab){
 
     if(pt==T){
-    cat("------------------------------------------------------------------------------------")
     cat("\nNao ha diferenca significativa entre as medias dos estratos.\n")
-    cat("------------------------------------------------------------------------------------")
+    print("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
+    print(tukey$`x[, 1]`)
     }else{
-      cat("------------------------------------------------------------------------------------")
       cat("\nThere is not significant difference between strata means.\n")
-      cat("------------------------------------------------------------------------------------")
-
-    }
+      print ("Tukey's test for significant differences between strata, with 95% confidence:")
+      print(tukey$`x[, 1]`)    }
   }
 
+  
 
 #Analise fitossociologica
 
@@ -503,8 +440,7 @@ if(pt==T){
   parcela<-x[,2]
   d<-x[,5]
   
-  
-  
+
   fito <- data.table(Estrato=Estrato,Especie=Especie, parcela=parcela, d=d)
   
   fito$gi<-pi*d^2/40000 #coluna com area seccional por individuo
@@ -572,11 +508,11 @@ if(pt==T){
   
   #criacao da tabela de parametros fitossociologicos
   
-  dtt<-data.table(qt2,g2,sp2)
-  dtt$especie<-rep(rownames(qt), ncol(qt))
-  dtt$estrato<-rep(1:ncol(qt),each=nrow(qt))
+  dtt0<-data.table(qt2,g2,sp2)
+  dtt0$especie<-rep(rownames(qt), ncol(qt))
+  dtt0$estrato<-rep(1:ncol(qt),each=nrow(qt))
   
-  dtt<-dtt[!(dtt$n==0),]
+  dtt<-dtt0[!(dtt0$n==0),]
   
   colnames(dtt)[1]<-"n"
   colnames(dtt)[2]<-"G (m2)"
@@ -584,6 +520,90 @@ if(pt==T){
   colnames(dtt)[4]<-"Especie"
   colnames(dtt)[5]<-"Estrato"
   
+  
+  #VOLUME/SP ESTRATIFICADO EXTRAPOLANDO
+  
+  fitocomvol<-fito
+  fitocomvol$Volume<-x[,7]
+  
+  for(i in fitocomvol[,2]){
+    for(j in 1:max(fitocomvol[,1])){
+      vvvv<-c(sum(subset(fitocomvol[,6], fitocomvol[,2]==i & fitocomvol[,1]==j)))
+    }
+  }
+  vvvv<-as.data.frame(vvvv)
+  
+  for(i in fitocomvol[,2]){
+    for(j in 1:max(fitocomvol[,1])){
+      vvvv[i,j]<-c(sum(subset(fitocomvol[,6], fitocomvol[,2]==i & fitocomvol[,1]==j)))
+    }
+  }
+  vvvv<-as.data.frame(vvvv)
+  vvvv<-vvvv[-1,]
+  vvvv2<-data.frame(vvvv = unlist(vvvv,use.names = F))
+  
+  volex<-data.table(vvvv2,dtt0)
+  
+  volex<-volex[!(volex$n==0),]
+  
+  yiv<-volex$vvvv/max(volex$UA)
+  
+  
+  ll<-as.numeric()
+  for(i in 1:max(volex$estrato)){
+  ll[i]<-length(volex$estrato[volex$estrato==i])
+  }
+ 
+  volex$Pzao<-rep(P, ll)
+  
+  summ<-sum(yiv*volex$Pzao)*N #representa o volume total da pop
+  
+  vpestrat <- yiv*volex$Pzao #VOLUME/SP/PARCELA ESTRATIFICADO
+  
+
+  sparta <- data.table(Especie=volex$especie,`Volume/Parcela (m3)`=vpestrat)
+  
+  sparta2<-as.numeric()
+  for(i in sparta$Especie){
+    sparta2[i]<-sum(subset(sparta$`Volume/Parcela (m3)`, sparta$Especie==i))
+  }
+  sparta2<-as.data.frame(sparta2[order(-sparta2)])
+  
+  vpestrat_ha <- sparta2$`sparta2[order(-sparta2)]`/a #VOLUME/SP/HA ESTRATIFFICADO
+  
+  vpestrat_tot <- vpestrat_ha*A #VOLUME/SP TOTAL ESTRATIFICADO
+  
+  if(pt==T){
+  vesp <- data.table(Especie=c(rownames(sparta2), "Total"), `Volume/Parcela (m3)`=c(sparta2$`sparta2[order(-sparta2)]`, sum(sparta2$`sparta2[order(-sparta2)]`)), `Volume/ha (m3)`=c(vpestrat_ha,sum(vpestrat_ha)), `Volume/Area Total (m3)`=c(vpestrat_tot, sum(vpestrat_tot)))
+
+  vesp$`Volume/Parcela (m3)`<-as.numeric(vesp$`Volume/Parcela (m3)`)
+  vesp$`Volume/ha (m3)`<-as.numeric(vesp$`Volume/ha (m3)`)
+  vesp$`Volume/Area Total (m3)`<-as.numeric(vesp$`Volume/Area Total (m3)`)
+  
+  vesp$`Volume/Parcela (m3)`<-format(round(vesp$`Volume/Parcela (m3)`,4),nsmall=4)
+  vesp$`Volume/ha (m3)`<-format(round(vesp$`Volume/ha (m3)`,4),nsmall=4)
+  vesp$`Volume/Area Total (m3)`<-format(round(vesp$`Volume/Area Total (m3)`,4),nsmall=4)
+  }else{
+    vesp <- data.table(Specie=c(rownames(sparta2), "Total"), `Volume/Plot (m3)`=c(sparta2$`sparta2[order(-sparta2)]`, sum(sparta2$`sparta2[order(-sparta2)]`)), `Volume/ha (m3)`=c(vpestrat_ha,sum(vpestrat_ha)), `Volume/Total Area (m3)`=c(vpestrat_tot, sum(vpestrat_tot)))
+    
+    vesp$`Volume/Plot (m3)`<-as.numeric(vesp$`Volume/Plot (m3)`)
+    vesp$`Volume/ha (m3)`<-as.numeric(vesp$`Volume/ha (m3)`)
+    vesp$`Volume/Total Area (m3)`<-as.numeric(vesp$`Volume/Total Area (m3)`)
+
+    vesp$`Volume/Plot (m3)`<-format(round(vesp$`Volume/Plot (m3)`,4),nsmall=4)
+    vesp$`Volume/ha (m3)`<-format(round(vesp$`Volume/ha (m3)`,4),nsmall=4)
+    vesp$`Volume/Total Area (m3)`<-format(round(vesp$`Volume/Total Area (m3)`,4),nsmall=4)
+    
+  }
+
+  vesp2 <- flextable(vesp)
+  vesp2  <- align(vesp2 , align = "center")
+  vesp2  <- align_text_col(vesp2 , align = "center")
+  vesp2 <-autofit(vesp2)
+  vesp2<-italic(vesp2,j=1,i=1:(nrow(vesp)-1))
+
+ 
+
   #TESTANDO NUMERO DE PARCELAS/ESTRATO
   
   #parcelas/estrato
@@ -916,27 +936,17 @@ if(un==T){
       body_end_section_portrait() %>%
       
       body_add_break(pos="on") %>%
-      body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+      body_add_gg(diam, style="centered") %>% #distribuicao diametrica
       body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
       body_end_section_portrait() %>%
-      
+
       body_add_break(pos="on") %>%
-      body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
-      body_add_flextable(vopa) %>% #volume/parcela
-      body_end_section_landscape() %>%
-      
-      body_add_break(pos="on") %>%
-      body_add_par("Tabela 3. Volume lenhoso por estrato.", style = "centered") %>%
-      body_add_flextable(vol.estrat2) %>% #volume/estrato
-      body_end_section_landscape() %>%
-      
-      body_add_break(pos="on") %>%
-      body_add_par("Tabela 4. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
+      body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
       body_add_flextable(tabaux) %>% #tabela auxiliar
       body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
-      body_add_par("Tabela 5. Volume lenhoso individual.", style = "centered") %>%
+      body_add_par("Tabela 3. Volume lenhoso individual.", style = "centered") %>%
       body_add_flextable(x3) %>%
       body_end_section_landscape()
     
@@ -948,27 +958,17 @@ if(un==T){
       body_end_section_portrait() %>%
       
       body_add_break(pos="on") %>%
-      body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+      body_add_gg(diam, style="centered") %>% #distribuicao diametrica
       body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
       body_end_section_portrait() %>%
-      
+
       body_add_break(pos="on") %>%
-      body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
-      body_add_flextable(vopa) %>% #volume/parcela
-      body_end_section_landscape() %>%
-      
-      body_add_break(pos="on") %>%
-      body_add_par("Table 3. Woody volume by stratum.", style = "centered") %>%
-      body_add_flextable(vol.estrat2) %>% #volume/estrato
-      body_end_section_landscape() %>%
-      
-      body_add_break(pos="on") %>%
-      body_add_par("Table 4. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
+      body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
       body_add_flextable(tabaux) %>% #tabela auxiliar
       body_end_section_landscape() %>%
      
       body_add_break(pos="on") %>%
-      body_add_par("Table 5. Individual woody volume.", style = "centered") %>%
+      body_add_par("Table 3. Individual woody volume.", style = "centered") %>%
       body_add_flextable(x3) %>%
       body_end_section_landscape()
     
@@ -990,16 +990,12 @@ if(un==T){
     return(list(`vol individual`=x3,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
-                `volume por estrato`=vol.estrat2,
-                `volume por parcela`=vopa,
                 `parametros vol`=par))
   }else{
     
     return(list(`individual vol`=x3,
                 `diam distribuction`=diam,
                 `aux table`=tabaux,
-                `volume by stratum`=vol.estrat2,
-                `volume by plot`=vopa,
                 `vol parameters`=par))     
   }
   
@@ -1075,89 +1071,70 @@ if(un==T){
     
     freqsp<-as.data.frame.matrix(table(x[,2], x[,4]))
     rep<-data.frame(rep)
-    rep$site.totals<-apply(freqsp,1,sum)
-    accum <- accumresult(freqsp, y=rep, scale='site.totals', method='random', conditioned=TRUE,permutations = 1000)
+
+    freqsp$strat<-rep$rep
+  
     
-    #grafico no docx
-  
-
-  #Tabela de volume por especie
-
-  x<-as.data.frame(x)
-  x[,ncol(x)]<-as.numeric(x[,ncol(x)])
-
-
-
-  for(i in x[,4]){
-    vvol<-c(sum(subset(x[,ncol(x)], x[,4]==i)))
-  }
-  vvol<-as.data.frame(vvol)
-
-  for(i in x[,4]){
-    tryCatch({
-    vvol[i]<-c(sum(subset(x[,ncol(x)], x[,4]==i)))
-    }, error=function(e){})
+    sp2<-list()
+    for(i in 1:max(freqsp$strat)){
+      suppressMessages({sp2 [i]<- list(accumresult(freqsp[freqsp$strat==i,], method = "random",permutations=1000))})
     }
-  vvol<-as.data.frame(vvol)
-  vvol[,1]<-NULL
-  vvol<-as.data.frame(t(vvol))
-  vvol[,2]<-rownames(vvol)
-
-  vvol<-vvol[order(-vvol[,1]),]
-  
-
-  #tabela de volume/especie se nao houver o argumento prot
-
-  if(missing(prot)) {
+    
+    rr<-as.numeric()
+    for(i in 1:length(sp2)){
+      rr[i]<-list(sp2[[i]]$richness)
+    }
+    rr2<-data.frame(matrix(unlist(rr)))
+    
+    sts<-as.numeric()
+    for(i in 1:length(sp2)){
+      sts[i]<-list(sp2[[i]]$sites)
+    }
+    sts2<-data.frame(matrix(unlist(sts)))
+    
+    sdd<-as.numeric()
+    for(i in 1:length(sp2)){
+      sdd[i]<-list(sp2[[i]]$sd)
+    }
+    sdd2<-data.frame(matrix(unlist(sdd)))
+    
+    h<-data.frame(strat=rep$rep ,r=rr2,p=sts2, sd=sdd2)
+    h$strat<-as.factor(h$strat)
+    colnames(h)[2]<-"r"
+    colnames(h)[3]<-"p"
+    colnames(h)[4]<-"sd"
+    
     if(pt==T){
-      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/a, sum(vvol[,1])/a), c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
-      colnames(vt)[1]<-"Especie"
-      colnames(vt)[2]<-"Volume amostrado (m3)"
-      colnames(vt)[3]<-"Volume/hectare (m3)"
-      colnames(vt)[4]<-"Volume/area total (m3)"
-      
-      
-
-      vt$`Volume amostrado (m3)`<-as.numeric(vt$`Volume amostrado (m3)`)
-      vt$`Volume amostrado (m3)`<-format(round(vt$`Volume amostrado (m3)`,4),nsmall=4)
-      vt$`Volume/hectare (m3)`<-as.numeric(vt$`Volume/hectare (m3)`)
-      vt$`Volume/hectare (m3)`<-format(round(vt$`Volume/hectare (m3)`,4),nsmall=4)
-      vt$`Volume/area total (m3)`<-as.numeric(vt$`Volume/area total (m3)`)
-      vt$`Volume/area total (m3)`<-format(round(vt$`Volume/area total (m3)`,4),nsmall=4)
+curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
+      geom_line() +
+      geom_ribbon(aes(ymin=r-sd, ymax=r+sd), alpha = 0.2,colour=NA)+
+      theme_bw(16)+
+      theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
+            axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
+            axis.title.y=element_text(size=12), legend.title = element_text(size=12))+
+      xlab("\nParcelas")+
+      ylab("Riqueza\n")+
+      labs(colour = "Estrato",fill="Estrato")+
+      scale_x_continuous(breaks=seq(1, max(h$p), 2))
 
 
     }else{
-      vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/a, sum(vvol[,1])/a), c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
-      colnames(vt)[1]<-"Specie"
-      colnames(vt)[2]<-"Sampled volume (m3)"
-      colnames(vt)[3]<-"Volume/hectare (m3)"
-      colnames(vt)[4]<-"Volume/total area (m3)"
-
-      vt$`Sampled volume (m3)`<-as.numeric(vt$`Sampled volume (m3)`)
-      vt$`Sampled volume (m3)`<-format(round(vt$`Sampled volume (m3)`,4),nsmall=4)
-      vt$`Volume/hectare (m3)`<-as.numeric(vt$`Volume/hectare (m3)`)
-      vt$`Volume/hectare (m3)`<-format(round(vt$`Volume/hectare (m3)`,4),nsmall=4)
-      vt$`Volume/total area (m3)`<-as.numeric(vt$`Volume/total area (m3)`)
-      vt$`Volume/total area (m3)`<-format(round(vt$`Volume/total area (m3)`,4),nsmall=4)
+      curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
+        geom_line() +
+        geom_ribbon(aes(ymin=r-sd, ymax=r+sd), alpha = 0.2,colour=NA)+
+        theme_bw(16)+
+        theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
+              axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
+              axis.title.y=element_text(size=12), legend.title = element_text(size=12))+
+        xlab("\nPlot")+
+        ylab("Richness\n")+
+        labs(colour = "Stratum", fill="Stratum")+
+        scale_x_continuous(breaks=seq(1, max(h$p), 2))
     }
+    
+  
 
-    vt2<-as.data.frame(vt)
-
-    vt2[,2]<-as.numeric(vt2[,2])
-    vt2[,3]<-as.numeric(vt2[,3])
-    vt2[,4]<-as.numeric(vt2[,4])
-
-
-    vt2[,2]<-format(round(vt2[,2],4),nsmall=4)
-    vt2[,3]<-format(round(vt2[,3],4),nsmall=4)
-    vt2[,4]<-format(round(vt2[,4],4),nsmall=4)
-
-    vtt<-as.data.frame(vt2)
-    vtt <- flextable(vtt)
-    vtt <- autofit(vtt)
-    vtt <- align(vtt, align = "center", part="all")
-    vtt<-italic(vtt,j=1,i=2:nrow(vt)-1)
-
+  
 
     if(pt==T){
     colnames(x)[1]<-"Estrato"
@@ -1202,54 +1179,43 @@ if(un==T){
       body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(diam, style="centered", height=3.4,width=6) %>% #distribuicao diametrica
+        body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
-        body_add_flextable(vopa) %>% #volume/parcela
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Tabela 3. Volume lenhoso por estrato.", style = "centered") %>%
-        body_add_flextable(vol.estrat2) %>% #volume/estrato
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Tabela 4. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
+        body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
         body_add_flextable(tabaux) %>% #tabela auxiliar
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 5. Volume lenhoso por especie.", style = "centered") %>%
-        body_add_flextable(vtt) %>% #volume/sp
+        body_add_par("Tabela 3. Volume lenhoso estratificado por especie.", style = "centered") %>%
+        body_add_flextable(vesp2) %>% #volume/sp
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 6. Quantidade de individuos por especie.", style = "centered") %>%
+        body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
         body_add_flextable(inds) %>% #ind/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 7. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+        body_add_par("Tabela 5. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(gg3,style="centered", height=3.5,width=6)%>%#grafico fito
+        body_add_gg(gg3,style="centered")%>%#grafico fito
         body_add_par("Figura 2. Indice de Valor de Importancia por especie e por estrato (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
-                                        xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
-        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
+        body_add_gg(curve,style="centered")%>%#grafico curva
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
         body_end_section_landscape() %>%
         
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 8. Volume lenhoso individual.", style = "centered") %>%
+        body_add_par("Tabela 6. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1262,131 +1228,107 @@ if(un==T){
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
-        body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
+        body_add_gg(diam, style="centered") %>% #distribuicao diametrica
+        body_add_par("Figure 1. Diameter distribution by stratum.", style = "centered") %>%
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
-        body_add_flextable(vopa) %>% #volume/parcela
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Table 3. Woody volume by stratum.", style = "centered") %>%
-        body_add_flextable(vol.estrat2) %>% #volume/estrato
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Table 4. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
+        body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
         body_add_flextable(tabaux) %>% #tabela auxiliar
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 5. Woody volume by specie.", style = "centered") %>%
-        body_add_flextable(vtt) %>% #volume/sp
+        body_add_par("Table 3. Stratified woody volume by specie.", style = "centered") %>%
+        body_add_flextable(vesp2) %>% #volume/sp
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_par("Table 6. Number of individuals by specie.", style = "centered") %>%
+        body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
         body_add_flextable(inds) %>% #ind/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 7. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+        body_add_par("Table 5. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+        body_add_gg(gg3,style="centered")%>%#grafico fito
         body_add_par("Figure 2. Importance Value Index by specie and by stratum (sum of relative density, relative dominance and relative frequency).", style = "centered")%>%
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
-                                          xlab="Plot", ylab="Richness", ci=ci) ) %>%
-        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
+        body_add_gg(curve,style="centered")%>%#grafico curva
+        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 8. Individual woody volume.", style = "centered") %>%
+        body_add_par("Table 6. Individual woody volume.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
     }
 
+    if(pt==T){
+      fileout <- tempfile(fileext = ".docx")
+      fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+      print(doc, target = fileout)
+    }else{
+      fileout <- tempfile(fileext = ".docx")
+      fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+      print(doc, target = fileout)
+    }
+    
 
-
-  } else {
-
+if(!(is.null(prot))){
     #tabela volume com argumento prot
 
+  
+  pp<-as.numeric()
+  if(pt==T){
     for(i in prot){
-      pp<-c(sum(subset(x[,ncol(x)],x[,4]==i),na.rm = T))
+      pp[i]<-subset(vesp$`Volume/Parcela (m3)`,vesp$Especie==i)
     }
-
-    pp<-as.data.frame(pp)
-
+  }else{
     for(i in prot){
-      pp[i]<-c(sum(subset(x[,ncol(x)],x[,4]==i),na.rm = T))
+      pp[i]<-subset(vesp$`Volume/Plot (m3)`,vesp$Specie==i)
     }
+  }
 
-    pp<-as.data.frame(pp[,2:ncol(pp)])
+    pp<-as.numeric(pp) #prot por parcela
+    ppha<-pp/a #prot por ha
+    pptot<-ppha*A
+    
+     if(pt==T){
+      
+      vesp$`Volume/Parcela (m3)`<-as.numeric(vesp$`Volume/Parcela (m3)`)
+      vesp$`Volume/ha (m3)`<-as.numeric(vesp$`Volume/ha (m3)`)
+      vesp$`Volume/Area Total (m3)`<-as.numeric(vesp$`Volume/Area Total (m3)`)
+      
+      ph<-data.table(Especie=c(prot,"Total Protegido","Total Desprotegido"), `Volume/Parcela (m3)`=c(pp,sum(pp),sum(vesp$`Volume/Parcela (m3)`[-nrow(vesp)])-sum(pp)), `Volume/ha (m3)`=c(ppha, sum(ppha), (sum(vesp$`Volume/ha (m3)`[-nrow(vesp)])-sum(ppha))), `Volume/Area Total (m3)`=c(pptot, sum(pptot), (sum(vesp$`Volume/Area Total (m3)`[-nrow(vesp)])-sum(pptot))))
 
-    if(pt==T){
-      vt<-data.table(Especie=c(vvol[,2],"Total"), `Volume amostrado (m3)`=c(vvol[,1],sum(vvol[,1])), `Volume/hectare (m3)`=c(vvol[,1]/a, sum(vvol[,1])/a), `Volume/area total (m3)`=c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
-
-      vt$`Volume amostrado (m3)`<-as.numeric(vt$`Volume amostrado (m3)`)
-      vt$`Volume amostrado (m3)`<-format(round(vt$`Volume amostrado (m3)`,4),nsmall=4)
-      vt$`Volume/hectare (m3)`<-as.numeric(vt$`Volume/hectare (m3)`)
-      vt$`Volume/hectare (m3)`<-format(round(vt$`Volume/hectare (m3)`,4),nsmall=4)
-      vt$`Volume/area total (m3)`<-as.numeric(vt$`Volume/area total (m3)`)
-      vt$`Volume/area total (m3)`<-format(round(vt$`Volume/area total (m3)`,4),nsmall=4)
-
-      ph<-data.table(Especie=c(prot,"Total protegido","Total desprotegido"), `Volume amostrado (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/area total (m3)`=c(pp*A/a, sum(pp)*A/a, ((sum(x[,ncol(x)]))-(sum(pp)))*A/a))
-
-      ph$`Volume amostrado (m3)`<-as.numeric(ph$`Volume amostrado (m3)`)
-      ph$`Volume amostrado (m3)`<-format(round(ph$`Volume amostrado (m3)`,4),nsmall=4)
-      ph$`Volume/hectare (m3)`<-as.numeric(ph$`Volume/hectare (m3)`)
-      ph$`Volume/hectare (m3)`<-format(round(ph$`Volume/hectare (m3)`,4),nsmall=4)
-      ph$`Volume/area total (m3)`<-as.numeric(ph$`Volume/area total (m3)`)
-      ph$`Volume/area total (m3)`<-format(round(ph$`Volume/area total (m3)`,4),nsmall=4)
+      ph$`Volume/Parcela (m3)`<-as.numeric(ph$`Volume/Parcela (m3)`)
+      ph$`Volume/Parcela (m3)`<-format(round(ph$`Volume/Parcela (m3)`,4),nsmall=4)
+      ph$`Volume/ha (m3)`<-as.numeric(ph$`Volume/ha (m3)`)
+      ph$`Volume/ha (m3)`<-format(round(ph$`Volume/ha (m3)`,4),nsmall=4)
+      ph$`Volume/Area Total (m3)`<-as.numeric(ph$`Volume/Area Total (m3)`)
+      ph$`Volume/Area Total (m3)`<-format(round(ph$`Volume/Area Total (m3)`,4),nsmall=4)
     }else{
-      vt<-data.table(Specie=c(vvol[,2],"Total"), `Sampled volume (m3)`=c(vvol[,1],sum(vvol[,1])), `Volume/hectare (m3)`=c(vvol[,1]/a, sum(vvol[,1])/a), `Volume/total area (m3)`=c(vvol[,1]*A/a, sum(vvol[,1])*A/a))
 
-      vt$`Sampled volume (m3)`<-as.numeric(vt$`Sampled volume (m3)`)
-      vt$`Sampled volume (m3)`<-format(round(vt$`Sampled volume (m3)`,4),nsmall=4)
-      vt$`Volume/hectare (m3)`<-as.numeric(vt$`Volume/hectare (m3)`)
-      vt$`Volume/hectare (m3)`<-format(round(vt$`Volume/hectare (m3)`,4),nsmall=4)
-      vt$`Volume/total area (m3)`<-as.numeric(vt$`Volume/total area (m3)`)
-      vt$`Volume/total area (m3)`<-format(round(vt$`Volume/total area (m3)`,4),nsmall=4)
-
-      ph<-data.table(Specie=c(prot,"Total protected","Total unprotected"), `Sampled volume (m3)`=c(pp,sum(pp),sum(x[,ncol(x)])-sum(pp)), `Volume/hectare (m3)`=c(pp/a, sum(pp)/a, (sum(x[,ncol(x)])-sum(pp))/a), `Volume/total area (m3)`=c(pp*A/a, sum(pp)*A/a, ((sum(x[,ncol(x)]))-(sum(pp)))*A/a))
-
-      ph$`Sampled volume (m3)`<-as.numeric(ph$`Sampled volume (m3)`)
-      ph$`Sampled volume (m3)`<-format(round(ph$`Sampled volume (m3)`,4),nsmall=4)
-      ph$`Volume/hectare (m3)`<-as.numeric(ph$`Volume/hectare (m3)`)
-      ph$`Volume/hectare (m3)`<-format(round(ph$`Volume/hectare (m3)`,4),nsmall=4)
-      ph$`Volume/total area (m3)`<-as.numeric(ph$`Volume/total area (m3)`)
-      ph$`Volume/total area (m3)`<-format(round(ph$`Volume/total area (m3)`,4),nsmall=4)
-
+      vesp$`Volume/Plot (m3)`<-as.numeric(vesp$`Volume/Plot (m3)`)
+      vesp$`Volume/ha (m3)`<-as.numeric(vesp$`Volume/ha (m3)`)
+      vesp$`Volume/Total Area (m3)`<-as.numeric(vesp$`Volume/Total Area (m3)`)
+      
+      ph<-data.table(Especie=c(prot,"Total Protected","Total Unprotected"), `Volume/Plot (m3)`=c(pp,sum(pp),sum(vesp$`Volume/Plot (m3)`[-nrow(vesp)])-sum(pp)), `Volume/ha (m3)`=c(ppha, sum(ppha), (sum(vesp$`Volume/ha (m3)`[-nrow(vesp)])-sum(ppha))), `Volume/Total Area (m3)`=c(pptot, sum(pptot), (sum(vesp$`Volume/Total Area (m3)`[-nrow(vesp)])-sum(pptot))))
+      
+      ph$`Volume/Plot (m3)`<-as.numeric(ph$`Volume/Plot (m3)`)
+      ph$`Volume/Plot (m3)`<-format(round(ph$`Volume/Plot (m3)`,4),nsmall=4)
+      ph$`Volume/ha (m3)`<-as.numeric(ph$`Volume/ha (m3)`)
+      ph$`Volume/ha (m3)`<-format(round(ph$`Volume/ha (m3)`,4),nsmall=4)
+      ph$`Volume/Total Area (m3)`<-as.numeric(ph$`Volume/Total Area (m3)`)
+      ph$`Volume/Total Area (m3)`<-format(round(ph$`Volume/Total Area (m3)`,4),nsmall=4)
+      
     }
-
-    vt2<-as.data.frame(vt)
-
-    vt2[,2]<-as.numeric(vt2[,2])
-    vt2[,3]<-as.numeric(vt2[,3])
-    vt2[,4]<-as.numeric(vt2[,4])
-
-
-    vt2[,2]<-format(round(vt2[,2],4),nsmall=4)
-    vt2[,3]<-format(round(vt2[,3],4),nsmall=4)
-    vt2[,4]<-format(round(vt2[,4],4),nsmall=4)
-
-    vtt<-as.data.frame(vt2)
-    vtt <- flextable(vtt)
-    vtt <- autofit(vtt)
-    vtt <- align(vtt, align = "center", part="all")
-    vtt<-italic(vtt,j=1,i=2:nrow(vt)-1)
 
 
     ph2<-as.data.frame(ph)
@@ -1449,58 +1391,47 @@ if(un==T){
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+        body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
-        body_add_flextable(vopa) %>% #volume/parcela
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Tabela 3. Volume lenhoso por estrato.", style = "centered") %>%
-        body_add_flextable(vol.estrat2) %>% #volume/estrato
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Tabela 4. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
+        body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
         body_add_flextable(tabaux) %>% #tabela auxiliar
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 5. Volume lenhoso por especie.", style = "centered") %>%
-        body_add_flextable(vtt) %>% #volume/sp
+        body_add_par("Tabela 3. Volume lenhoso estratificado por especie.", style = "centered") %>%
+        body_add_flextable(vesp2) %>% #volume/sp
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 6. Quantidade de individuos por especie.", style = "centered") %>%
+        body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
         body_add_flextable(inds) %>% #ind/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 7. Volume lenhoso por especie protegida.", style = "centered") %>%
+        body_add_par("Tabela 5. Volume lenhoso por especie protegida.", style = "centered") %>%
         body_add_flextable(phi) %>% #volume/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 8. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
+        body_add_par("Tabela 6. Parametros fitossociologicos por estrato, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = Densidade absoluta; DR (%) = Densidade relativa; DoA (G/ha) = Dominancia Absoluta; DoR (%) = Dominancia Relativa; FA (%) = Frequencia absoluta; FR (%) = Frequencia Relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+        body_add_gg(gg3,style="centered")%>%#grafico fito
         body_add_par("Figura 2. Indice de Valor de Importancia por especie e por estrato (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
-                                          xlab="Parcelas", ylab="Riqueza", ci=ci) ) %>%
-        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 100 permutacoes.", style = "centered") %>%
+        body_add_gg(curve,style="centered")%>%#grafico curva
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Tabela 9. Volume lenhoso individual.", style = "centered") %>%
+        body_add_par("Tabela 7. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1512,58 +1443,47 @@ if(un==T){
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(diam, style="centered", height=4,width=6) %>% #distribuicao diametrica
+        body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
         body_end_section_portrait() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
-        body_add_flextable(vopa) %>% #volume/parcela
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Table 3. Woody volume by stratum.", style = "centered") %>%
-        body_add_flextable(vol.estrat2) %>% #volume/estrato
-        body_end_section_landscape() %>%
-
-        body_add_break(pos="on") %>%
-        body_add_par("Table 4. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
+        body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
         body_add_flextable(tabaux) %>% #tabela auxiliar
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 5. Woody volume by specie.", style = "centered") %>%
-        body_add_flextable(vtt) %>% #volume/sp
+        body_add_par("Table 3. Stratified woody volume by specie.", style = "centered") %>%
+        body_add_flextable(vesp2) %>% #volume/sp
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_par("Table 6. Number of individuals by specie.", style = "centered") %>%
+        body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
         body_add_flextable(inds) %>% #ind/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 7. Woody volume by protected specie.", style = "centered") %>%
+        body_add_par("Table 5. Woody volume by protected specie.", style = "centered") %>%
         body_add_flextable(phi) %>% #volume/sp
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 8. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
+        body_add_par("Table 6. Phytosociological parameters by stratum, where: n = number of sampled individuals; G = basal area; SU = number of sample units; AD (n/ha) = absolute density; RD (%) = relative density; ADo (G/ha) = absolute dominance; RDo (%) = relative dominance; AF (%) = absolute frequency; RF (%) = relative frequency; IVI (%) = Importance Value Index.", style = "centered") %>%
         body_add_flextable(fitot) %>% #parametros fito
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_gg(gg3,style="centered", height=6,width=6)%>%#grafico fito
+        body_add_gg(gg3,style="centered")%>%#grafico fito
         body_add_par("Figure 2. Importance Value Index by specie and by stratum (sum of relative density, relative dominance and relative frequency).", style = "centered")%>%
         body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
-        body_add_vg(code = accumcomp(freqsp, y=rep, factor='rep', method='random', legend=F, conditioned=TRUE,
-                                          xlab="Plot", ylab="Richness", ci=ci)) %>%
-        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 100 permutations.", style = "centered") %>%
+        body_add_gg(curve,style="centered")%>%#grafico curva
+        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
-        body_add_par("Table 9. Individual woody volume.", style = "centered") %>%
+        body_add_par("Table 7. Individual woody volume.", style = "centered") %>%
         body_add_flextable(x3) %>%
         body_end_section_landscape()
 
@@ -1571,7 +1491,7 @@ if(un==T){
 
 
 
-  }
+  
 
   if(pt==T){
     fileout <- tempfile(fileext = ".docx")
@@ -1583,30 +1503,29 @@ if(un==T){
     print(doc, target = fileout)
   }
 
-
+}
+    
   if(missing(prot)){
     
     if(pt==T){
     return(list(`vol individual`=x3,
+                `curva especies`=curve,
                 `grafico ivi`=gg3,
                 `parametros fito`=fitot,
                 `ind por sp`=inds,
-                `volume por sp`=vtt,
+                `volume por sp`=vesp2,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
-                `volume por estrato`=vol.estrat2,
-                `volume por parcela`=vopa,
                 `parametros vol`=par))
     }else{
       return(list(`individual vol`=x3,
+                  `species curve`=curve,
                   `ivi plot`=gg3,
                   `phyto parameters`=fitot,
                   `ind by sp`=inds,
-                  `volume by sp`=vtt,
+                  `volume by sp`=vesp2,
                   `diam distribuction`=diam,
                   `aux table`=tabaux,
-                  `volume by stratum`=vol.estrat2,
-                  `volume by plot`=vopa,
                   `vol parameters`=par))
     }
       
@@ -1615,28 +1534,26 @@ if(un==T){
     
     if(pt==T){
     return(list(`vol individual`=x3,
+                `curva especies`=curve,
                 `grafico ivi`=gg3,
                 `parametros fito`=fitot,
                 `spp prot`=phi,
                 `ind por sp`=inds,
-                `volume por sp`=vtt,
+                `volume por sp`=vesp2,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
-                `volume por estrato`=vol.estrat2,
-                `volume por parcela`=vopa,
                 `parametros vol`=par))
       }else{
                   
         return(list(`individual vol`=x3,
+                    `species curve`=curve,
                     `ivi plot`=gg3,
                     `phyto parameters`=fitot,
                     `prot spp`=phi,
                     `ind by sp`=inds,
-                    `volume by sp`=vtt,
+                    `volume by sp`=vesp2,
                     `diam distribuction`=diam,
                     `aux table`=tabaux,
-                    `volume by stratum`=vol.estrat2,
-                    `volume by plot`=vopa,
                     `vol parameters`=par))     
   }}
     
