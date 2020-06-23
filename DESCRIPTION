@@ -7,7 +7,7 @@ Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 Description: The functions return the volumetric and phytosociological sampling parameters for forest inventories.
 License: GPL-3.0
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
 Citation: https://github.com/igorcobelo/forestry/blob/master/inst/citation
 Depends:
   BiodiversityR,
