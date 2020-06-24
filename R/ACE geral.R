@@ -1077,7 +1077,7 @@ if(un==T){
     
     sp2<-list()
     for(i in 1:max(freqsp$strat)){
-      suppressMessages({sp2 [i]<- list(accumresult(freqsp[freqsp$strat==i,], method = "exact",permutations=1000))})
+      sp2 [i]<- list(accumresult(freqsp[freqsp$strat==i,], method = "exact",permutations=1000))
     }
     
     rr<-as.numeric()

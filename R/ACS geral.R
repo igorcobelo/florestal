@@ -572,7 +572,7 @@ nm <-deparse(substitute(x))
   }
   
 
-  suppressMessages({sp2 <- accumresult(cc, method = "exact",permutations=1000)})
+  sp2 <- accumresult(cc, method = "exact",permutations=1000)
 
   h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
   
