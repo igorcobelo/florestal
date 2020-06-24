@@ -17,7 +17,7 @@ acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=T,spivi=15,un=F,pt=T,...)
     \item{a}{Plot area, in hectares.}
     \item{E}{Required error, in decimal value. Default is 0.1.}
     \item{p}{Significance level, in decimal value. Default is 0.05.}
-    \item{prot}{Optional. Protected species.} \item{ampl}{Amplitude of diameter class range. Default is 5.}
+    \item{prot}{Optional. Protected species.}
     \item{ampl}{Amplitude of diameter class range. Default is 5.}
     \item{rn}{Logical argument. If TRUE (default) calculates the sample intensity once again, with the degrees of freedom from the previous result.}
     \item{spivi}{number of species in the IVI plot. Default is 15.} 

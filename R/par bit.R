@@ -1,5 +1,5 @@
 
-bit<-function(x,A,k,E=0.1,p=0.05,ampl=5,rn=F,pt=T,...){
+bit<-function(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T){
 
   nm <-deparse(substitute(x))
 

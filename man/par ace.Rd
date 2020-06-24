@@ -8,7 +8,7 @@ Stratified Casual Sampling and Phytosociological Parameters
 Calculates the stratified casual and phytosociological sampling parameters.
 }
 \usage{
-ace(x,a,aj,E=0.1,p=0.05,rn=F,ampl=5,prop=F,rn=F,spivi=15,un=F,pt=T,...)
+ace(x,a,aj,E=0.1,p=0.05,rn=F,ampl=5,prop=F,rn=F,spivi=15,un=F,pt=T)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

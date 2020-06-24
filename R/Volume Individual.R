@@ -1,4 +1,4 @@
-indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, ...) {
+indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
   
   
   if(mens=="plot"){

@@ -1,4 +1,4 @@
-acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,un=F,pt=T,...){
+acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,un=F,pt=T){
 
 nm <-deparse(substitute(x))
 

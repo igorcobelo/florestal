@@ -10,7 +10,7 @@ Calculates the individual woody volume from a manually entered equation, an equa
 
 }
 \usage{
-indvol(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, ...)
+indvol(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
