@@ -1,4 +1,3 @@
-
 acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,un=F,pt=T,...){
 
 nm <-deparse(substitute(x))
@@ -396,6 +395,35 @@ nm <-deparse(substitute(x))
   value<-data.frame(b=unlist(t[2:4,],use.names=F))
   condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
   data <- data.frame(specie,condition,value)
+  
+  if(pt==T){
+    colnames(x)[1]<-"Parcela"
+    colnames(x)[2]<-"Individuo"
+    colnames(x)[3]<-"Especie"
+    colnames(x)[4]<-"Altura (m)"
+    colnames(x)[5]<-"Diametro (cm)"
+    colnames(x)[6]<-"Volume (m3)"
+  }else{
+    colnames(x)[1]<-"Plot"
+    colnames(x)[2]<-"Individual"
+    colnames(x)[3]<-"Specie"
+    colnames(x)[4]<-"Height (m)"
+    colnames(x)[5]<-"Diameter (cm)"
+    colnames(x)[6]<-"Volume (m3)"
+  }
+  
+  x2<-as.data.frame(x)
+  
+  x2[,1]<-format(round(x2[,1],0),nsmall=0)
+  x2[,2]<-format(round(x2[,2],0),nsmall=0)
+  x2[,4]<-format(round(x2[,4],2),nsmall=2)
+  x2[,5]<-format(round(x2[,5],2),nsmall=2)
+  x2[,6]<-format(round(x2[,6],4),nsmall=4)
+  
+  anex <- flextable(x2)
+  anex <- autofit(anex)
+  anex <- align(anex, align = "center", part="all")
+  anex<-italic(anex,j=3)
   
   
   # se tiver uma unica especie
