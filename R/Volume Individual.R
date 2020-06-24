@@ -90,9 +90,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
     
     #MAIOR ALTURA
     result2<-as.numeric()
-    for(i in 1:max(x[,3])){
+    suppressWarnings({for(i in 1:max(x[,3])){
       result2[i]<-max(subset(x[,5], x[,3]==i))
-    }
+    }})
     result2<-as.data.frame(result2)
     
     h<- as.numeric(result2[!(result2==-Inf)])
@@ -100,9 +100,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
     
     #PARCELAS
     result3<-as.numeric()
-    for(i in 1:max(x[,3])){
+    suppressWarnings({for(i in 1:max(x[,3])){
       result3[i]<-max(subset(x[,2], x[,3]==i))
-    }
+    }})
     result3<-as.data.frame(result3)
     
     p<- as.numeric(result3[!(result3==-Inf)])
@@ -118,10 +118,11 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
     
     s<- result4[!(is.na(result4))]
     
+    #ESTRATO
     result5<-as.numeric()
-    for(i in 1:max(x[,3])){
+    suppressWarnings({for(i in 1:max(x[,3])){
       result5[i]<-max(subset(x[,1], x[,3]==i))
-    }
+    }})
     result5<-as.data.frame(result5)
     
     e<- as.numeric(result5[!(result5==-Inf)])
@@ -306,4 +307,3 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
    return(plan)
 
 }
-
