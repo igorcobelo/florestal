@@ -1077,7 +1077,7 @@ if(un==T){
     
     sp2<-list()
     for(i in 1:max(freqsp$strat)){
-      suppressMessages({sp2 [i]<- list(accumresult(freqsp[freqsp$strat==i,], method = "random",permutations=1000))})
+      suppressMessages({sp2 [i]<- list(accumresult(freqsp[freqsp$strat==i,], method = "exact",permutations=1000))})
     }
     
     rr<-as.numeric()
@@ -1210,7 +1210,7 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
         
         body_add_break(pos="on") %>%
         body_add_gg(curve,style="centered")%>%#grafico curva
-        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
         body_end_section_landscape() %>%
         
 
@@ -1259,7 +1259,7 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
         
         body_add_break(pos="on") %>%
         body_add_gg(curve,style="centered")%>%#grafico curva
-        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
+        body_add_par("Figure 3. Species accumulation curve for each stratum. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
@@ -1427,7 +1427,7 @@ if(!(is.null(prot))){
         
         body_add_break(pos="on") %>%
         body_add_gg(curve,style="centered")%>%#grafico curva
-        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
+        body_add_par("Figura 3. Curva de acumulacao de especies para cada estrato. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
@@ -1479,7 +1479,7 @@ if(!(is.null(prot))){
         
         body_add_break(pos="on") %>%
         body_add_gg(curve,style="centered")%>%#grafico curva
-        body_add_par("Figure 3. Species accumulation curve for each stratum, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
+        body_add_par("Figure 3. Species accumulation curve for each stratum. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
         body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%

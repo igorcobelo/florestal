@@ -572,7 +572,7 @@ nm <-deparse(substitute(x))
   }
   
 
-  suppressMessages({sp2 <- accumresult(cc, method = "random",permutations=1000)})
+  suppressMessages({sp2 <- accumresult(cc, method = "exact",permutations=1000)})
 
   h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
   
@@ -732,7 +732,7 @@ if(pt==T){
       
       body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered")%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
+      body_add_par("Figura 3. Curva de acumulacao de especies. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
       body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
@@ -779,7 +779,7 @@ if(pt==T){
     
     body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered")%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
+    body_add_par("Figure 3. Species accumulation curve. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
@@ -916,7 +916,7 @@ if(pt==T){
       
       body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered")%>%#grafico curva
-      body_add_par("Figura 3. Curva de acumulacao de especies, com parcelas adicionadas em ordem aleatoria. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
+      body_add_par("Figura 3. Curva de acumulacao de especies. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
       body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
@@ -970,7 +970,7 @@ if(pt==T){
     
     body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered")%>%#grafico curva
-    body_add_par("Figure 3. Species accumulation curve, with plots added in random order. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
+    body_add_par("Figure 3. Species accumulation curve. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
     body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
