@@ -8,7 +8,7 @@ Simple Casual Sampling and Phytosociological Parameters
 Calculates the simple casual and phytosociological sampling parameters.
 }
 \usage{
-acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=T,spivi=15,un=F,pt=T,...)
+acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=T,spivi=15,un=F,pt=T)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

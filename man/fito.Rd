@@ -8,7 +8,7 @@ Phytosociological Parameters
 Calculates the phytosociological sampling parameters.
 }
 \usage{
-fito(sp,plot,d,A,stratum=NULL,spivi=15,pt=T,...)
+fito(sp,plot,d,A,stratum=NULL,spivi=15,pt=T)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
