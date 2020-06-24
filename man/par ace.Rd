@@ -55,6 +55,7 @@ getwd()
 
 #loads the data
 data("est5")
+head(est5)
 
 #Calculate the sampling parameters for two strata with areas of 12.6 and 10.2 hectares respectively, for a required error of 10 percent and a significance level of 5 percent. The allocation of plots by stratum follows the optimal allocation method. Each plot have 0.1 hectare.
 

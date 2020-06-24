@@ -50,6 +50,7 @@ getwd()
 #loads the data
 
 data("simple1")
+head(simple1)
 
 #Calculate the phytosociological parameters and the IVI plot. The total area have 27 hectares.
 

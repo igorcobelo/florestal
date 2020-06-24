@@ -54,7 +54,7 @@ getwd()
 #loads the data
 
 data("bit2")
-
+head(bit2)
 
 #Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent. The total area have 12 hectares.
 

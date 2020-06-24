@@ -56,6 +56,7 @@ getwd()
 #loads the data
 
 data("simple2")
+head(simple2)
 
 #Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent. The total area have 27 hectares and each plot have 0.1 hectares.
 

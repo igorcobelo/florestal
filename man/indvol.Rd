@@ -91,6 +91,7 @@ Igor Cobelo Ferreira
 
 #loads the data set of an inventory with plots:
 data("simple1")
+head(simple1)
 
 #Using an equation entered manually:
 
@@ -104,6 +105,7 @@ IF_f <- indvol(x = simple1, mens="plot", f = 0.7)
 #loads the data set of an inventory with strata:
 
 data("est3")
+head(est3)
 
 #create an object for each stratum and join with 'rbind':
 
@@ -117,6 +119,7 @@ IF_strata <- rbind(IF_strat1, IF_strat2, IF_strat3)
 #loads the data set of an inventory by the Bitterlich Method:
 
 data("bit1")
+head(bit1)
 
 IF_bit <- indvol(bit1, mens="bit", f=0.7)
 
