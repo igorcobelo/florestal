@@ -30,7 +30,7 @@ ace(x,a,aj,E=0.1,p=0.05,rn=F,ampl=5,prop=F,rn=F,spivi=15,un=F,pt=T,...)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-A list of tables and graphs, and a docx file saved in the current directory. The console displays the sampling intensity and whether there is significant difference between the strata from the F test of the single-factor ANOVA with 95 percent probability.
+A list of tables and graphs, and a docx file saved in the current directory. The console displays the sampling intensity and whether there is significant difference between the strata from the F test of the single-factor ANOVA and a Tukey's test for significant differences between strata, with 95 per cent confidence.
 
 }
 \references{
@@ -54,11 +54,11 @@ Igor Cobelo Ferreira
 getwd()
 
 #loads the data
-data("data8e")
+data("data_est5")
 
 #Calculate the sampling parameters for two strata with areas of 12.6 and 10.2 hectares respectively, for a required error of 10 percent and a significance level of 5 percent. The allocation of plots by stratum follows the optimal allocation method. Each plot have 0.1 hectare.
 
-IF_ace <- ace(data8e,a=0.1,aj=c(12.6,10.2))
+IF_ace <- ace(data_est5,a=0.1,aj=c(12.6,10.2))
 
 
 }

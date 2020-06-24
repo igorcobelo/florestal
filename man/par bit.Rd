@@ -35,7 +35,7 @@ Bitterlich, W. (1948). Die Winkelzahlprobe. Allg. Forst-u. Holzwirtsch. Ztg., 59
 Pellico  Netto,  S.;  Brena,  D. (1997).  Inventario  florestal.  Curitiba:  Universidade  Federal  do  Parana, 316 p.
 }
 \author{
-Igor Cobelo Ferreira <cobelo.igor@gmail.com>
+Igor Cobelo Ferreira
 }
 \note{
 The function calculates the critical distance to check for inclusion or exclusion of doubtful trees, being included in the sample only those with radial distance less than or equal to the critical distance. Even if there are no doubtful trees, the radial distance column (fifth column) is required, in blank.
@@ -47,13 +47,18 @@ The function calculates the critical distance to check for inclusion or exclusio
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##Set current directory or just check.
+#Set current directory or just check.
 
 getwd()
 
-#Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent.
+#loads the data
 
-bit(IF_bitvol,A=12,k=2)
+data("data_bit2")
+
+
+#Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent. The total area have 12 hectares.
+
+bit(data_bit2,A=12,k=2)
 
 
 

@@ -90,35 +90,35 @@ Igor Cobelo Ferreira
 \examples{
 
 #loads the data set of an inventory with plots:
-data3s <- data("data3s")
+data("data_simple1")
 
 #Using an equation entered manually:
 
-IF_simple <- indvol(x = data3s, mens="plot", myeq = 0.000065661*d^(2.475293)* h^(0.300022))
+IF_simple <- indvol(x = data_simple1, mens="plot", myeq = 0.000065661*d^(2.475293)* h^(0.300022))
 
 #Using a form factor:
 
-IF_f <- indvol(x = data3s, mens="plot", f = 0.7)
+IF_f <- indvol(x = data_simple1, mens="plot", f = 0.7)
 
 
 #loads the data set of an inventory with strata:
 
-data5e <- data("data5e")
+data("data_est3")
 
 #create an object for each stratum and join with 'rbind':
 
-IF_strat1 <- indvol(data5e[data5e$Stratum==1,], mens="strata", veg = "cerrado")
-IF_strat2 <- indvol(data5e[data5e$Stratum==2,], mens="strata", veg = "mata_sec")
-IF_strat3 <- indvol(data5e[data5e$Stratum==3,], mens="strata", veg = "mata_pri")
+IF_strat1 <- indvol(data_est3[data_est3$Stratum==1,], mens="strata", veg = "cerrado")
+IF_strat2 <- indvol(data_est3[data_est3$Stratum==2,], mens="strata", veg = "mata_sec")
+IF_strat3 <- indvol(data_est3[data_est3$Stratum==3,], mens="strata", veg = "mata_pri")
 
 IF_strata <- rbind(IF_strat1, IF_strat2, IF_strat3)
 
 
 #loads the data set of an inventory by the Bitterlich Method:
 
-data4b <- data("data4b")
+data("data_bit1")
 
-IF_bit <- indvol(data4b, mens="bit", f=0.7)
+IF_bit <- indvol(data_bit1, mens="bit", f=0.7)
 
 
 }

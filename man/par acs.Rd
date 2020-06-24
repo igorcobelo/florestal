@@ -36,7 +36,7 @@ A list of tables and plots, and a docx file saved in the current directory. The 
 Pellico  Netto,  S.;  Brena,  D. (1997).  Inventario  florestal.  Curitiba:  Universidade  Federal  do  Parana, 316 p.
 }
 \author{
-Igor Cobelo Ferreira <cobelo.igor@gmail.com>
+Igor Cobelo Ferreira
 }
 \note{
 
@@ -55,11 +55,11 @@ getwd()
 
 #loads the data
 
-data("data9s")
+data("data_simple2")
 
 #Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent. The total area have 27 hectares and each plot have 0.1 hectares.
 
-acs(data9s,A=27,a=0.1)
+acs(data_simple2,A=27,a=0.1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -31,7 +31,7 @@ A list with an Importance Valor Index (IVI) plot and a phytosociological paramet
 \references{
 }
 \author{
-Igor Cobelo Ferreira <cobelo.igor@gmail.com>
+Igor Cobelo Ferreira
 }
 \note{
 }
@@ -47,11 +47,13 @@ Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 
 getwd()
 
-#Calculate the phytosociological parameters and the IVI plot:
+#loads the data
 
-data("data3s")
+data("data_simple1")
 
-fito(sp=data3s$Specie, plot=data3s$Plot, d=data3s$Diameter, A=0.1)
+#Calculate the phytosociological parameters and the IVI plot. The total area have 27 hectares.
+
+IF_fito <- fito(sp=data_simple1$Specie, plot=data_simple1$Plot, d= data_simple1$Diameter, A=27)
 
 
 }
