@@ -55,11 +55,11 @@ getwd()
 
 #loads the data
 
-data("data_simple2")
+data("simple2")
 
 #Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent. The total area have 27 hectares and each plot have 0.1 hectares.
 
-acs(data_simple2,A=27,a=0.1)
+acs(simple2,A=27,a=0.1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

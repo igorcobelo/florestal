@@ -1,4 +1,10 @@
+x<-data4b
+mens<-"bit"
+v
+
 indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, ...) {
+  
+  
   
   if(mens=="plot"){
     colnames(x)[5]<-"d"
@@ -204,6 +210,18 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
     }
   }
   
+  if(mens=="bit"){
+    colnames(x)[5]<-"d"
+    colnames(x)[4]<-"h"
+    
+    ##tranformar circunferencia em diametro:
+    if(circ==T){
+      d<-d/pi
+    }
+    
+    plan<-x
+  }
+  
 
   if(vol==F){
   #Para myeq:
@@ -287,3 +305,4 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F, .
    return(plan)
 
 }
+

@@ -54,11 +54,11 @@ Igor Cobelo Ferreira
 getwd()
 
 #loads the data
-data("data_est5")
+data("est5")
 
 #Calculate the sampling parameters for two strata with areas of 12.6 and 10.2 hectares respectively, for a required error of 10 percent and a significance level of 5 percent. The allocation of plots by stratum follows the optimal allocation method. Each plot have 0.1 hectare.
 
-IF_ace <- ace(data_est5,a=0.1,aj=c(12.6,10.2))
+IF_ace <- ace(est5,a=0.1,aj=c(12.6,10.2))
 
 
 }
