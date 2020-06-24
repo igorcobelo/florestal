@@ -565,8 +565,12 @@ nm <-deparse(substitute(x))
 
   #CURVA DE ACUMULACAO DE ESPECIES
   
+  if(pt==T){
+  cc<-as.data.frame.matrix(table(x$Parcela, x$Especie))
+  }else{
+    cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
+  }
   
-  cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
 
   suppressMessages({sp2 <- accumresult(cc, method = "random",permutations=1000)})
 
