@@ -5,6 +5,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     colnames(x)[5]<-"d"
     colnames(x)[4]<-"h"
     
+    d<-x[,5]
+    h<-x[,4]
+    
     ##tranformar circunferencia em diametro:
     if(circ==T){
       d<-d/pi
@@ -73,6 +76,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     
     colnames(x)[6]<-"d"
     colnames(x)[5]<-"h"
+    
+    d<-x[,6]
+    h<-x[,5]
     
     ##tranformar circunferencia em diametro:
     if(circ==T){
@@ -151,6 +157,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     
     colnames(x)[4]<-"d"
     colnames(x)[3]<-"h"
+    
+    d<-x[,4]
+    h<-x[,3]
     
     ##tranformar circunferencia em diametro:
     if(circ==T){

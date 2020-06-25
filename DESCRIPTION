@@ -10,6 +10,7 @@ Encoding: UTF-8
 LazyData: TRUE
 Citation: https://github.com/igorcobelo/forestry/blob/master/inst/citation
 Depends:
+  R(>= 3.5.0),
   BiodiversityR,
   cowplot,
   data.table,
