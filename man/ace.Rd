@@ -54,12 +54,12 @@ Igor Cobelo Ferreira
 getwd()
 
 #loads the data
-data("est5")
-head(est5)
+data("est2")
+head(est2)
 
 #Calculate the sampling parameters
 
-IF_ace <- ace(est5,a=0.1,aj=c(12.6,10.2))
+IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
