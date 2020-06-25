@@ -120,6 +120,13 @@ data("bit1")
 head(bit1)
 
 IF_bit <- indvol(bit1, mens="bit", f=0.7)
+
+#loads the data by an inventory from a census
+
+data("census1")
+head(census1)
+
+IF_census <- indvol(census1, mens="census", veg="cerrado")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
