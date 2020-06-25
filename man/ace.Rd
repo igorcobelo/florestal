@@ -18,8 +18,9 @@ ace(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T)
   \item{E}{Required error, in decimal value. Default is 0.1.}
   \item{p}{Significance level, in decimal value. Default is 0.05.}
   \item{ampl}{Amplitude of diameter class range. Default is 5.}
+  \item{prot}{Protected species.}
   \item{prop}{Logical argument. If FALSE (default), the allocation of plots by stratum will follow Neyman's optimal allocation method. If TRUE, will follow the proportional allocation by area.}
-     \item{rn}{Logical argument. If TRUE (default) calculates the sample intensity once again, with the degrees of freedom from the previous result.}
+  \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
     \item{spivi}{number of species in the IVI plot. Default is 15.} 
     \item{un}{Logical argument. If TRUE, the species column have an unique specie, as a planted forest. If FALSE (default), have multiple species (more than one).}
     \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}

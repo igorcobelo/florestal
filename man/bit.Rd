@@ -19,7 +19,7 @@ bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T)
   \item{E}{Required error, in decimal value. Default is 0.1.}
   \item{p}{Significance level, in decimal value. Default is 0.05.}
   \item{ampl}{Amplitude of diameter class range. Default is 2.}
-  \item{rn}{Logical argument. If TRUE (default) calculates the sample intensity once again, with the degrees of freedom from the previous result.}
+  \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
  \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
 
 }
