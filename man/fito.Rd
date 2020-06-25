@@ -42,8 +42,7 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-
-#Set current directory or just check.
+#Set current directory or just check
 
 getwd()
 
@@ -52,11 +51,9 @@ getwd()
 data("simple1")
 head(simple1)
 
-#Calculate the phytosociological parameters and the IVI plot. The total area have 27 hectares.
+#Calculate the phytosociological parameters
 
 IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$Diameter, A=27)
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

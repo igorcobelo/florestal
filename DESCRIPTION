@@ -2,7 +2,7 @@ Package: forestry
 Type: Package
 Title: A Simple R Package for Forest Inventory
 Version: 0.1.0
-Author: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
+Author: Igor Cobelo Ferreira
 Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 Description: The functions return the volumetric and phytosociological sampling parameters for forest inventories.
 License: GPL-3.0
@@ -20,3 +20,4 @@ Depends:
   rvg,
   tidyr,
   tidyverse
+RoxygenNote: 7.1.0

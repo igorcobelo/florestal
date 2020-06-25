@@ -88,44 +88,41 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+#loads the data by an inventory with plots
 
-#loads the data set of an inventory with plots:
 data("simple1")
 head(simple1)
 
-#Using an equation entered manually:
+#Using an equation entered manually
 
 IF_simple <- indvol(x = simple1, mens="plot", myeq = 0.000065661*d^(2.475293)* h^(0.300022))
 
-#Using a form factor:
+#Using a form factor
 
 IF_f <- indvol(x = simple1, mens="plot", f = 0.7)
 
+#loads the data by an inventory with strata
 
-#loads the data set of an inventory with strata:
+data("est1")
+head(est1)
 
-data("est3")
-head(est3)
+#create an object for each stratum and join with 'rbind'
 
-#create an object for each stratum and join with 'rbind':
-
-IF_strat1 <- indvol(est3[est3$Stratum==1,], mens="strata", veg = "cerrado")
-IF_strat2 <- indvol(est3[est3$Stratum==2,], mens="strata", veg = "mata_sec")
-IF_strat3 <- indvol(est3[est3$Stratum==3,], mens="strata", veg = "mata_pri")
+IF_strat1 <- indvol(est1[est1$Stratum==1,], mens="strata", veg = "cerrado")
+IF_strat2 <- indvol(est1[est1$Stratum==2,], mens="strata", veg = "mata_sec")
+IF_strat3 <- indvol(est1[est1$Stratum==3,], mens="strata", veg = "mata_pri")
 
 IF_strata <- rbind(IF_strat1, IF_strat2, IF_strat3)
 
-
-#loads the data set of an inventory by the Bitterlich Method:
+#loads the data by an inventory by the Bitterlich Method
 
 data("bit1")
 head(bit1)
 
 IF_bit <- indvol(bit1, mens="bit", f=0.7)
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{manip}% use one of  RShowDoc("KEYWORDS")
+\keyword{utilities}% __ONLY ONE__ keyword per line
+

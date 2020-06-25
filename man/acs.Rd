@@ -48,8 +48,7 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-
-#Set current directory or just check.
+#Set current directory or just check
 
 getwd()
 
@@ -58,10 +57,9 @@ getwd()
 data("simple2")
 head(simple2)
 
-#Calculate the sampling parameters for a required error of 10 percent and a significance level of 5 percent. The total area have 27 hectares and each plot have 0.1 hectares.
+#Calculate the sampling parameters
 
 acs(simple2,A=27,a=0.1)
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

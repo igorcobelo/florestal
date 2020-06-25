@@ -47,7 +47,7 @@ The function calculates the critical distance to check for inclusion or exclusio
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-#Set current directory or just check.
+#Set current directory or just check
 
 getwd()
 
@@ -56,12 +56,9 @@ getwd()
 data("bit2")
 head(bit2)
 
-#Calculate sampling parameters with basal area factor equals 2 for a required error of 10 percent and a significance level of 5 percent. The total area have 12 hectares.
+#Calculate the sampling parameters
 
 bit(bit2,A=12,k=2)
-
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

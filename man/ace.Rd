@@ -8,7 +8,7 @@ Stratified Casual Sampling and Phytosociological Parameters
 Calculates the stratified casual and phytosociological sampling parameters.
 }
 \usage{
-ace(x,a,aj,E=0.1,p=0.05,rn=F,ampl=5,prop=F,rn=F,spivi=15,un=F,pt=T)
+ace(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -49,21 +49,18 @@ Igor Cobelo Ferreira
 }
 \examples{
 
-#Set current directory or just check.
-
+#Set current directory or just check
 getwd()
 
 #loads the data
 data("est5")
 head(est5)
 
-#Calculate the sampling parameters for two strata with areas of 12.6 and 10.2 hectares respectively, for a required error of 10 percent and a significance level of 5 percent. The allocation of plots by stratum follows the optimal allocation method. Each plot have 0.1 hectare.
+#Calculate the sampling parameters
 
 IF_ace <- ace(est5,a=0.1,aj=c(12.6,10.2))
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{manip}% use one of  RShowDoc("KEYWORDS")
+\keyword{utilities}% __ONLY ONE__ keyword per line
