@@ -31,8 +31,9 @@ indvol(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F)
 }
  \item{vol}{Logical. If already have a volume column (last), vol=T.
 }
-  \item{myeq}{Optional. User can calculate a diferent equation using height (h) and diameter (d), e.g.:
-  0.000065661*d^(2.475293)* h^(0.300022)}
+  \item{myeq}{Optional. User can calculate a diferent equation using height (h) and diameter (d), in quotes, e.g.:
+  "0.000065661*d^(2.475293)*h^(0.300022)"
+}
   \item{veg}{Optional. A vegetable formation (equations for volume with bark):
   
   - "cerrado" (cerrado/brazilian savannah): 0.000065661*d^(2.475293)* h^(0.300022)
@@ -95,7 +96,7 @@ head(simple1)
 
 #Using an equation entered manually
 
-IF_simple <- indvol(x = simple1, mens="plot", myeq = 0.000065661*d^(2.475293)* h^(0.300022))
+IF_simple <- indvol(x = simple1, mens="plot", myeq = "0.000065661*d^2.475293*h^0.300022")
 
 #Using a form factor
 
