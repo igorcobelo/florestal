@@ -933,12 +933,12 @@ if(un==T){
     doc <- read_docx() %>%
       body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
       body_add_flextable(par) %>% #tabela de parametros volume
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
       body_add_gg(diam, style="centered") %>% #distribuicao diametrica
       body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
@@ -955,12 +955,12 @@ if(un==T){
     doc <- read_docx() %>%
       body_add_par("Table 1. Stratified casual sampling parameters.", style = "centered") %>%
       body_add_flextable(par) %>% #tabela de parametros volume
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
       
       body_add_break(pos="on") %>%
       body_add_gg(diam, style="centered") %>% #distribuicao diametrica
       body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
@@ -1176,12 +1176,12 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
       doc <- read_docx() %>%
       body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
       body_add_flextable(par) %>% #tabela de parametros volume
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
@@ -1225,12 +1225,12 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
 
         body_add_par("Table 1. Stratified casual sampling parameters.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figure 1. Diameter distribution by stratum.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%
@@ -1388,12 +1388,12 @@ if(!(is.null(prot))){
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Distribuicao diametrica por estrato.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Alocacao das parcelas por estrato e tabela auxiliar para calculo dos parametros de amostragem.", style = "centered") %>%
@@ -1440,12 +1440,12 @@ if(!(is.null(prot))){
       doc <- read_docx() %>%
         body_add_par("Table 1. Stratified casual sampling parameters.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_gg(diam, style="centered") %>% #distribuicao diametrica
         body_add_par("Figura 1. Diameter distribution by stratum.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Table 2. Allocation of plots by stratum and auxiliary table for calculation of sampling parameters.", style = "centered") %>%

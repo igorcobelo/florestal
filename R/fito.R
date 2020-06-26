@@ -599,7 +599,7 @@ doc<-read_docx() %>%
   
   body_add_gg(gg3,style="centered", height=3.5,width=6) %>%
   body_add_par("Figura 1. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
-  body_end_section_portrait()
+  body_end_section_landscape()
 
  fileout <- tempfile(fileext = ".docx")
   fileout <- paste(getwd(),"/Fitossociologia.docx",sep="")
@@ -615,7 +615,7 @@ doc<-read_docx() %>%
     
     body_add_gg(gg3,style="centered", height=6,width=6) %>%
     body_add_par("Figura 1. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
-    body_end_section_portrait()
+    body_end_section_landscape()
   
   fileout <- tempfile(fileext = ".docx")
   fileout <- paste(getwd(),"/Phytosociology.docx",sep="")

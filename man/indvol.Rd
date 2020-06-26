@@ -89,6 +89,8 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+library(forestry)
+
 #loads the data by an inventory with plots
 
 data("simple1")

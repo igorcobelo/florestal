@@ -48,6 +48,8 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+library(forestry)
+
 #Set current directory or just check
 
 getwd()

@@ -29,6 +29,8 @@ Table format for input in the 'indvol' function, with mens="bit".
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+library(forestry)
+
 #loads the data
 
 data(bit1)

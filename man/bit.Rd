@@ -47,6 +47,8 @@ The function calculates the critical distance to check for inclusion or exclusio
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+library(forestry)
+
 #Set current directory or just check
 
 getwd()

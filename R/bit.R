@@ -1,4 +1,3 @@
-
 bit<-function(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T){
 
   nm <-deparse(substitute(x))
@@ -276,12 +275,12 @@ vahh<-as.data.frame(vah)
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem pelo metodo de Bitterlich.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
         body_add_gg(diam,style="centered") %>% #distribuicao diametrica
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Volume, individuos e area basal por hectare, por ponto amostral.", style = "centered") %>%
@@ -299,12 +298,12 @@ vahh<-as.data.frame(vah)
 
         body_add_par("Table 1. Sampling parameters by the Bitterlich method.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Figure 1. Diameter distribution", style = "centered") %>%
         body_add_gg(diam,style="centered") %>% #distribuicao diametrica
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
 
         body_add_break(pos="on") %>%
         body_add_par("Table 2. Volume, individuals and basal area per hectare, by sample point.", style = "centered") %>%

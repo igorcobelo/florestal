@@ -29,6 +29,8 @@ Table format for input in the 'indvol' function, with mens="strata".
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+library(forestry)
+
 #loads the data
 
 data(est1)

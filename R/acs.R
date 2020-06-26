@@ -83,7 +83,7 @@ nm <-deparse(substitute(x))
   N<-A/a
   invt<-qt(1-p/2, df=n-1)
 
-  #Fator de corre??o (finita ou infinita)
+  #Fator de correcao (finita ou infinita)
   f<-1-n/N
 
   #Pop. infinita
@@ -434,12 +434,12 @@ nm <-deparse(substitute(x))
         
         body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
         body_add_flextable(par) %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered") %>%
         body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
@@ -458,12 +458,12 @@ nm <-deparse(substitute(x))
         
         body_add_par("Table 1. Simple casual sampling parameters.", style = "centered") %>%
         body_add_flextable(par) %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered") %>%
         body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
-        body_end_section_portrait() %>%
+        body_end_section_landscape() %>%
         
         body_add_break(pos="on") %>%
         body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
@@ -698,12 +698,12 @@ if(pt==T){
 
       body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
       body_add_flextable(par) %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_gg(diam,style="centered") %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
@@ -745,12 +745,12 @@ if(pt==T){
 
     body_add_par("Table 1. Simple casual sampling parameters.", style = "centered") %>%
     body_add_flextable(par) %>%
-    body_end_section_portrait() %>%
+    body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
     body_add_gg(diam,style="centered") %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
-    body_end_section_portrait() %>%
+    body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
     body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
@@ -877,12 +877,12 @@ if(pt==T){
 
       body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
       body_add_flextable(par) %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_gg(diam,style="centered") %>%
       body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
-      body_end_section_portrait() %>%
+      body_end_section_landscape() %>%
 
       body_add_break(pos="on") %>%
       body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
@@ -931,12 +931,12 @@ if(pt==T){
 
     body_add_par("Table 1. Simple casual sampling parameters.", style = "centered") %>%
     body_add_flextable(par) %>%
-    body_end_section_portrait() %>%
+    body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
     body_add_gg(diam,style="centered") %>%
     body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
-    body_end_section_portrait() %>%
+    body_end_section_landscape() %>%
 
     body_add_break(pos="on") %>%
     body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%

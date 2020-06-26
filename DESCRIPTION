@@ -9,16 +9,14 @@ License: GPL(>=3)
 Encoding: UTF-8
 LazyData: TRUE
 Citation: https://github.com/igorcobelo/forestry/blob/master/inst/citation
-Depends:  R(>= 3.5.0)
+Depends: R(>= 3.5.0)
 Imports:
+  ggplot2,
+  data.table,
   BiodiversityR,
   cowplot,
-  data.table,
-  dplyr,
   flextable,
-  ggplot2,
   officer,
-  rvg,
-  tidyr,
-  tidyverse
+  dplyr,
+  tidyr
 RoxygenNote: 7.1.0

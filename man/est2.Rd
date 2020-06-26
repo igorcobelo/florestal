@@ -30,6 +30,8 @@ Table format for input in the 'ace' function.
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+library(forestry)
+
 #loads the data
 
 data(est2)

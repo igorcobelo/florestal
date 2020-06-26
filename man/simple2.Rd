@@ -29,6 +29,8 @@ Table format for input in the 'acs' function.
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+library(forestry)
+
 #loads the data
 
 data(simple2)

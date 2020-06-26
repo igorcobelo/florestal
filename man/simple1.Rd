@@ -28,6 +28,8 @@ Table format for input in the 'indvol' function, with mens="plot".
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+library(forestry)
+
 #loads the data
 
 data(simple1)
