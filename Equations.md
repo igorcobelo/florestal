@@ -3,7 +3,9 @@
 ## DISTRITO FEDERAL:
 
 Equação utilizada para estimativa do volume (m³) nas Matas de Galeria e Matas Secas para 5<DAP<10 cm:
+
 Ln (Vol) = -9,7751 + 2,2403 × Ln (DAP) + 0,6308 × Ln (HT)
+
 Fonte: SCOLFORO, J. R. et al. (2008)
 
 Equação utilizada para estimativa do volume (m³) nas Matas de Galeria e Matas Secas para DAP ≥10 cm: 
