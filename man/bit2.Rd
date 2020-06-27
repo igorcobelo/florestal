@@ -30,7 +30,7 @@ Table format for input in the 'bit' function.
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data
 

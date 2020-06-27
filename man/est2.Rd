@@ -9,7 +9,7 @@ Table format for input in the 'ace' function.
 }
 \usage{data("est2")}
 \format{
-  A data frame with 291 observations on the following 7 variables.
+  A data frame with 116 observations on the following 7 variables.
   \describe{
     \item{\code{Stratum}}{a numeric vector}
     \item{\code{Plot}}{a numeric vector}
@@ -30,7 +30,7 @@ Table format for input in the 'ace' function.
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data
 
@@ -39,6 +39,6 @@ head(est2)
 
 #calculates the sampling parameters
 
-ace(est2,a=0.1,aj=c(12.6,10.2))
+IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
 }
 \keyword{datasets}

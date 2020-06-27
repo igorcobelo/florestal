@@ -1,14 +1,13 @@
-Package: forestry
+Package: florestal
 Type: Package
-Title: A Simple R Package for Forest Inventory
+Title: An R Package for Forest Inventory
 Version: 0.1.0
 Author: Igor Cobelo Ferreira
 Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
-Description: The functions return the volumetric and phytosociological sampling parameters for forest inventories.
+Description: The functions return sampling parameters in a file with tables and graphics.
 License: GPL(>=3)
 Encoding: UTF-8
 LazyData: TRUE
-Citation: https://github.com/igorcobelo/forestry/blob/master/inst/citation
 Depends: R(>= 3.5.0)
 Imports:
   ggplot2,

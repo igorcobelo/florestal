@@ -9,7 +9,7 @@ Table format for input in the 'acs' function.
 }
 \usage{data("simple2")}
 \format{
-  A data frame with 284 observations on the following 6 variables.
+  A data frame with 116 observations on the following 6 variables.
   \describe{
     \item{\code{Plot}}{a numeric vector}
     \item{\code{Individual}}{a numeric vector}
@@ -29,7 +29,7 @@ Table format for input in the 'acs' function.
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data
 
@@ -38,6 +38,6 @@ head(simple2)
 
 #calculates the parameters sampling
 
-acs(simple2, a=0.1, A=27)
+IF_acs <- acs(simple2, a=0.1, A=27)
 }
 \keyword{datasets}

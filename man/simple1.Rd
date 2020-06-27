@@ -9,7 +9,7 @@ Table format for input in the 'indvol' function, with mens="plot".
 }
 \usage{data("simple1")}
 \format{
-  A data frame with 291 observations on the following 5 variables.
+  A data frame with 120 observations on the following 5 variables.
   \describe{
     \item{\code{Plot}}{a numeric vector}
     \item{\code{Individual}}{a numeric vector}
@@ -28,7 +28,7 @@ Table format for input in the 'indvol' function, with mens="plot".
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data
 

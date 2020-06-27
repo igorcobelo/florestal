@@ -1,15 +1,15 @@
-citHeader("To cite 'forestry' in publications, please use:")
+citHeader("To cite 'florestal' in publications, please use:")
 
 
 citEntry(entry = "manual",
-    title = "{forestry}: A Simple R Package for Forest Inventory",
+    title = "{florestal}: An R Package for Forest Inventory",
     author = "Igor C. Ferreira",
     address = "Brasilia, Brazil",
     note = "R package version 0.1.0",
     year = "2020",
-    url = "http://github.com/igorcobelo/forestry",
+    url = "http://github.com/igorcobelo/florestal",
     textVersion  = paste("Ferreira, Igor C. (2020).",
-        "forestry: Functions for Forest Inventory.",
+        "florestal: An R Package for Forest Inventory.",
         "R package version 0.1.0. Brasilia, Brazil.",
-        "http://github.com/igorcobelo/forestry")
+        "http://github.com/igorcobelo/florestal")
 )

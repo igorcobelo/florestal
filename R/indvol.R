@@ -45,9 +45,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     x[,3]<-as.character(x[,3])
     
     result4<-as.character()
-    for(i in x[,2]){
+    suppressWarnings({for(i in x[,2]){
       result4[i]<-subset(x[,3], x[,2]==i)
-    }
+    }})
     result4<-as.data.frame(result4)
     
     s<- result4[!(is.na(result4))]
@@ -117,9 +117,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     x[,4]<-as.character(x[,4])
     
     result4<-as.character()
-    for(i in x[,3]){
+    suppressWarnings({for(i in x[,3]){
       result4[i]<-subset(x[,4], x[,3]==i)
-    }
+    }})
     result4<-as.data.frame(result4)
     
     s<- result4[!(is.na(result4))]
@@ -190,9 +190,9 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     x[,2]<-as.character(x[,2])
     
     result4<-as.character()
-    for(i in x[,1]){
+    suppressWarnings({for(i in x[,1]){
       result4[i]<-subset(x[,2], x[,1]==i)
-    }
+    }})
     result4<-as.data.frame(result4)
     
     s<- result4[!(is.na(result4))]

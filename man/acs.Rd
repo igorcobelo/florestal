@@ -48,7 +48,7 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #Set current directory or just check
 
@@ -61,7 +61,7 @@ head(simple2)
 
 #Calculate the sampling parameters
 
-acs(simple2,A=27,a=0.1)
+IF_acs <- acs(simple2,A=27,a=0.1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

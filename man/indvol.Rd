@@ -89,7 +89,7 @@ Igor Cobelo Ferreira
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data by an inventory with plots
 
@@ -111,11 +111,10 @@ head(est1)
 
 #create an object for each stratum and join with 'rbind'
 
-IF_strat1 <- indvol(est1[est1$Stratum==1,], mens="strata", veg = "cerrado")
-IF_strat2 <- indvol(est1[est1$Stratum==2,], mens="strata", veg = "mata_sec")
-IF_strat3 <- indvol(est1[est1$Stratum==3,], mens="strata", veg = "mata_pri")
+IF_e1<-indvol(est1[est1$Stratum==1,],mens="strata",veg="cerrado")
+IF_e2<-indvol(est1[est1$Stratum==2,],mens="strata",veg="mata_sec")
 
-IF_strata <- rbind(IF_strat1, IF_strat2, IF_strat3)
+est2<-rbind(IF_e1,IF_e2)
 
 #loads the data by an inventory by the Bitterlich Method
 

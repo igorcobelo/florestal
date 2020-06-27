@@ -9,7 +9,7 @@ Table format for input in the 'indvol' function, with mens="census".
 }
 \usage{data("census1")}
 \format{
-  A data frame with 291 observations on the following 4 variables.
+  A data frame with 120 observations on the following 4 variables.
   \describe{
     \item{\code{Individual}}{a numeric vector}
     \item{\code{Specie}}{a character vector}
@@ -27,7 +27,7 @@ Table format for input in the 'indvol' function, with mens="census".
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-library(forestry)
+library(florestal)
 
 #loads the data
 
