@@ -8,30 +8,57 @@ Ln (Vol) = -9,7751 + 2,2403 * Ln (DAP) + 0,6308 * Ln (HT)
 
 Fonte: SCOLFORO, J. R. et al. (2008)
 
-Código para a função 'indvol': `veg="matas5-10_df"` <br /><br />
+Nome para o argumento 'veg' da função 'indvol': `veg="matas5-10_df"` <br /><br />
 
 
-Equação utilizada para estimativa do volume (m³) nas Matas de Galeria e Matas Secas para DAP ≥10 cm: 
-Ln (Vol) = -9,3436 + 2,0437 × Ln (DAP) + 0,7509 × Ln (HC)
+Equação utilizada para estimativa do volume (m³) nas Matas de Galeria e Matas Secas para DAP ≥10 cm:
+
+Ln (Vol) = -9,3436 + 2,0437 * Ln (DAP) + 0,7509 * Ln (HC)
+
 Fonte: SFB não publicado (2016)
 
+Nome para o argumento 'veg' da função 'indvol': `veg="matas>10_df"` <br /><br />
+
+
 Equação utilizada para estimativa do volume (m³) em Cerrado sensu stricto:
-Vol = 0,000109 × Db2 + 0,0000451 × Db2 × HT
+
+Vol = 0,000109 * Db^2 + 0,0000451 * Db^2 * HT
+
 Fonte: Rezende, A.V. (2002)
 
-CEARÁ:
+Nome para o argumento 'veg' da função 'indvol': `cerradoss_df"` <br /><br />
+
+
+## CEARÁ:
+
 Equação utilizada para estimativa do volume de madeira (m³)
+
 Ln (Vol) = -9,59340 + 2,04417 Ln (DAP) + 0,94531 * Ln (HT)
+
 Fonte: FIGUEIREDO FILHO, A. et al. (2014)
 
-PARANÁ
+Nome para o argumento 'veg' da função 'indvol': `ceara"` <br /><br />
+
+
+## PARANÁ:
+
 Equação utilizada para estimativa do volume de madeira (m³) na Floresta Ombrófila Mista (DAP 5-10cm)
+
 Ln (Vol) = −8,875910 + 1,892219 * Ln (DAP) + 0,739038 * Ln (h)
+
 Fonte: Santos, K. et al. (2006)
 
+Nome para o argumento 'veg' da função 'indvol': `ombmista5-10_pr"` <br /><br />
+
+
 Equação utilizada para estimativa do volume de madeira (m³) na Floresta Ombrófila Mista (DAP >10cm)
+
 Ln (Vol/1000) = −17,96 + 0,96 * Ln (CAP^2) + 0,76 * Ln (h)
+
 Fonte: Vibrans A. C. et al. (2015)
+
+Nome para o argumento 'veg' da função 'indvol': `ombmista>10_pr` <br /><br />
+
 
 Equação utilizada para estimativa do volume de madeira (m³) na Floresta Ombrófila Densa (DAP≥ 5cm)
 Ln (Vol) = −10,045586 + 2,349493 * Ln (DAP) + 0,640598 * Ln (h)
