@@ -1,5 +1,7 @@
 # Equações para Estimativa do Volume
 
+> Equações por estado do Brasil de acordo com o Inventário Florestal Nacional, conduzido pelo Serviço Florestal Brasileiro (SFB).
+
 ## DISTRITO FEDERAL:
 
 Equação utilizada para estimativa do volume (m³) nas Matas de Galeria e Matas Secas para 5<DAP<10 cm:
