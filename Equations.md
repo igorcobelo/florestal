@@ -1,6 +1,6 @@
 # Equações para Estimativa do Volume
 
-> Equações por estado do Brasil de acordo com o Inventário Florestal Nacional, conduzido pelo Serviço Florestal Brasileiro (SFB).
+> Equações por estado do Brasil utilizadas no Inventário Florestal Nacional, conduzido pelo Serviço Florestal Brasileiro (SFB).
 
 ## DISTRITO FEDERAL:
 
