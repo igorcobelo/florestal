@@ -19,15 +19,7 @@ Table format for input in the 'indvol' function, with mens="bit".
     \item{\samp{Radial Distance (m)}}{a numeric vector}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 library(florestal)
 

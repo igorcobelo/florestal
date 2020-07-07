@@ -1,4 +1,4 @@
-indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
+indvol <- function(x, mens="plot", vol=FALSE, myeq=NULL, veg=NULL, f=NULL, circ=FALSE) {
   
   
   if(mens=="plot"){
@@ -9,7 +9,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     h<-x[,4]
     
     ##tranformar circunferencia em diametro:
-    if(circ==T){
+    if(circ==TRUE){
       d<-d/pi
     }
     
@@ -53,7 +53,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     s<- result4[!(is.na(result4))]
     
     #VOLUME
-    if(vol==T){
+    if(vol==TRUE){
       
       resultvol<-as.numeric()
       for(i in x[,2]){
@@ -81,7 +81,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     h<-x[,5]
     
     ##tranformar circunferencia em diametro:
-    if(circ==T){
+    if(circ==TRUE){
       d<-d/pi
     }
     
@@ -134,7 +134,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     e<- as.numeric(result5[!(result5==-Inf)])
     
     #VOLUME
-    if(vol==T){
+    if(vol==TRUE){
       
       resultvol<-as.numeric()
       for(i in x[,3]){
@@ -162,7 +162,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     h<-x[,3]
     
     ##tranformar circunferencia em diametro:
-    if(circ==T){
+    if(circ==TRUE){
       d<-d/pi
     }
     
@@ -198,7 +198,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     s<- result4[!(is.na(result4))]
     
     #VOLUME
-    if(vol==T){
+    if(vol==TRUE){
       
       resultvol<-as.numeric()
       for(i in x[,1]){
@@ -223,7 +223,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     h<-x$h
     
     ##tranformar circunferencia em diametro:
-    if(circ==T){
+    if(circ==TRUE){
       d<-d/pi
     }
     
@@ -231,7 +231,7 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
   }
   
   
-  if(vol==F){
+  if(vol==FALSE){
     #Para myeq:
     
     if(!(is.null(myeq))){
@@ -252,11 +252,97 @@ indvol <- function(x, mens="plot", vol=F, myeq=NULL, veg=NULL, f=NULL, circ=F) {
     #Para veg:
     if(!is.null(veg)){
       
-      if(veg=="cerrado"){
-        plan$`Volume (m3)`<-0.000065661*d^(2.475293)* h^(0.300022)
+      #DISTRITO FEDERAL
+      if(veg=="matas5-10_df"){
+        plan$`Volume (m3)`<-exp(-9.7751+2.2403*log(d)+0.6308*log(h))
       }
+      
+      if(veg=="matas>10_df"){
+        plan$`Volume (m3)`<-exp(-9.3436+2.0437*log(d)+0.7509*log(h))
+      }
+      
+      if(veg=="cerradoss_df"){
+        plan$`Volume (m3)`<- 0.000109*d^2+0.0000451*d^2*h
+      }
+      
+      #CEARA
+      if(veg=="ceara"){
+        plan$`Volume (m3)`<-exp(-9.59340+2.04417*log(d)+0.94531*log(h))
+      }
+      
+      #PARANA
+      if(veg=="ombmista5-10_pr"){
+        plan$`Volume (m3)`<-exp(-8.875910+1.892219*log(d)+0.739038*log(h))
+      }
+      
+      if(veg=="ombmista>10_pr"){
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h))/1000)
+      }
+      
+      if(veg=="ombdensa>5_pr"){
+        plan$`Volume (m3)`<-exp(-10.045586+2.349493*log(d)+0.640598*log(h))
+      }
+      
+      if(veg=="araucaria>5_pr"){
+        plan$`Volume (m3)`<- 0.000077*d^1.85794*h^0.93919
+      }
+      
+      #RIO DE JANEIRO
+      if(veg=="ombdensa_rj"){
+        plan$`Volume (m3)`<-exp(-9.9752493252+2.1719145688*log(d)+0.8083667085*log(h))
+      }
+      
+      if(veg=="estacionalsemi_rj"){
+        plan$`Volume (m3)`<-exp(-9.7394993677+2.3219001043*log(d)+0.5645027997*log(h))
+      }
+      
+      if(veg=="estacionaldeci_rj"){
+        plan$`Volume (m3)`<-exp(-9.7677720672+2.4886704462*log(d)+0.4406921533*log(h))
+      }
+      
+      if(veg=="restinga_rj"){
+        plan$`Volume (m3)`<-exp(-9.42719+1.96900*log(d)+0.831852*log(h))
+      }
+      
+      #RIO GRANDE DO NORTE
+      if(veg=="rn"){
+        plan$`Volume (m3)`<-exp(-9.59340+2.04417*log(d)+0.94531*log(h))
+      }
+      
+      #RIO GRANDE DO SUL
+      if(veg=="rs5-10"){
+        plan$`Volume (m3)`<-exp(-8.875910+1.892219*log(d)+0.739038*log(h))
+      }
+      
+      if(veg=="rs>10"){
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h))/1000)
+      }
+      
+      #SANTA CATARINA
+      if(veg=="estacionaldeci>10_sc"){
+        plan$`Volume (m3)`<-exp((-17.68+0.95*log(d^2)+0.67*log(h))/1000)
+      }
+      
+      if(veg=="ombdensa>10_sc"){
+        plan$`Volume (m3)`<-exp((-17.75+0.98*log(d^2)+0.57*log(h))/1000)
+      }
+      
+      if(veg=="ombmista>10_sc"){
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^3)+0.76*log(h))/1000)
+      }
+      
+      #SERGIPE
+      if(veg=="caatinga_se"){
+        plan$`Volume (m3)`<-(-9.59340+2.04417*log(d)+0.94531*log(h))
+      }
+      
+      if(veg=="atlantica_se"){
+        plan$`Volume (m3)`<- 0.000074230*d^1.707348*h^1.16873
+      }
+      
+      #CETEC
       if(veg=="cer_regen"){
-        plan$`Volume (m3)`<-0.000058468*d^(2.160042)* h^(0.791208)
+        plan$`Volume (m3)`<-0.000058468*d^2.160042*h^0.791208
       }
       
       if(veg=="campo_cer"){

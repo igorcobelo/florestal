@@ -37,6 +37,7 @@ importFrom(tidyr,gather)
 importFrom(dplyr,mutate)
 importFrom(dplyr,case_when)
 importFrom("stats", "TukeyHSD", "aov", "lm", "qf", "qt", "reorder", "sd")
+importFrom("utils", "capture.output")
 
 export(fito)
 export(indvol)

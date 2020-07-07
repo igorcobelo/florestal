@@ -1,14 +1,14 @@
-acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=F,spivi=15,un=F,pt=T){
+acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE){
 
 nm <-deparse(substitute(x))
 
-  max<-ceiling(max(x[,5],na.rm=T))
+  max<-ceiling(max(x[,5],na.rm=TRUE))
 
   # #Distribuicao diametrica
 
   x<-as.data.frame(x)
 
-  if(pt==T){
+  if(pt==TRUE){
 
     diam<-ggplot(x, aes(x=x[,5])) +
       geom_histogram( binwidth=ampl ,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
@@ -36,22 +36,22 @@ nm <-deparse(substitute(x))
 
   #volume/parcela
 
-  for(i in 1:max(x[,1], na.rm=T)){
+  for(i in 1:max(x[,1], na.rm=TRUE)){
     vv<-c(sum(subset(x[,ncol(x)],x[,1]==i),na.rm = T))
   }
 
   vv<-as.data.frame(vv)
 
-  for(i in 1:max(x[,1], na.rm=T)){
+  for(i in 1:max(x[,1], na.rm=TRUE)){
     vv[i]<-c(sum(subset(x[,ncol(x)],x[,1]==i),na.rm = T))
   }
   vv<-as.data.frame(vv)
 
-  if(pt==T){
-  vopa<-data.table(Parcela=c(1:max(x[,1],na.rm=T), "Media"), `Volume amostrado (m3)`=c(vv,sum(vv,na.rm=T)/length(vv)), `Volume/hectare (m3)`=c(vv/a, (sum(vv,na.rm=T)/length(vv))/a), `Volume/area total (m3)`=c(vv*A/a, (sum(vv,na.rm=T)/length(vv))*A/a))
+  if(pt==TRUE){
+  vopa<-data.table(Parcela=c(1:max(x[,1],na.rm=TRUE), "Media"), `Volume amostrado (m3)`=c(vv,sum(vv,na.rm=TRUE)/length(vv)), `Volume/hectare (m3)`=c(vv/a, (sum(vv,na.rm=TRUE)/length(vv))/a), `Volume/area total (m3)`=c(vv*A/a, (sum(vv,na.rm=TRUE)/length(vv))*A/a))
   vopa<-as.data.frame(vopa)
   }else{
-  vopa<-data.table(Plot=c(1:max(x[,1], na.rm=T), "Mean"), `Sampled volume (m3)`=c(vv,sum(vv,na.rm=T)/length(vv)), `Volume/hectare (m3)`=c(vv/a, (sum(vv,na.rm=T)/length(vv))/a), `Volume/total area (m3)`=c(vv*A/a, (sum(vv,na.rm=T)/length(vv))*A/a))
+  vopa<-data.table(Plot=c(1:max(x[,1], na.rm=TRUE), "Mean"), `Sampled volume (m3)`=c(vv,sum(vv,na.rm=TRUE)/length(vv)), `Volume/hectare (m3)`=c(vv/a, (sum(vv,na.rm=TRUE)/length(vv))/a), `Volume/total area (m3)`=c(vv*A/a, (sum(vv,na.rm=TRUE)/length(vv))*A/a))
   vopa<-as.data.frame(vopa)
   }
 
@@ -92,18 +92,18 @@ nm <-deparse(substitute(x))
 
     nn<-(invt^2*CV^2)/(E*100)^2
 
-    if(rn==T){
+    if(rn==TRUE){
       invt<-qt(1-p/2, df=nn-1)
       nn<-(invt^2*CV^2)/(E*100)^2
     }else{
       nn<-(invt^2*CV^2)/(E*100)^2
     }
 
-    if(pt==T){
+    if(pt==TRUE){
       pop<-"(Pop. infinita)"
     }
 
-    if(pt==F){
+    if(pt==FALSE){
       pop<-"(Infinite pop.)"
     }
   }
@@ -113,20 +113,20 @@ nm <-deparse(substitute(x))
     s2y<- var/n*f
     nn <-(invt^2*CV^2)/((E*100)^2+(invt^2*CV^2/N))
 
-    if(rn==F){
+    if(rn==FALSE){
       nn <-(invt^2*CV^2)/((E*100)^2+(invt^2*CV^2/N))
     }
 
-    if(rn==T){
+    if(rn==TRUE){
       invt<-qt(1-p/2, df=nn-1)
       nn <-(invt^2*CV^2)/((E*100)^2+(invt^2*CV^2/N))
     }
 
-    if(pt==T){
+    if(pt==TRUE){
       pop<-"(Pop. finita)"
     }
 
-    if(pt==F){
+    if(pt==FALSE){
       pop<-"(Finite pop.)"
   }
   }
@@ -150,7 +150,7 @@ nm <-deparse(substitute(x))
   ICtotmin<-ICparmin*A/a
 
 
-  if(pt==T){
+  if(pt==TRUE){
     df <- data.table(Parametros=c("Media", "Variancia da media",
                                   "Erro padrao da media", "Volume total da populacao",
                                   "Valor de t tabelado",
@@ -197,35 +197,35 @@ nm <-deparse(substitute(x))
 
   if(n>=nn){
 
-    if(pt==F){
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sampling intensity satisfies the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is not necessary to sample more plots.\n")
-      cat("------------------------------------------------------------------------------------")
+    if(pt==FALSE){
+      message("\n--------------------------------------------------------------\n")
+      message("The sampling intensity satisfies the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is not necessary to sample more plots.\n")
+      message("--------------------------------------------------------------")
     }
 
-    if(pt==T){
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("A intensidade amostral satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-      cat("\nPortanto, nao e necessario amostrar mais parcelas.\n")
-      cat("------------------------------------------------------------------------------------")
+    if(pt==TRUE){
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+      message("\nPortanto, nao e necessario amostrar mais parcelas.\n")
+      message("--------------------------------------------------------------")
     }
   }
 
   if(n<nn){
 
-    if(pt==F){
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sample intensity does not satisfy the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is necessary to sample more",ceiling(nn-n),"plots.\n")
-      cat("------------------------------------------------------------------------------------")
+    if(pt==FALSE){
+      message("\n--------------------------------------------------------------\n")
+      message("The sample intensity does not satisfy the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is necessary to sample ",ceiling(nn-n)," more plots.\n")
+      message("--------------------------------------------------------------")
     }
 
-    if(pt==T){
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("A intensidade amostral nao satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-      cat("\nPortanto, e necessario amostrar mais",ceiling(nn-n),"parcelas.\n")
-      cat("------------------------------------------------------------------------------------")
+    if(pt==TRUE){
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral nao satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+      message("\nPortanto, e necessario amostrar mais ",ceiling(nn-n)," parcelas.\n")
+      message("--------------------------------------------------------------")
     }
   }
 
@@ -296,7 +296,7 @@ nm <-deparse(substitute(x))
 
   dtt<-data.table(rnn,qtt,gt,spt)
 
-  if(pt==T){
+  if(pt==TRUE){
     colnames(dtt)[1]<-"Especie"
     colnames(dtt)[2]<-"n"
     colnames(dtt)[3]<-"G (m2)"
@@ -306,7 +306,7 @@ nm <-deparse(substitute(x))
     dtt$`DR (%)`<-dtt$`DA (n/ha)`/sum(dtt$`DA (n/ha)`)*100
     dtt$`DoA (G/ha)`<-dtt$`G (m2)`/(n*a)
     dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
-    dtt$`FA (%)`<-dtt$UA/max(x[,1],na.rm=T)*100
+    dtt$`FA (%)`<-dtt$UA/max(x[,1],na.rm=TRUE)*100
     dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
     dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`
     dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
@@ -320,7 +320,7 @@ nm <-deparse(substitute(x))
     dtt$`RD (%)`<-dtt$`AD (n/ha)`/sum(dtt$`AD (n/ha)`)*100
     dtt$`ADo (G/ha)`<-dtt$G/(n*a)
     dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
-    dtt$`AF (%)`<-dtt$SU/max(x[,1],na.rm=T)*100
+    dtt$`AF (%)`<-dtt$SU/max(x[,1],na.rm=TRUE)*100
     dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
     dtt$`IVI (%)`<-dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`
     dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
@@ -351,7 +351,7 @@ nm <-deparse(substitute(x))
   dtt<-dtt[order(-dtt$n),]
   
 
-  if(pt==T){
+  if(pt==TRUE){
     inds<-data.table(Especie=c(as.character(dtt$Especie),"Total"),`Ind. Amostrados`= c(dtt$n, sum(dtt$n)), `Ind./ha`= c(dtt$`DA (n/ha)`, sum(dtt$`DA (n/ha)`)), `Ind./Area Total`= c(dtt$`DA (n/ha)`*A, sum(dtt$`DA (n/ha)`*A)))
     inds<-as.data.frame(inds)
   }else{
@@ -371,7 +371,7 @@ nm <-deparse(substitute(x))
 
 
 
-  if(pt==T){
+  if(pt==TRUE){
 
     t<-t(data.frame(dtt$Especie[1:spivi],dtt$`DR (%)`[1:spivi],dtt$`DoR (%)`[1:spivi],dtt$`FR (%)`[1:spivi]))
     t<-data.frame(t)
@@ -392,11 +392,11 @@ nm <-deparse(substitute(x))
 
 
   specie <- t(data.frame(rep(t[1,], each=3)))
-  value<-data.frame(b=unlist(t[2:4,],use.names=F))
+  value<-data.frame(b=unlist(t[2:4,],use.names=FALSE))
   condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
   data <- data.frame(specie,condition,value)
   
-  if(pt==T){
+  if(pt==TRUE){
     colnames(x)[1]<-"Parcela"
     colnames(x)[2]<-"Individuo"
     colnames(x)[3]<-"Especie"
@@ -427,9 +427,9 @@ nm <-deparse(substitute(x))
   
   
   # se tiver uma unica especie
-  if(un==T){
+  if(un==TRUE){
   
-    if(pt==T){
+    if(pt==TRUE){
       doc<-read_docx() %>%
         
         body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
@@ -477,19 +477,18 @@ nm <-deparse(substitute(x))
       
     }
     
-  
-  if(pt==T){
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+  if(save==TRUE){
+  if(pt==TRUE){
+    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
   }else{
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
     
   }
+  }
     
-    if(pt==T){
+    if(pt==TRUE){
       
       return(list(`vol individual`=anex,
                   `distribuicao diam`=diam,
@@ -512,7 +511,7 @@ nm <-deparse(substitute(x))
   data$b<-as.character(data$b)
   data$b<-as.numeric(data$b)
 
-  if(pt==T){
+  if(pt==TRUE){
     colnames(data)[1]<-"Especies"
     colnames(data)[2]<-"Parametros"
   }else{
@@ -523,7 +522,7 @@ nm <-deparse(substitute(x))
 
 
 
-  if(pt==T){
+  if(pt==TRUE){
 
     gg2<-ggplot(data, aes(reorder(Especies,b), b, fill = Parametros)) +
       geom_col(alpha = 0.8) +
@@ -565,7 +564,7 @@ nm <-deparse(substitute(x))
 
   #CURVA DE ACUMULACAO DE ESPECIES
   
-  if(pt==T){
+  if(pt==TRUE){
   cc<-as.data.frame.matrix(table(x$Parcela, x$Especie))
   }else{
     cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
@@ -576,7 +575,7 @@ nm <-deparse(substitute(x))
 
   h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
   
-  if(pt==T){
+  if(pt==TRUE){
   curve <- ggplot(h, aes(x=p, y=r))+
     geom_line() +
     geom_ribbon(aes(ymin=r-sd*2, ymax=r+sd*2), alpha = 0.2)+
@@ -624,7 +623,7 @@ nm <-deparse(substitute(x))
   vvol[,2]<-rownames(vvol)
 
 
-  if(pt==T){
+  if(pt==TRUE){
     colnames(x)[1]<-"Parcela"
     colnames(x)[2]<-"Individuo"
     colnames(x)[3]<-"Especie"
@@ -656,7 +655,7 @@ nm <-deparse(substitute(x))
   vvol<-vvol[order(-vvol[,1]),]
   
   if(missing(prot)) {
-    if(pt==T){
+    if(pt==TRUE){
       vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/(a*length(vv)), sum(vvol[,1])/(a*length(vv))), c(vvol[,1]*A/(a*length(vv)), sum(vvol[,1])*A/(a*length(vv))))
       colnames(vt)[1]<-"Especie"
       colnames(vt)[2]<-"Volume amostrado (m3)"
@@ -693,7 +692,7 @@ nm <-deparse(substitute(x))
     vtt<-italic(vtt,j=1,i=2:nrow(vt)-1)
 
 
-if(pt==T){
+if(pt==TRUE){
     doc<-read_docx() %>%
 
       body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
@@ -804,7 +803,7 @@ if(pt==T){
 
     pp<-as.data.frame(pp[,2:ncol(pp)])
 
-    if(pt==T){
+    if(pt==TRUE){
       vt<-data.table(Especie=c(vvol[,2],"Media"), `Volume/Parcela (m3)`=c(vvol[,1]/n,sum((vvol[,1])/n)), `Volume/ha (m3)`=c((vvol[,1]/n)/a, sum((vvol[,1])/n)/a), `Volume/Area Total (m3)`=c((vvol[,1]/n)*A/a, sum(vvol[,1]/n)*A/a))
 
       vt$`Volume/Parcela (m3)`<-as.numeric(vt$`Volume/Parcela (m3)`)
@@ -816,7 +815,7 @@ if(pt==T){
 
 
 
-      ph<-data.table(Especie=c(prot,"Total Protegido","Total Desprotegido"), `Volume/Parcela (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Volume/Area Total (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
+      ph<-data.table(Especie=c(prot,"Total Protegido","Total Desprotegido"), `Volume/Parcela (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n)/a), `Volume/Area Total (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n)*A/a))
 
       ph$`Volume/Parcela (m3)`<-as.numeric(ph$`Volume/Parcela (m3)`)
       ph$`Volume/Parcela (m3)`<-format(round(ph$`Volume/Parcela (m3)`,4),nsmall=4)
@@ -834,7 +833,7 @@ if(pt==T){
       vt$`Volume/Total Area (m3)`<-as.numeric(vt$`Volume/Total Area (m3)`)
       vt$`Volume/Total Area (m3)`<-format(round(vt$`Volume/Total Area (m3)`,4),nsmall=4)
 
-      ph<-data.table(Specie=c(prot,"Total Protected","Total Unprotected"), `Volume/Plot (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=T)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)/a), `Volume/Total Area (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=T)-sum(pp))/n)*A/a))
+      ph<-data.table(Specie=c(prot,"Total Protected","Total Unprotected"), `Volume/Plot (m3)`=c(pp/n,sum(pp)/n,(sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n), `Volume/ha (m3)`=c((pp/n)/a, (sum(pp)/n)/a, ((sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n)/a), `Volume/Total Area (m3)`=c((pp/n)*A/a, (sum(pp)/n)*A/a, ((sum(x[,ncol(x)],na.rm=TRUE)-sum(pp))/n)*A/a))
 
       ph$`Volume/Plot (m3)`<-as.numeric(ph$`Volume/Plot (m3)`)
       ph$`Volume/Plot (m3)`<-format(round(ph$`Volume/Plot (m3)`,4),nsmall=4)
@@ -872,7 +871,7 @@ if(pt==T){
     phi<-italic(phi,j=1,i=c(1:length(prot)))
 
 
-if(pt==T){
+if(pt==TRUE){
     doc<-read_docx() %>%
 
       body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
@@ -982,20 +981,21 @@ if(pt==T){
 
   }
 
-  if(pt==T){
-  fileout <- tempfile(fileext = ".docx")
-  fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
-  print(doc, target = fileout)
+  if(save==TRUE){
+    
+  if(pt==TRUE){
+    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
+    print(doc, target = fileout)
   }else{
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
 
+  }
   }
 
   if(missing(prot)){
     
-    if(pt==T){
+    if(pt==TRUE){
       
     return(list(`vol individual`=anex,
                 `curva especies`=curve,
@@ -1022,7 +1022,7 @@ if(pt==T){
       
   }else{
     
-    if(pt==T){
+    if(pt==TRUE){
       
       return(list(`vol individual`=anex,
                   `curva especies`=curve,
@@ -1051,4 +1051,3 @@ if(pt==T){
 
   }
 }
-

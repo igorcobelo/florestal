@@ -18,15 +18,7 @@ Table format for input in the 'indvol' function, with mens="plot".
     \item{\samp{Diameter (cm)}}{a numeric vector}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 library(florestal)
 
@@ -37,6 +29,6 @@ head(simple1)
 
 #calculates the individual woody volume
 
-simple2 <- indvol(simple1, mens="plot", veg="cerrado")
+simple2 <- indvol(simple1, mens="plot", veg="cerradoss_df")
 }
 \keyword{datasets}

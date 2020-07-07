@@ -1,8 +1,8 @@
-bit<-function(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T){
+bit<-function(x,A,k,E=0.1,p=0.05,ampl=2,rn=FALSE,pt=TRUE,save=TRUE){
 
   nm <-deparse(substitute(x))
 
-  max<-max(x[,5],na.rm=T)+2
+  max<-max(x[,5],na.rm=TRUE)+2
 
 
   ##Criar coluna com distancia critica
@@ -10,13 +10,13 @@ bit<-function(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T){
 
   #Eliminar linhas com distancia radial>=dist critica
 
-  x$teste <- ifelse(x[,6]>=x[,8] & !(is.na(x[,6]==T)), "APAGAR", "DEIXAR")
+  x$teste <- ifelse(x[,6]>=x[,8] & !(is.na(x[,6]==TRUE)), "APAGAR", "DEIXAR")
   x <- subset(x, !(teste == "APAGAR"))
   x[,ncol(x)]<-NULL
   x[,ncol(x)]<-NULL
   x[,6]<-NULL
 
-  if(pt==T){
+  if(pt==TRUE){
     colnames(x)[1]<-"Ponto amostral"
     colnames(x)[2]<-"Individuo"
     colnames(x)[3]<-"Especie"
@@ -107,7 +107,7 @@ anex<-italic(anex,j=3)
   vha<-as.numeric(vha)
 n<-ncol(ss)
 
-  if(pt==F){
+  if(pt==FALSE){
 
     vah<-data.table(`Sample point`=1:n, `Basal area/ha (m2)`=gg,
                     `Individuals/ha`=Nha, `Volume/ha (m3)`=vha)
@@ -134,7 +134,7 @@ vahh<-as.data.frame(vah)
 
   x<-as.data.frame(x)
 
-  if(pt==T){
+  if(pt==TRUE){
 
     diam<-ggplot(x, aes(x=x[,5])) +
       geom_histogram( binwidth=ampl ,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
@@ -173,7 +173,7 @@ vahh<-as.data.frame(vah)
 
   nn<-(invt^2*CV^2)/(E*100)^2
 
-  if(rn==T){
+  if(rn==TRUE){
     invt<-qt(1-p/2, df=nn-1)
     nn<-(invt^2*CV^2)/(E*100)^2
   }
@@ -193,7 +193,7 @@ vahh<-as.data.frame(vah)
   ICtotmin<-(y*n)-(eabs*invt*n)
 
 
-  if(pt==F){
+  if(pt==FALSE){
 
     df <- data.table(Parameters=c("Mean", "Mean variance",
                                   "Mean standard error", "Total population volume",
@@ -235,43 +235,43 @@ vahh<-as.data.frame(vah)
 
   if(n>=nn){
 
-    if(pt==F){
+    if(pt==FALSE){
 
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sampling intensity satisfies the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is not necessary to sample more sample points.\n")
-      cat("------------------------------------------------------------------------------------")
-
+      message("\n--------------------------------------------------------------\n")
+      message("The sampling intensity satisfies the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is not necessary to sample more sample points.\n")
+      message("--------------------------------------------------------------")
+      
 
     }else{
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("A intensidade amostral satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-      cat("\nPortanto, nao e necessario amostrar mais pontos amostrais.\n")
-      cat("------------------------------------------------------------------------------------")
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+      message("\nPortanto, nao e necessario amostrar mais pontos amostrais.\n")
+      message("--------------------------------------------------------------")
     }
   }
 
   if(n<nn){
 
-    if(pt==F){
+    if(pt==FALSE){
 
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sample intensity does not satisfy the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is necessary to sample",ceiling(nn-n),"more sample points.\n")
-      cat("------------------------------------------------------------------------------------")
-
+      message("--------------------------------------------------------------")
+      message("The sample intensity does not satisfy the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is necessary to sample ",ceiling(nn-n)," more sample points.\n")
+      message("--------------------------------------------------------------")
+      
     }else{
 
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("A intensidade amostral nao satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-      cat("\nPortanto, e necessario amostrar mais",ceiling(nn-n),"pontos amostrais.\n")
-      cat("------------------------------------------------------------------------------------")
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral nao satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+      message("\nPortanto, e necessario amostrar mais ",ceiling(nn-n)," pontos amostrais.\n")
+      message("--------------------------------------------------------------")
     }
   }
 
 
   
-    if(pt==T){
+    if(pt==TRUE){
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem pelo metodo de Bitterlich.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
@@ -320,19 +320,18 @@ vahh<-as.data.frame(vah)
 
 
     
-
-  if(pt==T){
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+  if(save==TRUE){
+    
+  if(pt==TRUE){
+    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
   }else{
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
 
   }
-
-  if(pt==T){
+}
+  if(pt==TRUE){
   return(list(`vol individual`=anex,
               `G, N e V/ha`=vahh,
               `distribuicao diam`=diam,

@@ -1,4 +1,4 @@
-ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T){
+ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T){
 
   
   #para que o arquivo docx seja nomeado com o mesmo nome do input
@@ -133,7 +133,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
   #Fator de corre??o (finita ou infinita)
   f<-1-sum(ss)/N
 
-  if(prop==F){
+  if(prop==FALSE){
     #P/ ALOCA??O ?TIMA
 
     if(f<0.98){
@@ -150,7 +150,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
       #intensidade amostral INFINITA
       n<-(invt^2*(sum(P*s)^2))/(erroabsreq^2)
 
-      if(rn==T){
+      if(rn==TRUE){
         invt<-qt(1-p/2, df=n-1)
         n<-(invt^2*(sum(P*s)^2))/(erroabsreq^2)
       }
@@ -160,14 +160,14 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
     nj<-(((P*s)/sum(P*s))*n)
   }
 
-  if(prop==T){
+  if(prop==TRUE){
     #P/ ALOCA??O PROPORCIONAL
 
     if(f<0.98){
       #intensidade amostral FINITA
       n<-(invt^2*sum(P*var))/(erroabsreq^2 + (invt^2*sum(P*var)/N))
 
-      if(rn==T){
+      if(rn==TRUE){
       invt<-qt(1-p/2, df=n-1)
       n<-(invt^2*sum(P*var))/(erroabsreq^2 + (invt^2*sum(P*var)/N))
       }
@@ -177,7 +177,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
       #intensidade amostral INFINITA
       n<-(invt^2*sum(P*var))/(erroabsreq^2)
 
-      if(rn==T){
+      if(rn==TRUE){
       invt<-qt(1-p/2, df=n-1)
       n<-(invt^2*sum(P*var))/(erroabsreq^2)
       }
@@ -190,7 +190,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
 
 #Criacao de "pop"
 if(f<0.98){
-  if(pt==T){
+  if(pt==TRUE){
   pop<-"(Pop. finita)"
   }else{
     pop<-"(Finite pop.)"
@@ -198,7 +198,7 @@ if(f<0.98){
 }
 
 if(f>=0.98){
-  if(pt==T){
+  if(pt==TRUE){
     pop<-"(Pop. infinita)"
   }else{
     pop<-"(Infinite pop.)"
@@ -214,9 +214,9 @@ if(f>=0.98){
 
   tabaux<-data.table(c(1:max(x[,1]),"Total"), c(ss,sum(ss)), c(estrat,sum(estrat)), c(P,sum(P)), c(var,""),c(s,""),c(P*var,sum(P*var)),c(P*s,sum(P*s)), c(jjp, sum(jjp)))
 
-  if(pt==T){
+  if(pt==TRUE){
     colnames(tabaux)[1]<-"Estrato"
-    if(prop==T){
+    if(prop==TRUE){
       colnames(tabaux)[9]<-"Alocacao proporcional"
     }else{
       colnames(tabaux)[9]<-"Alocacao otima"
@@ -224,7 +224,7 @@ if(f>=0.98){
 
   }else{
     colnames(tabaux)[1]<-"Stratum"
-    if(prop==T){
+    if(prop==TRUE){
       colnames(tabaux)[9]<-"Proportional allocation"
     }else{
       colnames(tabaux)[9]<-"Optimal allocation"
@@ -302,7 +302,7 @@ if(f>=0.98){
 
 #Parametros estatisticos
 
-if(pt==T){
+if(pt==TRUE){
   df <- data.table(Parametros=c("Media estratificada", "Variancia da media estratificada",
                                 "Erro padrao da media estratificada", "Volume total da populacao",
                                 "Valor de t tabelado",
@@ -353,36 +353,35 @@ if(pt==T){
   par <- align_text_col(par, align = "center")
   par<-autofit(par)
 
-
   #Para mostrar no console
 
   if(sum(ss)>=n){
-    if(pt==T){
-    cat("\n------------------------------------------------------------------------------------\n")
-    cat("A intensidade amostral satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-    cat("\n Portanto, nao e necessario amostrar mais parcelas.\n")
-    cat("------------------------------------------------------------------------------------")
+    if(pt==TRUE){
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+    message("\n Portanto, nao e necessario amostrar mais parcelas.\n")
+    message("--------------------------------------------------------------")
     }else{
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sampling intensity satisfies the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is not necessary to sample more plots.\n")
-      cat("------------------------------------------------------------------------------------")
-
+      message("\n--------------------------------------------------------------\n")
+      message("The sampling intensity satisfies the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is not necessary to sample more plots.\n")
+      message("--------------------------------------------------------------")
+      
 }
   }
 
   if(sum(ss)<n){
-    if(pt==T){
-    cat("\n------------------------------------------------------------------------------------\n")
-    cat("A intensidade amostral nao satisfaz o erro requerido de", E*100,"%, para um nivel de significancia de",p*100,"%.")
-    cat("\n Portanto, e necessario amostrar mais",ceiling(n-sum(ss)),"parcelas.\n")
-    cat("------------------------------------------------------------------------------------")
+    if(pt==TRUE){
+      message("\n--------------------------------------------------------------\n")
+      message("A intensidade amostral nao satisfaz o erro requerido de ", E*100,"%, para um nivel de significancia de ",p*100,"%.")
+    message("\n Portanto, e necessario amostrar mais ",ceiling(n-sum(ss))," parcelas.\n")
+    message("--------------------------------------------------------------")
     }else{
-      cat("\n------------------------------------------------------------------------------------\n")
-      cat("The sample intensity does not satisfy the required error of", E*100,"%, to a significance level of",p*100,"%.")
-      cat("\nTherefore, it is necessary to sample",ceiling(n-sum(ss)),"more plots.\n")
-      cat("------------------------------------------------------------------------------------")
-
+      message("\n--------------------------------------------------------------\n")
+      message("The sample intensity does not satisfy the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
+      message("\nTherefore, it is necessary to sample ",ceiling(n-sum(ss))," more plots.\n")
+      message("--------------------------------------------------------------")
+      
     }
   }
 
@@ -400,31 +399,32 @@ if(pt==T){
   
   if(anova$`F value`[1]>ftab){
 
-    if(pt==T){
+    if(pt==TRUE){
 
-    cat("\nHa diferenca significativa entre as medias dos estratos.\n")
+    message("\nHa diferenca significativa entre as medias dos estratos.\n")
 
-    print("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
-    
-    print(tukey$`x[, 1]`)
+    message("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
+
+    message(paste0(capture.output(tukey$`x[, 1]`), collapse="\n"))
     }else{
-      cat("\nThere is significant difference between strata means.\n")
-      print ("Tukey's test for significant differences between strata, with 95% confidence:")
+      message("\nThere is significant difference between strata means.\n")
+      message("Tukey's test for significant differences between strata, with 95% confidence:")
       
-      print(tukey$`x[, 1]`)      
+      message(paste0(capture.output(tukey$`x[, 1]`), collapse="\n"))
     }
   }
 
   if(anova$`F value`[1]<ftab){
 
-    if(pt==T){
-    cat("\nNao ha diferenca significativa entre as medias dos estratos.\n")
-    print("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
-    print(tukey$`x[, 1]`)
+    if(pt==TRUE){
+    message("\nNao ha diferenca significativa entre as medias dos estratos.\n")
+    message("Teste de Tukey para diferenca significativa entre estratos, a 95% de confianca:")
+    message(paste0(capture.output(tukey$`x[, 1]`), collapse="\n"))
     }else{
-      cat("\nThere is not significant difference between strata means.\n")
+      message("\nThere is not significant difference between strata means.\n")
       print ("Tukey's test for significant differences between strata, with 95% confidence:")
-      print(tukey$`x[, 1]`)    }
+      message(paste0(capture.output(tukey$`x[, 1]`), collapse="\n"))
+    }
   }
 
   
@@ -573,7 +573,7 @@ if(pt==T){
   
   vpestrat_tot <- vpestrat_ha*A #VOLUME/SP TOTAL ESTRATIFICADO
   
-  if(pt==T){
+  if(pt==TRUE){
   vesp <- data.table(Especie=c(rownames(sparta2), "Total"), `Volume/Parcela (m3)`=c(sparta2$`sparta2[order(-sparta2)]`, sum(sparta2$`sparta2[order(-sparta2)]`)), `Volume/ha (m3)`=c(vpestrat_ha,sum(vpestrat_ha)), `Volume/Area Total (m3)`=c(vpestrat_tot, sum(vpestrat_tot)))
 
   vesp$`Volume/Parcela (m3)`<-as.numeric(vesp$`Volume/Parcela (m3)`)
@@ -820,7 +820,7 @@ if(pt==T){
   dtt2<-dtt2[order(dtt2$Estrato),] #ordenar por Estrato
   
   #nomear as colunas em ingles
-  if(pt==F){
+  if(pt==FALSE){
     colnames(dtt2)[1]<-"Stratum"
     colnames(dtt2)[2]<-"Specie"
     colnames(dtt2)[3]<-"n"
@@ -875,7 +875,7 @@ if(pt==T){
 
   
 
-  if(pt==T){
+  if(pt==TRUE){
     inds<-data.table(Especie=c(rownames(spind), "Total"), `Ind./ha`= c(spind$spind, sum(spind$spind)), `Ind./Area Total`= c(spind$spind*A, sum(spind$spind*A)))
     inds<-as.data.frame(inds)
     
@@ -893,9 +893,9 @@ if(pt==T){
   
   #PARA UMA ESPECIE APENAS:
   
-if(un==T){
+if(un==TRUE){
   
-  if(pt==T){
+  if(pt==TRUE){
     colnames(x)[1]<-"Estrato"
     colnames(x)[2]<-"Parcela"
     colnames(x)[3]<-"Individuo"
@@ -929,7 +929,7 @@ if(un==T){
   x3<-italic(x3,j=4)
   
   
-  if(pt==T){
+  if(pt==TRUE){
     doc <- read_docx() %>%
       body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
       body_add_flextable(par) %>% #tabela de parametros volume
@@ -975,18 +975,18 @@ if(un==T){
   }
   
 
-  
-  if(pt==T){
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+  if(save==TRUE){
+    
+  if(pt==TRUE){
+    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
   }else{
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
   }
+  }
   
-  if(pt==T){
+  if(pt==TRUE){
     return(list(`vol individual`=x3,
                 `distribuicao diam`=diam,
                 `tabela aux`=tabaux,
@@ -1009,7 +1009,7 @@ if(un==T){
   #Grafico fito
   
   
-  if(pt==T){
+  if(pt==TRUE){
     
     data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
       tidyr::gather(Parametros, b, -Estrato, -Especie) %>%
@@ -1104,7 +1104,7 @@ if(un==T){
     colnames(h)[3]<-"p"
     colnames(h)[4]<-"sd"
     
-    if(pt==T){
+    if(pt==TRUE){
 curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
       geom_line() +
       geom_ribbon(aes(ymin=r-sd, ymax=r+sd), alpha = 0.2,colour=NA)+
@@ -1136,7 +1136,7 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
 
   
 
-    if(pt==T){
+    if(pt==TRUE){
     colnames(x)[1]<-"Estrato"
     colnames(x)[2]<-"Parcela"
     colnames(x)[3]<-"Individuo"
@@ -1172,7 +1172,7 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
     #criar docx sem argumento prot
 
 
-    if(pt==T){
+    if(pt==TRUE){
       doc <- read_docx() %>%
       body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
       body_add_flextable(par) %>% #tabela de parametros volume
@@ -1269,23 +1269,23 @@ curve <- ggplot(h, aes(x=p, y=r, color=strat, fill=strat))+
 
     }
 
-    if(pt==T){
-      fileout <- tempfile(fileext = ".docx")
-      fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+    if(save==TRUE){
+      
+    if(pt==TRUE){
+      fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
       print(doc, target = fileout)
     }else{
-      fileout <- tempfile(fileext = ".docx")
-      fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+      fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
       print(doc, target = fileout)
     }
-    
+    }
 
 if(!(is.null(prot))){
     #tabela volume com argumento prot
 
   
   pp<-as.numeric()
-  if(pt==T){
+  if(pt==TRUE){
     for(i in prot){
       pp[i]<-subset(vesp$`Volume/Parcela (m3)`,vesp$Especie==i)
     }
@@ -1299,7 +1299,7 @@ if(!(is.null(prot))){
     ppha<-pp/a #prot por ha
     pptot<-ppha*A
     
-     if(pt==T){
+     if(pt==TRUE){
       
       vesp$`Volume/Parcela (m3)`<-as.numeric(vesp$`Volume/Parcela (m3)`)
       vesp$`Volume/ha (m3)`<-as.numeric(vesp$`Volume/ha (m3)`)
@@ -1349,7 +1349,7 @@ if(!(is.null(prot))){
     phi<-italic(phi,j=1,i=c(1:length(prot)))
 
     
-    if(pt==T){
+    if(pt==TRUE){
       colnames(x)[1]<-"Estrato"
       colnames(x)[2]<-"Parcela"
       colnames(x)[3]<-"Individuo"
@@ -1384,7 +1384,7 @@ if(!(is.null(prot))){
     #criar docx com argumento prot
 
 
-    if(pt==T){
+    if(pt==TRUE){
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem casual estratificada.", style = "centered") %>%
         body_add_flextable(par) %>% #tabela de parametros volume
@@ -1492,22 +1492,21 @@ if(!(is.null(prot))){
 
 
   
-
-  if(pt==T){
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Inventario Florestal - ",nm,".docx",sep="")
+    if(save==TRUE){
+      
+  if(pt==TRUE){
+    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
   }else{
-    fileout <- tempfile(fileext = ".docx")
-    fileout <- paste(getwd(),"/Forest Inventory - ",nm,".docx",sep="")
+    fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
   }
-
+}
 }
     
   if(missing(prot)){
     
-    if(pt==T){
+    if(pt==TRUE){
     return(list(`vol individual`=x3,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
@@ -1532,7 +1531,7 @@ if(!(is.null(prot))){
       
   }else{
     
-    if(pt==T){
+    if(pt==TRUE){
     return(list(`vol individual`=x3,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,

@@ -17,15 +17,7 @@ Table format for input in the 'indvol' function, with mens="census".
     \item{\samp{Diameter (cm)}}{a numeric vector}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 library(florestal)
 
@@ -36,6 +28,6 @@ head(census1)
 
 #calculates the individual woody volume
 
-indvol(census1, mens="census", veg="cerrado")
+indvol(census1, mens="census", veg="cerradoss_df")
 }
 \keyword{datasets}

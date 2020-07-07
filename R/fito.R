@@ -1,4 +1,4 @@
-fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=T){
+fito <- function(sp, plot, d, A, stratum=NULL,spivi=15, pt=TRUE,save=TRUE){
 
 if(is.null(stratum)){   ##sem estrato
   
@@ -61,7 +61,7 @@ rnn<-as.data.frame(rownames(qtt))
 
 dtt<-data.table(rnn,qtt,gt,spt)
 
-if(pt==T){
+if(pt==TRUE){
   colnames(dtt)[1]<-"Especie"
   colnames(dtt)[2]<-"n"
   colnames(dtt)[3]<-"G (m2)"
@@ -71,7 +71,7 @@ if(pt==T){
   dtt$`DR (%)`<-dtt$`DA (n/ha)`/sum(dtt$`DA (n/ha)`)*100
   dtt$`DoA (G/ha)`<-dtt$`G (m2)`/A
   dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
-  dtt$`FA (%)`<-dtt$UA/max(plot,na.rm=T)*100
+  dtt$`FA (%)`<-dtt$UA/max(plot,na.rm=TRUE)*100
   dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
   dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`
   dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
@@ -85,7 +85,7 @@ if(pt==T){
   dtt$`RD (%)`<-dtt$`AD (n/ha)`/sum(dtt$`AD (n/ha)`)*100
   dtt$`ADo (G/ha)`<-dtt$G/A
   dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
-  dtt$`AF (%)`<-dtt$SU/max(plot,na.rm=T)*100
+  dtt$`AF (%)`<-dtt$SU/max(plot,na.rm=TRUE)*100
   dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
   dtt$`IVI (%)`<-dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`
   dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
@@ -115,7 +115,7 @@ fitot<-italic(fitot,j=1)
 
 
 
-if(pt==T){
+if(pt==TRUE){
   
   t<-t(data.frame(dtt$Especie[1:spivi],dtt$`DR (%)`[1:spivi],dtt$`DoR (%)`[1:spivi],dtt$`FR (%)`[1:spivi]))
   t<-data.frame(t)
@@ -136,14 +136,14 @@ if(pt==T){
 
 
 specie <- t(data.frame(rep(t[1,], each=3)))
-value<-data.frame(b=unlist(t[2:4,],use.names=F))
+value<-data.frame(b=unlist(t[2:4,],use.names=FALSE))
 condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
 data <- data.frame(specie,condition,value)
 
 data$b<-as.character(data$b)
 data$b<-as.numeric(data$b)
 
-if(pt==T){
+if(pt==TRUE){
   colnames(data)[1]<-"Especies"
   colnames(data)[2]<-"Parametros"
 }else{
@@ -154,7 +154,7 @@ if(pt==T){
 
 
 
-if(pt==T){
+if(pt==TRUE){
   
   gg2<-ggplot(data, aes(reorder(Especies,b), b, fill = Parametros)) +
     geom_col(alpha = 0.8) +
@@ -486,7 +486,7 @@ if(pt==T){
   dtt2<-dtt2[order(dtt2$Estrato),] #ordenar por Estrato
   
   #nomear as colunas em ingles
-  if(pt==F){
+  if(pt==FALSE){
     colnames(dtt2)[1]<-"Stratum"
     colnames(dtt2)[2]<-"Specie"
     colnames(dtt2)[3]<-"n"
@@ -529,7 +529,7 @@ if(pt==T){
   #Grafico fito
   
   
-  if(pt==T){
+  if(pt==TRUE){
     
     data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
       gather(Parametros, b, -Estrato, -Especie) %>%
@@ -590,7 +590,7 @@ if(pt==T){
 
 #SALVAR
 
-if(pt==T){
+if(pt==TRUE){
 doc<-read_docx() %>%
   
   body_add_par("Tabela 1. Parametros fitossociologicos, em que: n = quantidade de individuos amostrados; G = area basal; UA = quantidade de unidades amostrais; DA (n/ha) = densidade absoluta; DR (%) = densidade relativa; DoA (G/ha) = dominancia absoluta; DoR (%) = dominancia relativa; FA (%) = frequencia absoluta; FR (%) = frequencia relativa; IVI (%) = Indice de Valor de Importancia.", style = "centered") %>%
@@ -601,10 +601,11 @@ doc<-read_docx() %>%
   body_add_par("Figura 1. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
   body_end_section_landscape()
 
- fileout <- tempfile(fileext = ".docx")
-  fileout <- paste(getwd(),"/Fitossociologia.docx",sep="")
+if(save==TRUE){
+  
+  fileout <- tempfile(pattern="Fito", fileext=".docx")
   print(doc, target = fileout)
-
+}
 }else{
 
   doc<-read_docx() %>%
@@ -617,14 +618,15 @@ doc<-read_docx() %>%
     body_add_par("Figura 1. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape()
   
-  fileout <- tempfile(fileext = ".docx")
-  fileout <- paste(getwd(),"/Phytosociology.docx",sep="")
-  print(doc, target = fileout)
-  
+  if(save==TRUE){
+    
+    fileout <- tempfile(pattern="Phyto", fileext=".docx")
+    print(doc, target = fileout)
+  }
   
 }
   
-  if(pt==T){
+  if(pt==TRUE){
     return(list(`grafico ivi`=gg3,
                 `parametros fito`=fitot))
                 

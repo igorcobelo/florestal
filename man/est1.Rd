@@ -19,15 +19,7 @@ Table format for input in the 'indvol' function, with mens="strata".
     \item{\samp{Diameter (cm)}}{a numeric vector}
   }
 }
-\details{
-%%  ~~ If necessary, more details than the __description__ above ~~
-}
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 library(florestal)
 
@@ -39,8 +31,8 @@ head(est1)
 #calculates the individual woody volume
 #create an object for each stratum and join with 'rbind'
 
-IF_e1<-indvol(est1[est1$Stratum==1,],mens="strata",veg="cerrado")
-IF_e2<-indvol(est1[est1$Stratum==2,],mens="strata",veg="mata_sec")
+IF_e1<-indvol(est1[est1$Stratum==1,],mens="strata",veg="cerradoss_df")
+IF_e2<-indvol(est1[est1$Stratum==2,],mens="strata",veg="matas>10_df")
 
 est2<-rbind(IF_e1,IF_e2)
 }

@@ -8,7 +8,7 @@ Bitterlich Method Sampling
 Calculates the Bitterlich method (or point sampling).
 }
 \usage{
-bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T)
+bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=FALSE,pt=TRUE,save=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -21,13 +21,12 @@ bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=F,pt=T)
   \item{ampl}{Amplitude of diameter class range. Default is 2.}
   \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
  \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
+ \item{save}{Logical argument. If TRUE (default), a docx file will be saved in the temporary files directory (run 'tempfile ()') (if save=TRUE) with the generated tables and graphics.}
 
 }
-\details{
 
-}
 \value{
-A list of tables and graphs, and a docx file saved in the current directory. The console displays the sampling intensity.
+A list of tables and graphs, and a docx file saved in the temporary files directory (run 'tempfile ()') (if save=TRUE). The console displays the sampling intensity.
 }
 \references{
 Bitterlich, W. (1948). Die Winkelzahlprobe. Allg. Forst-u. Holzwirtsch. Ztg., 59 (1/2): 4-5.
@@ -41,17 +40,8 @@ Igor Cobelo Ferreira
 The function calculates the critical distance to check for inclusion or exclusion of doubtful trees, being included in the sample only those with radial distance less than or equal to the critical distance. Even if there are no doubtful trees, the radial distance column (fifth column) is required, in blank.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 library(florestal)
-
-#Set current directory or just check
-
-getwd()
 
 #loads the data
 

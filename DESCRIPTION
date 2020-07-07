@@ -1,10 +1,11 @@
 Package: florestal
 Type: Package
-Title: An R Package for Forest Inventory
-Version: 0.1.0
+Title: Results for Forest Inventories
+Version: 0.1.1
 Author: Igor Cobelo Ferreira
 Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
-Description: The functions return sampling parameters in a file with tables and graphics.
+Description: The functions return sampling parameters for forest inventories with tables and graphics. Methods used in the 
+  package refers to Pellico e Brena (1997) <https://bit.ly/2BDbHJI>. 
 License: GPL(>=3)
 Encoding: UTF-8
 LazyData: TRUE
