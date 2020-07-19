@@ -6,7 +6,7 @@
 
 
 ## Índice
-* [1. Informações Gerais](#1.-informações-gerais)
+* [1. Informações Gerais](#1-informações-gerais)
 * [2. Instalação](#instalação)
 * [3. Volume Individual](#volume-individual)
 * [4. Amostragem Casual Simples](#amostragem-casual-simples)
