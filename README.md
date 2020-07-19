@@ -120,6 +120,18 @@ Funções:
 
 #Calculamos a Amostragem Casual Simples com a função 'acs()'.
 
+#Carregamos nossa planilha de exemplo:
+
+`data("simple2")`
+
+`head(simple2)`
+
+#Consideramos uma área total de 27ha, área da parcela de 0.1ha, erro requerido de 10% (padrão) e nível de significância de 5% (padrão):
+
+`IF_acs <- acs(simple2,A=27,a=0.1)`
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista:
+
 ## Amostragem Casual Estratificada
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
@@ -139,6 +151,7 @@ Pellico Netto, S.; Brena, D. (1997). Inventário Florestal. Curitiba: Universida
 ## Contato
 
 Igor Cobelo Ferreira <<cobelo.igor@gmail.com>>
+
 Instagram: [@florestalpackage](https://www.instagram.com/florestalpackage/)
 
 Para citar 'florestal' em publicações, por favor use:
