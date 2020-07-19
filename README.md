@@ -132,7 +132,7 @@ Funções:
 
 #A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista:
 
-`IF_acs$`grafico ivi``
+`IF_acs$``grafico ivi``
 
 `IF_acs$`distribuicao diam``
 
