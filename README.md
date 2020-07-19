@@ -7,14 +7,14 @@
 
 ## Índice
 * [1. Informações Gerais](#1-informações-gerais)
-* [2. Instalação](#instalação)
-* [3. Volume Individual](#volume-individual)
-* [4. Amostragem Casual Simples](#amostragem-casual-simples)
-* [5. Amostragem Casual Estratificada](#amostragem-casual-estratificada)
-* [6. Método de Bitterlich](#método-de-bitterlich)
-* [7. Parâmetros Fitossociológicos](#parâmetros-fitossociológicos)
-* [8. Referências](#referências)
-* [9. Contato](#contato)
+* [2. Instalação](#2-instalação)
+* [3. Volume Individual](#3-volume-individual)
+* [4. Amostragem Casual Simples](#4-amostragem-casual-simples)
+* [5. Amostragem Casual Estratificada](#5-amostragem-casual-estratificada)
+* [6. Método de Bitterlich](#6-método-de-bitterlich)
+* [7. Parâmetros Fitossociológicos](#7-parâmetros-fitossociológicos)
+* [8. Referências](#8-referências)
+* [9. Contato](#9-contato)
 
 ## 1. Informações Gerais
 
@@ -28,13 +28,13 @@ Funções:
 - bit(): retorna parâmetros amostrais para amostragem pelo Método de Bitterlich.
 - fito(): retorna parâmetros fitossociológicos.
 
-## Instalação
+## 2. Instalação
 
 `install.packages("florestal")`
 
 `library(florestal)`
 
-## Volume Individual
+## 3. Volume Individual
 
 #Para calcular o volume individual, usamos a função 'indvol()'.
 
@@ -116,7 +116,7 @@ Funções:
 
 `IF_census <- indvol(census1, mens="census", veg="cerradoss_df")`
 
-## Amostragem Casual Simples
+## 4. Amostragem Casual Simples
 
 #Calculamos a Amostragem Casual Simples com a função 'acs()'.
 
@@ -152,23 +152,23 @@ Funções:
 
 #O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
 
-## Amostragem Casual Estratificada
+## 5. Amostragem Casual Estratificada
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
 
-## Método de Bitterlich
+## 6. Método de Bitterlich
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
 
-## Parâmetros Fitossociológicos
+## 7. Parâmetros Fitossociológicos
 
 #Calculamos os parâmetros fitossociológicos com a função 'fito()'.
 
-## Referências
+## 8. Referências
 
 Pellico Netto, S.; Brena, D. (1997). Inventário Florestal. Curitiba: Universidade Federal do Paraná, 316 p.
 
-## Contato
+## 9. Contato
 
 Igor Cobelo Ferreira <<cobelo.igor@gmail.com>>
 
