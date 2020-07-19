@@ -132,6 +132,26 @@ Funções:
 
 #A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista:
 
+`IF_acs$`grafico ivi``
+
+`IF_acs$`distribuicao diam``
+
+`IF_acs$`parametros vol``
+
+#Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
+
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+`?acs`
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+`tempfile()`
+
+#O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
+
 ## Amostragem Casual Estratificada
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
