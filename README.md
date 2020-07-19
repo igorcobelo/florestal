@@ -16,7 +16,7 @@
 * [8. Referências](#referências)
 * [9. Contato](#contato)
 
-## Informações Gerais
+## 1. Informações Gerais
 
 As funções retornam parâmetros de amostragem para inventários florestais com tabelas e gráficos. Os métodos utilizados no pacote referem-se a Pellico & Brena (1997) <<https://bit.ly/2BDbHJI>>.
 
