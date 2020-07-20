@@ -130,17 +130,17 @@ Funções:
 
 `IF_acs <- acs(simple2,A=27,a=0.1)`
 
-#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista:
-
-`IF_acs$``grafico ivi``
-
-`IF_acs$`distribuicao diam``
-
-`IF_acs$`parametros vol``
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_acs$`.
 
 #Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
 
 #Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+
+#Para alterar o erro requerido, utilizamos o argumento 'E'.
+
+#Para alterar o nível de significância, utilizamos o argumento 'p'.
+
+#A saída padrão é em Português. Caso queria em Inglês, utilizamos o argumento 'pt=F'.
 
 #Outros argumentos podem ser visualizados na documentação da função:
 
