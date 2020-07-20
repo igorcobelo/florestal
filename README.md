@@ -162,6 +162,42 @@ Funções:
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
 
+#O formato da planilha deve ser o mesmo descrito na seção Volume Individual, porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+
+#Carregamos nossa planilha de exemplo:
+
+data("est2")
+
+head(est2)
+
+#Consideramos dois estratos, o primeiro com 12.6 ha e o segundo com 10.2 ha, área da parcela de 0.1 ha, erro requerido de 10% (padrão) e nível de significância de 5% (padrão):
+
+IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_ace$`.
+
+#Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
+
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+
+#Para alterar o erro requerido, utilizamos o argumento 'E'.
+
+#Para alterar o nível de significância, utilizamos o argumento 'p'.
+
+#A saída padrão é em Português. Caso queria em Inglês, utilizamos o argumento 'pt=F'.
+
+#A alocação de parcelas por estrato segue, por padrão, o método da alocação ótima de Neyman. Caso considere a alocação proporcional por área, utilize o argumento 'prop=T'.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?ace
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempfile()
+
+#O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
+
 ## 6. Método de Bitterlich
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
