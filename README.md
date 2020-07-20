@@ -76,7 +76,7 @@ Funções:
 
 `head(est1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_est1.png)
 
 #Criamos um objeto para cada estrato e depois os unimos com 'rbind':
 
@@ -98,7 +98,7 @@ Funções:
 
 `head(bit1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_bit1.png)
 
 `IF_bit <- indvol(bit1, mens="bit", f=0.7)`
 
@@ -112,7 +112,7 @@ Funções:
 
 `head(census1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_census1.png)
 
 `IF_census <- indvol(census1, mens="census", veg="cerradoss_df")`
 
