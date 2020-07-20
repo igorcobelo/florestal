@@ -202,6 +202,38 @@ tempfile()
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
 
+#O formato da planilha deve ser o mesmo descrito na seção Volume Individual, porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+
+#Carregamos nossa planilha de exemplo:
+
+data("bit2")
+
+head(bit2)
+
+#Consideramos uma área total de 12 ha, fator de área basal igual a 2, erro requerido de 10% (padrão) e nível de significância de 5% (padrão):
+
+IF_bit <- bit(bit2,A=12,k=2)
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_bit$`.
+
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+
+#Para alterar o erro requerido, utilizamos o argumento 'E'.
+
+#Para alterar o nível de significância, utilizamos o argumento 'p'.
+
+#A saída padrão é em Português. Caso queria em Inglês, utilizamos o argumento 'pt=F'.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?bit
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempfile()
+
+#O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
+
 ## 7. Parâmetros Fitossociológicos
 
 #Calculamos os parâmetros fitossociológicos com a função 'fito()'.
