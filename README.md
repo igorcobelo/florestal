@@ -124,7 +124,7 @@ Funções:
 
 #Calculamos a Amostragem Casual Simples com a função 'acs()'.
 
-#O formato da planilha deve ser o mesmo descrito na seção [Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
@@ -162,7 +162,7 @@ Funções:
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
 
-#O formato da planilha deve ser o mesmo descrito na seção [Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
@@ -202,7 +202,7 @@ tempfile()
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
 
-#O formato da planilha deve ser o mesmo descrito na seção [Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
