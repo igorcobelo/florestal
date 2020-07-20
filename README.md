@@ -102,6 +102,8 @@ Funções:
 
 `IF_bit <- indvol(bit1, mens="bit", f=0.7)`
 
+`head(IF_bit)`
+
 #Para um censo, a planilha precisa necessariamente conter as colunas nesta ordem:
 
 #Indivíduos na primeira (em numeral); espécies na segunda; altura na terceira (em metros); diâmetro (ou circunferência) na quarta (em centímetros); e distância radial na quinta (em metros).
@@ -116,9 +118,13 @@ Funções:
 
 `IF_census <- indvol(census1, mens="census", veg="cerradoss_df")`
 
+`head(IF_census)`
+
 ## 4. Amostragem Casual Simples
 
 #Calculamos a Amostragem Casual Simples com a função 'acs()'.
+
+#O formato da planilha deve ser o mesmo descrito na seção [Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
