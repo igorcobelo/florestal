@@ -52,7 +52,7 @@ Funções:
 
 `head(simple1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_simple1.png)
 
 #Usando uma equação inserida pelo usuário:
 
