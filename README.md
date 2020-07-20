@@ -238,6 +238,32 @@ tempfile()
 
 #Calculamos os parâmetros fitossociológicos com a função 'fito()'.
 
+#Precisamos de uma planilha contendo: Espécies (sp); parcelas (plot); e diâmetro (d).
+
+#Se tiver estratos, devem estar na primeira coluna (em numeral) e acrescentar na função o argumento 'stratum=T'.
+
+#Carregamos nossa planilha de exemplo:
+
+`data(simple1)`
+
+`head(simple1)`
+
+#Considerando uma área total de 27 ha:
+
+IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$Diameter, A=27)
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_fito$`.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?fito
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempfile()
+
+#O arquivo é salvo com o nome "Fitossociologia" seguido de um código, como "Fitossociologia1fbc2fa1c72".
+
 ## 8. Referências
 
 Pellico Netto, S.; Brena, D. (1997). Inventário Florestal. Curitiba: Universidade Federal do Paraná, 316 p.
