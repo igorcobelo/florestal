@@ -2,14 +2,14 @@ citHeader("To cite 'florestal' in publications, please use:")
 
 
 citEntry(entry = "manual",
-    title = "{florestal}: Results for Forest Inventory",
+    title = "{florestal}: Results for Forest Inventories",
     author = "Igor C. Ferreira",
     address = "Brasilia, Brazil",
-    note = "R package version 0.1.0",
+    note = "R package version 0.1.1",
     year = "2020",
-    url = "http://github.com/igorcobelo/florestal",
+    url = "https://cran.r-project.org/package=florestal",
     textVersion  = paste("Ferreira, Igor C. (2020).",
-        "florestal: Results for Forest Inventory.",
-        "R package version 0.1.0. Brasilia, Brazil.",
-        "http://github.com/igorcobelo/florestal")
+        "florestal: Results for Forest Inventories.",
+        "R package version 0.1.1. Brasilia, Brazil.",
+        "https://cran.r-project.org/package=florestal")
 )
