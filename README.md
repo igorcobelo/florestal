@@ -276,4 +276,4 @@ Instagram: [@florestalpackage](https://www.instagram.com/florestalpackage/)
 
 Para citar 'florestal' em publicações, por favor use:
 
-Ferreira, Igor C. (2020). florestal: Results for Forest Inventories. R package version 0.1.1. Brasilia, Brazil. <<http://github.com/igorcobelo/florestal>>
+Ferreira, Igor C. (2020). florestal: Results for Forest Inventories. R package version 0.1.1. Brasilia, Brazil. <<https://cran.r-project.org/package=florestal>>
