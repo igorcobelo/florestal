@@ -7,7 +7,6 @@
 <p align="center">
   <img src="https://github.com/igorcobelo/florestal/blob/master/img/logo.jpg" width="70%" height="70%">
 </p>
-
 <div id="menu" />
 
 ---------------------------------------------
