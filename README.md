@@ -146,7 +146,7 @@ Funções:
 
 #Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
 
-#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
 
 #Para alterar o erro requerido, utilizamos o argumento 'E'.
 
@@ -184,7 +184,7 @@ IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
 
 #Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
 
-#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
 
 #Para alterar o erro requerido, utilizamos o argumento 'E'.
 
@@ -222,7 +222,7 @@ IF_bit <- bit(bit2,A=12,k=2)
 
 #A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_bit$`.
 
-#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
 
 #Para alterar o erro requerido, utilizamos o argumento 'E'.
 
