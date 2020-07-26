@@ -160,7 +160,7 @@ Funções:
 
 #Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
 
-`tempfile()`
+`tempdir()`
 
 #O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
 
@@ -200,7 +200,7 @@ IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
 
 #Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
 
-tempfile()
+tempdir()
 
 #O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
 
@@ -236,7 +236,7 @@ IF_bit <- bit(bit2,A=12,k=2)
 
 #Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
 
-tempfile()
+tempdir()
 
 #O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
 
@@ -266,7 +266,7 @@ IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$Diameter, A=27)
 
 #Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
 
-tempfile()
+tempdir()
 
 #O arquivo é salvo com o nome "Fitossociologia" seguido de um código, como "Fitossociologia1fbc2fa1c72".
 
