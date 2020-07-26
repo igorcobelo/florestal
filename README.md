@@ -34,6 +34,9 @@ Funções:
 - bit(): retorna parâmetros amostrais para amostragem pelo Método de Bitterlich.
 - fito(): retorna parâmetros fitossociológicos.
 
+Obs.: As funções 'acs', 'ace', 'bit' e 'fito' retornam, além de uma lista dos resultados, um arquivo docx salvo na pasta de arquivos temporários do seu computador.
+Caso tenha problemas devido a questões de administração de usuários, pode-se utilizar o argumento 'save=F', para que o arquivo não seja salvo.
+
 ## 2. Instalação
 
 `install.packages("florestal")`
