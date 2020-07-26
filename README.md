@@ -34,8 +34,10 @@ Funções:
 - bit(): retorna parâmetros amostrais para amostragem pelo Método de Bitterlich.
 - fito(): retorna parâmetros fitossociológicos.
 
-Obs.: As funções 'acs', 'ace', 'bit' e 'fito' retornam, além de uma lista dos resultados, um arquivo docx salvo na pasta de arquivos temporários do seu computador.
+Obs. 1: As funções 'acs', 'ace', 'bit' e 'fito' retornam, além de uma lista dos resultados, um arquivo docx salvo na pasta de arquivos temporários do seu computador.
 Caso tenha problemas devido a questões de administração de usuários, pode-se utilizar o argumento 'save=F', para que o arquivo não seja salvo.
+
+Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para Inglês com o argumento 'pt=F'.
 
 ## 2. Instalação
 
