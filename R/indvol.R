@@ -276,7 +276,7 @@ indvol <- function(x, mens="plot", vol=FALSE, myeq=NULL, veg=NULL, f=NULL, circ=
       }
       
       if(veg=="ombmista>10_pr"){
-        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h))/1000)
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h)))*1000
       }
       
       if(veg=="ombdensa>5_pr"){
@@ -315,20 +315,20 @@ indvol <- function(x, mens="plot", vol=FALSE, myeq=NULL, veg=NULL, f=NULL, circ=
       }
       
       if(veg=="rs>10"){
-        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h))/1000)
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^2)+0.76*log(h)))*1000
       }
       
       #SANTA CATARINA
       if(veg=="estacionaldeci>10_sc"){
-        plan$`Volume (m3)`<-exp((-17.68+0.95*log(d^2)+0.67*log(h))/1000)
+        plan$`Volume (m3)`<-exp((-17.68+0.95*log(d^2)+0.67*log(h)))*1000
       }
       
       if(veg=="ombdensa>10_sc"){
-        plan$`Volume (m3)`<-exp((-17.75+0.98*log(d^2)+0.57*log(h))/1000)
+        plan$`Volume (m3)`<-exp((-17.75+0.98*log(d^2)+0.57*log(h)))*1000
       }
       
       if(veg=="ombmista>10_sc"){
-        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^3)+0.76*log(h))/1000)
+        plan$`Volume (m3)`<-exp((-17.96+0.96*log(d^3)+0.76*log(h)))*1000
       }
       
       #SERGIPE

@@ -1,4 +1,4 @@
-ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T){
+ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T){
 
   
   #para que o arquivo docx seja nomeado com o mesmo nome do input
@@ -10,26 +10,26 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
 #Grafico de distribuicao diametrica por estrato
   if(pt==T){
   diam<-ggplot(x, aes(x=x[,6], colour=x[,1])) +
-    geom_histogram(binwidth=ampl,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+    geom_histogram(binwidth=ampl,fill="black", color="#e9ecef", alpha=0.9) +
     theme_bw(16)+
     theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
           axis.title.y=element_text(size=12)) +
     scale_x_continuous(breaks = seq(0, max(x[,6])+2, ampl)) +
-    xlab("Classe Diametrica (cm)") +
-    ylab("Frequencia") +
+    xlab("\nClasse Diametrica (cm)") +
+    ylab("Frequencia\n") +
     facet_wrap(~ x[,1])
 
   }else{
     diam<-ggplot(x, aes(x=x[,6], colour=x[,1])) +
-      geom_histogram( binwidth=ampl,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+      geom_histogram( binwidth=ampl,fill="black", color="#e9ecef", alpha=0.9) +
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12)) +
       scale_x_continuous(breaks = seq(0, max(x[,6])+2, ampl)) +
-      xlab("Diameter Class (cm)") +
-      ylab("Frequency") +
+      xlab("\nDiameter Class (cm)") +
+      ylab("Frequency\n") +
       facet_wrap( ~ x[,1])
 }
 
@@ -259,6 +259,8 @@ if(f>=0.98){
 
   tabaux[nrow(tabaux),c(5,6)]<-""
 
+  tabaux2 <- as.data.frame(tabaux)
+  
   tabaux <- flextable(tabaux)
   tabaux  <- align(tabaux , align = "center")
   tabaux  <- align_text_col(tabaux , align = "center")
@@ -347,6 +349,8 @@ if(pt==TRUE){
 
 
   df[,2]<-format(round(df[,2],4),nsmall=4)
+  
+  df <- as.data.frame(df)
 
   par <- flextable(df)
   par <- align(par, align = "center")
@@ -596,6 +600,8 @@ if(pt==TRUE){
     
   }
 
+  vesp <- as.data.frame(vesp)
+  
   vesp2 <- flextable(vesp)
   vesp2  <- align(vesp2 , align = "center")
   vesp2  <- align_text_col(vesp2 , align = "center")
@@ -809,7 +815,7 @@ if(pt==TRUE){
   dtt$sumfac<-sumfac2
   
   dtt$`FR (%)`<-dtt$`FA (%)`/dtt$sumfac*100 #coluna FR
-  dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)` #coluna IVI
+  dtt$`IVI (%)`<- (dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`)/3 #coluna IVI
   
   dtt2<-dtt[,c(5,4,1,2,3,6,8,9,11,13,15,16)] #ordenar as colunas
   
@@ -883,6 +889,8 @@ if(pt==TRUE){
     inds<-data.table(Specie=c(rownames(spind), "Total"), `Ind./ha`= c(spind$spind, sum(spind$spind)), `Ind./Total Area`= c(spind$spind*A, sum(spind$spind*A)))
     inds<-as.data.frame(inds)
   }
+  
+  inds2<-inds
   
   inds <- flextable(inds)
   inds <- autofit(inds)
@@ -987,16 +995,16 @@ if(un==TRUE){
   }
   
   if(pt==TRUE){
-    return(list(`vol individual`=x3,
+    return(list(`vol individual`=x2,
                 `distribuicao diam`=diam,
-                `tabela aux`=tabaux,
-                `parametros vol`=par))
+                `tabela aux`=tabaux2,
+                `parametros vol`=df))
   }else{
     
-    return(list(`individual vol`=x3,
+    return(list(`individual vol`=x2,
                 `diam distribuction`=diam,
-                `aux table`=tabaux,
-                `vol parameters`=par))     
+                `aux table`=tabaux2,
+                `vol parameters`=df))     
   }
   
   
@@ -1025,13 +1033,15 @@ if(un==TRUE){
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia (%)") +
+      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia") +
       labs(fill = "Parametros") +
-      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+      theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
-      facet_wrap( ~ data[,1])
+      facet_wrap( ~ data[,1])+
+      guides(fill = guide_legend(reverse=TRUE))
+    
     
     p2 <- gg2 + theme(legend.position = "none")
     le1 <- cowplot::get_legend(gg2)
@@ -1053,13 +1063,15 @@ if(un==TRUE){
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Species\n") + ylab("\nImportance Value Index (%)") +
+      xlab("Species\n") + ylab("\nImportance Value Index") +
       labs(fill = "Parameters") +
-      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+      theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
-      facet_wrap( ~ data[,1])
+      facet_wrap( ~ data[,1])+
+      guides(fill = guide_legend(reverse=TRUE))
+    
     
     
     p2 <- gg2 + theme(legend.position = "none")
@@ -1507,53 +1519,53 @@ if(!(is.null(prot))){
   if(missing(prot)){
     
     if(pt==TRUE){
-    return(list(`vol individual`=x3,
+    return(list(`vol individual`=x2,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
-                `parametros fito`=fitot,
-                `ind por sp`=inds,
-                `volume por sp`=vesp2,
+                `parametros fito`=dtt3,
+                `ind por sp`=inds2,
+                `volume por sp`=vesp,
                 `distribuicao diam`=diam,
-                `tabela aux`=tabaux,
-                `parametros vol`=par))
+                `tabela aux`=tabaux2,
+                `parametros vol`=df))
     }else{
-      return(list(`individual vol`=x3,
+      return(list(`individual vol`=x2,
                   `species curve`=curve,
                   `ivi plot`=gg3,
-                  `phyto parameters`=fitot,
-                  `ind by sp`=inds,
-                  `volume by sp`=vesp2,
+                  `phyto parameters`=dtt3,
+                  `ind by sp`=inds2,
+                  `volume by sp`=vesp,
                   `diam distribuction`=diam,
-                  `aux table`=tabaux,
-                  `vol parameters`=par))
+                  `aux table`=tabaux2,
+                  `vol parameters`=df))
     }
       
       
   }else{
     
     if(pt==TRUE){
-    return(list(`vol individual`=x3,
+    return(list(`vol individual`=x2,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
-                `parametros fito`=fitot,
-                `spp prot`=phi,
-                `ind por sp`=inds,
-                `volume por sp`=vesp2,
+                `parametros fito`=dtt3,
+                `spp prot`=ph2,
+                `ind por sp`=inds2,
+                `volume por sp`=vesp,
                 `distribuicao diam`=diam,
-                `tabela aux`=tabaux,
-                `parametros vol`=par))
+                `tabela aux`=tabaux2,
+                `parametros vol`=df))
       }else{
                   
-        return(list(`individual vol`=x3,
+        return(list(`individual vol`=x2,
                     `species curve`=curve,
                     `ivi plot`=gg3,
-                    `phyto parameters`=fitot,
-                    `prot spp`=phi,
-                    `ind by sp`=inds,
-                    `volume by sp`=vesp2,
+                    `phyto parameters`=dtt3,
+                    `prot spp`=ph2,
+                    `ind by sp`=inds2,
+                    `volume by sp`=vesp,
                     `diam distribuction`=diam,
-                    `aux table`=tabaux,
-                    `vol parameters`=par))     
+                    `aux table`=tabaux2,
+                    `vol parameters`=df))     
   }}
     
 }

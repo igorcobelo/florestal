@@ -124,6 +124,7 @@ vahh<-as.data.frame(vah)
   vahh[,3]<-format(round(vahh[,3],4),nsmall=4)
   vahh[,4]<-format(round(vahh[,4],4),nsmall=4)
 
+  vahh2 <- vahh
 
   vahh <- flextable(vahh)
   vahh <- align(vahh, align = "center")
@@ -137,26 +138,26 @@ vahh<-as.data.frame(vah)
   if(pt==TRUE){
 
     diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram( binwidth=ampl ,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+      geom_histogram( binwidth=ampl ,fill="black", color="#e9ecef", alpha=0.9) +
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12)) +
       scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("Classe Diametrica (cm)") +
-      ylab("Frequencia")
+      xlab("\nClasse Diametrica (cm)") +
+      ylab("Frequencia\n")
 
   }else{
 
     diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram(binwidth=ampl,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+      geom_histogram(binwidth=ampl,fill="black", color="#e9ecef", alpha=0.9) +
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12)) +
       scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("Diameter Class (cm)") +
-      ylab("Frequency")
+      xlab("\nDiameter Class (cm)") +
+      ylab("Frequency\n")
   }
 
 
@@ -228,6 +229,8 @@ vahh<-as.data.frame(vah)
   }
   df[,2]<-format(round(df[,2],4),nsmall=4)
 
+  df <- as.data.frame(df)
+  
   par <- flextable(df)
   par <- align(par, align = "center")
   par <- align_text_col(par, align = "center")
@@ -332,19 +335,17 @@ vahh<-as.data.frame(vah)
   }
 }
   if(pt==TRUE){
-  return(list(`vol individual`=anex,
-              `G, N e V/ha`=vahh,
+  return(list(`vol individual`=x2,
+              `G, N e V/ha`=vahh2,
               `distribuicao diam`=diam,
-              `parametros vol`=par))
+              `parametros vol`=df))
   }else{
     
-    return(list(`individual vol`=anex,
-                `G, N and V/ha`=vahh,
+    return(list(`individual vol`=x2,
+                `G, N and V/ha`=vahh2,
                 `diam distribuction`=diam,
-                `vol parameters`=par))
+                `vol parameters`=df))
     
   }
 
 }
-
-

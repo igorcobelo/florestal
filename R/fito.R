@@ -73,7 +73,7 @@ if(pt==TRUE){
   dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
   dtt$`FA (%)`<-dtt$UA/max(plot,na.rm=TRUE)*100
   dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
-  dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`
+  dtt$`IVI (%)`<- (dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`)/3
   dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
 }else{
   colnames(dtt)[1]<-"Specie"
@@ -87,7 +87,7 @@ if(pt==TRUE){
   dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
   dtt$`AF (%)`<-dtt$SU/max(plot,na.rm=TRUE)*100
   dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
-  dtt$`IVI (%)`<-dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`
+  dtt$`IVI (%)`<- (dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`)/3
   dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
 }
 
@@ -104,6 +104,8 @@ dtt3[,8]<-format(round(dtt3[,8],2),nsmall=2)
 dtt3[,9]<-format(round(dtt3[,9],2),nsmall=2)
 dtt3[,10]<-format(round(dtt3[,10],2),nsmall=2)
 dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
+
+dtt3 <- as.data.frame(dtt3)
 
 fitot <- flextable(dtt3)
 fitot<-autofit(fitot)
@@ -161,12 +163,14 @@ if(pt==TRUE){
     scale_fill_brewer(palette = "Dark2") +
     theme_bw(16)  +
     coord_flip() +
-    xlab("\nEspecies") + ylab("Indice de Valor de Importancia (%)\n") +
+    xlab("Especies\n") + ylab("\nIndice de Valor de Importancia") +
     labs(fill = "Parametros") +
-    theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+    theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
           axis.title.y=element_text(size=12),
-          legend.position="bottom",legend.direction = "horizontal")
+          legend.position="bottom",legend.direction = "horizontal")+
+    guides(fill = guide_legend(reverse=TRUE))
+  
   
   p2 <- gg2 + theme(legend.position = "none")
   le1 <- cowplot::get_legend(gg2)
@@ -180,12 +184,14 @@ if(pt==TRUE){
     scale_fill_brewer(palette = "Dark2") +
     theme_bw(16)  +
     coord_flip() +
-    xlab("\nSpecies") + ylab("Importance Value Index (%)\n") +
+    xlab("Species\n") + ylab("\nImportance Value Index") +
     labs(fill = "Parameters") +
-    theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+    theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
           axis.title.y=element_text(size=12),
-          legend.position="bottom",legend.direction = "horizontal")
+          legend.position="bottom",legend.direction = "horizontal")+
+    guides(fill = guide_legend(reverse=TRUE))
+  
   
   p2 <- gg2 + theme(legend.position = "none")
   le1 <- cowplot::get_legend(gg2)
@@ -475,7 +481,7 @@ if(pt==TRUE){
   dtt$sumfac<-sumfac2
   
   dtt$`FR (%)`<-dtt$`FA (%)`/dtt$sumfac*100 #coluna FR
-  dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)` #coluna IVI
+  dtt$`IVI (%)`<- (dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`)/3 #coluna IVI
   
   dtt2<-dtt[,c(5,4,1,2,3,6,8,9,11,13,15,16)] #ordenar as colunas
   
@@ -499,6 +505,19 @@ if(pt==TRUE){
     colnames(dtt2)[10]<-"AF (%)"
     colnames(dtt2)[11]<-"RF (%)"
     colnames(dtt2)[12]<-"IVI (%)"
+    
+    colnames(dtt_g)[1]<-"Stratum"
+    colnames(dtt_g)[2]<-"Specie"
+    colnames(dtt_g)[3]<-"n"
+    colnames(dtt_g)[4]<-"G (m2)"
+    colnames(dtt_g)[5]<-"SU"
+    colnames(dtt_g)[6]<-"AD (n/ha)"
+    colnames(dtt_g)[7]<-"RD (%)"
+    colnames(dtt_g)[8]<-"ADo (G/ha)"
+    colnames(dtt_g)[9]<-"RDo (%)"
+    colnames(dtt_g)[10]<-"AF (%)"
+    colnames(dtt_g)[11]<-"RF (%)"
+    colnames(dtt_g)[12]<-"IVI (%)"
     
   }
   
@@ -545,13 +564,15 @@ if(pt==TRUE){
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia (%)") +
+      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia") +
       labs(fill = "Parametros") +
-      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+      theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
-      facet_wrap( ~ data[,1])
+      facet_wrap( ~ data[,1])+
+      guides(fill = guide_legend(reverse=TRUE))
+    
     
     p2 <- gg2 + theme(legend.position = "none")
     le1 <- cowplot::get_legend(gg2)
@@ -559,7 +580,7 @@ if(pt==TRUE){
     
     
   }else{
-    data <- dtt2[c(1, 2, 7, 9, 11)] %>%
+    data <- dtt_g[c(1, 2, 7, 9, 11)] %>%
       gather(Parameters, b, -Stratum, -Specie) %>%
       mutate(Parameters = case_when(
         grepl('^RDo', Parameters) ~ 'Relative Dominance (%)',
@@ -573,13 +594,15 @@ if(pt==TRUE){
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("\nSpecies") + ylab("Importance Value Index (%)\n") +
+      xlab("Species\n") + ylab("\nImportance Value Index") +
       labs(fill = "Parameters") +
-      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+      theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
-      facet_wrap( ~ data[,1])
+      facet_wrap( ~ data[,1])+
+      guides(fill = guide_legend(reverse=TRUE))
+    
     
     
     p2 <- gg2 + theme(legend.position = "none")
@@ -628,12 +651,12 @@ if(save==TRUE){
   
   if(pt==TRUE){
     return(list(`grafico ivi`=gg3,
-                `parametros fito`=fitot))
+                `parametros fito`=dtt3))
                 
   }else{
     
     return(list(`ivi plot`=gg3,
-                `phyto parameters`=fitot))     
+                `phyto parameters`=dtt3))     
   }
   
 }

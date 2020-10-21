@@ -1,36 +1,36 @@
-acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE){
+acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=2,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE){
 
 nm <-deparse(substitute(x))
 
   max<-ceiling(max(x[,5],na.rm=TRUE))
 
-  # #Distribuicao diametrica
+  #Distribuicao diametrica
 
   x<-as.data.frame(x)
 
   if(pt==TRUE){
 
     diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram( binwidth=ampl ,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+      geom_histogram( binwidth=ampl ,fill="black", color="#e9ecef", alpha=0.9) +
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12)) +
       scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("Classe Diametrica (cm)") +
-      ylab("Frequencia")
+      xlab("\nClasse Diametrica (cm)") +
+      ylab("Frequencia\n")
 
   }else{
 
     diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram(binwidth=ampl,fill="#69b3a2", color="#e9ecef", alpha=0.9) +
+      geom_histogram(binwidth=ampl,fill="black", color="#e9ecef", alpha=0.9) +
       theme_bw(16)+
       theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12)) +
       scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("Diameter Class (cm)") +
-      ylab("Frequency")
+      xlab("\nDiameter Class (cm)") +
+      ylab("Frequency\n")
   }
 
 
@@ -66,6 +66,7 @@ nm <-deparse(substitute(x))
   vopa2[,3]<-format(round(vopa2[,3],4),nsmall=4)
   vopa2[,4]<-format(round(vopa2[,4],4),nsmall=4)
 
+  vopa3 <- as.data.frame(vopa2)
 
   vopa2 <- flextable(vopa2)
   vopa2 <- align(vopa2, align = "center")
@@ -308,7 +309,7 @@ nm <-deparse(substitute(x))
     dtt$`DoR (%)`<-dtt$`DoA (G/ha)`/sum(dtt$`DoA (G/ha)`)*100
     dtt$`FA (%)`<-dtt$UA/max(x[,1],na.rm=TRUE)*100
     dtt$`FR (%)`<-dtt$`FA (%)`/sum(dtt$`FA (%)`)*100
-    dtt$`IVI (%)`<-dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`
+    dtt$`IVI (%)`<- (dtt$`DR (%)`+dtt$`DoR (%)`+dtt$`FR (%)`)/3
     dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
   }else{
     colnames(dtt)[1]<-"Specie"
@@ -322,7 +323,7 @@ nm <-deparse(substitute(x))
     dtt$`RDo (%)`<-dtt$`ADo (G/ha)`/sum(dtt$`ADo (G/ha)`)*100
     dtt$`AF (%)`<-dtt$SU/max(x[,1],na.rm=TRUE)*100
     dtt$`RF (%)`<-dtt$`AF (%)`/sum(dtt$`AF (%)`)*100
-    dtt$`IVI (%)`<-dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`
+    dtt$`IVI (%)`<- (dtt$`RD (%)`+dtt$`RDo (%)`+dtt$`RF (%)`)/3
     dtt<-dtt[order(dtt$`IVI (%)`, decreasing = T),]
   }
 
@@ -340,6 +341,8 @@ nm <-deparse(substitute(x))
   dtt3[,10]<-format(round(dtt3[,10],2),nsmall=2)
   dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
 
+  dtt5 <- as.data.frame(dtt3)
+  
   dtt3 <- flextable(dtt3)
   dtt3<-autofit(dtt3)
   dtt3 <- align(dtt3, align = "center", part="all")
@@ -360,6 +363,8 @@ nm <-deparse(substitute(x))
   }
   
   inds[,3]<-format(round(inds[,3],2),nsmall=2)
+  
+  inds2<-as.data.frame(inds)
 
   inds <- flextable(inds)
   inds <- autofit(inds)
@@ -490,16 +495,16 @@ nm <-deparse(substitute(x))
     
     if(pt==TRUE){
       
-      return(list(`vol individual`=anex,
+      return(list(`vol individual`=x2,
                   `distribuicao diam`=diam,
-                  `volume por parcela`=vopa2,
-                  `parametros vol`=par))
+                  `volume por parcela`=vopa3,
+                  `parametros vol`=df))
     }else{
       
-      return(list(`individual vol`=anex,
+      return(list(`individual vol`=x2,
                   `diam distribuction`=diam,
-                  `volume by plot`=vopa2,
-                  `vol parameters`=par))
+                  `volume by plot`=vopa3,
+                  `vol parameters`=df))
     }
     
     
@@ -529,12 +534,14 @@ nm <-deparse(substitute(x))
       scale_fill_brewer(palette = "Dark2") +
       theme_bw(16)  +
       coord_flip() +
-      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia (%)") +
+      xlab("Especies\n") + ylab("\nIndice de Valor de Importancia") +
       labs(fill = "Parametros") +
-      theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+      theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
             axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
             axis.title.y=element_text(size=12),
-            legend.position="bottom",legend.direction = "horizontal")
+            legend.position="bottom",legend.direction = "horizontal")+
+      guides(fill = guide_legend(reverse=TRUE))
+  
 
     p2 <- gg2 + theme(legend.position = "none")
     le1 <- cowplot::get_legend(gg2)
@@ -548,12 +555,14 @@ nm <-deparse(substitute(x))
           scale_fill_brewer(palette = "Dark2") +
           theme_bw(16)  +
           coord_flip() +
-          xlab("Species\n") + ylab("\nImportance Value Index (%)") +
+          xlab("Species\n") + ylab("\nImportance Value Index") +
           labs(fill = "Parameters") +
-          theme(axis.text.y = element_text(face = "italic",size=8), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
+          theme(axis.text.y = element_text(face = "italic",size=10), legend.title=element_blank(),legend.justification = "center" ,legend.text=element_text(size=10),
                 axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
                 axis.title.y=element_text(size=12),
-                legend.position="bottom",legend.direction = "horizontal")
+                legend.position="bottom",legend.direction = "horizontal")+
+          guides(fill = guide_legend(reverse=TRUE))
+        
 
         p2 <- gg2 + theme(legend.position = "none")
         le1 <- cowplot::get_legend(gg2)
@@ -685,6 +694,8 @@ nm <-deparse(substitute(x))
       vt$`Volume/total area (m3)`<-format(round(vt$`Volume/total area (m3)`,4),nsmall=4)
     }
 
+    vtt3<-as.data.frame(vt)
+    
     vtt<-as.data.frame(vt)
     vtt <- flextable(vtt)
     vtt <- autofit(vtt)
@@ -845,6 +856,8 @@ if(pt==TRUE){
     }
 
 
+    vtt3<-as.data.frame(vt)
+    
     vtt<-as.data.frame(vt)
     vtt <- flextable(vtt)
     vtt <- autofit(vtt)
@@ -997,26 +1010,26 @@ if(pt==TRUE){
     
     if(pt==TRUE){
       
-    return(list(`vol individual`=anex,
+    return(list(`vol individual`=x2,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
-                `parametros fito`=dtt3,
-                `ind por sp`=inds,
-                `volume por sp`=vtt,
+                `parametros fito`=dtt5,
+                `ind por sp`=inds2,
+                `volume por sp`=vtt3,
                 `distribuicao diam`=diam,
-                `volume por parcela`=vopa2,
-                `parametros vol`=par))
+                `volume por parcela`=vopa3,
+                `parametros vol`=df))
     }else{
       
-      return(list(`individual vol`=anex,
+      return(list(`individual vol`=x2,
       `species curve`=curve,
       `ivi plot`=gg3,
-      `phyto parameters`=dtt3,
-      `ind by sp`=inds,
-      `volume by sp`=vtt,
+      `phyto parameters`=dtt5,
+      `ind by sp`=inds2,
+      `volume by sp`=vtt3,
       `diam distribuction`=diam,
-      `volume by plot`=vopa2,
-      `vol parameters`=par))
+      `volume by plot`=vopa3,
+      `vol parameters`=df))
     }
       
       
@@ -1024,30 +1037,33 @@ if(pt==TRUE){
     
     if(pt==TRUE){
       
-      return(list(`vol individual`=anex,
+      return(list(`vol individual`=x2,
                   `curva especies`=curve,
                   `grafico ivi`=gg3,
-                  `parametros fito`=dtt3,
-                  `spp prot`=phi,
-                  `ind por sp`=inds,
-                  `volume por sp`=vtt,
+                  `parametros fito`=dtt5,
+                  `spp prot`=ph2,
+                  `ind por sp`=inds2,
+                  `volume por sp`=vtt3,
                   `distribuicao diam`=diam,
-                  `volume por parcela`=vopa2,
-                  `parametros vol`=par))
+                  `volume por parcela`=vopa3,
+                  `parametros vol`=df))
     }else{
       
-      return(list(`individual vol`=anex,
+      return(list(`individual vol`=x2,
       `species curve`=curve,
       `ivi plot`=gg3,
-      `phyto parameters`=dtt3,
-      `prot spp`=phi,
-      `ind by sp`=inds,
-      `volume by sp`=vtt,
+      `phyto parameters`=dtt5,
+      `prot spp`=ph2,
+      `ind by sp`=inds2,
+      `volume by sp`=vtt3,
       `diam distribuction`=diam,
-      `volume by plot`=vopa2,
-      `vol parameters`=par))
+      `volume by plot`=vopa3,
+      `vol parameters`=df))
     }
   }
 
   }
 }
+
+
+
