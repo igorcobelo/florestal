@@ -4,6 +4,12 @@
 > Resultados para Inventários Florestais.
 
 
+<p align="center">
+  <img src="https://github.com/igorcobelo/florestal/blob/master/img/logo.jpg" width="40%" height="40%">
+
+<div id="menu" />
+
+---------------------------------------------
 
 ## Índice
 * [1. Informações Gerais](#1-informações-gerais)
@@ -27,6 +33,11 @@ Funções:
 - ace(): retorna parâmetros amostrais para Amostragem Casual Estratificada.
 - bit(): retorna parâmetros amostrais para amostragem pelo Método de Bitterlich.
 - fito(): retorna parâmetros fitossociológicos.
+
+Obs. 1: As funções 'acs', 'ace', 'bit' e 'fito' retornam, além de uma lista dos resultados, um arquivo docx salvo na pasta de arquivos temporários do seu computador.
+Caso tenha problemas devido a questões de administração de usuários, pode-se utilizar o argumento 'save=F', para que o arquivo não seja salvo.
+
+Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para Inglês com o argumento 'pt=F'.
 
 ## 2. Instalação
 
@@ -76,7 +87,7 @@ Funções:
 
 `head(est1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_est1.png)
 
 #Criamos um objeto para cada estrato e depois os unimos com 'rbind':
 
@@ -98,9 +109,11 @@ Funções:
 
 `head(bit1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_bit1.png)
 
 `IF_bit <- indvol(bit1, mens="bit", f=0.7)`
+
+`head(IF_bit)`
 
 #Para um censo, a planilha precisa necessariamente conter as colunas nesta ordem:
 
@@ -112,13 +125,17 @@ Funções:
 
 `head(census1)`
 
-![Example screenshot](./img/df1.png)
+![Example screenshot](./img/head_census1.png)
 
 `IF_census <- indvol(census1, mens="census", veg="cerradoss_df")`
+
+`head(IF_census)`
 
 ## 4. Amostragem Casual Simples
 
 #Calculamos a Amostragem Casual Simples com a função 'acs()'.
+
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
@@ -134,7 +151,7 @@ Funções:
 
 #Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
 
-#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'diam' (padrão=5).
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
 
 #Para alterar o erro requerido, utilizamos o argumento 'E'.
 
@@ -148,7 +165,7 @@ Funções:
 
 #Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
 
-`tempfile()`
+`tempdir()`
 
 #O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
 
@@ -156,13 +173,107 @@ Funções:
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
 
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+
+#Carregamos nossa planilha de exemplo:
+
+data("est2")
+
+head(est2)
+
+#Consideramos dois estratos, o primeiro com 12.6 ha e o segundo com 10.2 ha, área da parcela de 0.1 ha, erro requerido de 10% (padrão) e nível de significância de 5% (padrão):
+
+IF_ace <- ace(est2,a=0.1,aj=c(12.6,10.2))
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_ace$`.
+
+#Para alterar a quantidade de espécies no gráfico de IVI, utilizamos o argumento 'spivi' (padrão=15).
+
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
+
+#Para alterar o erro requerido, utilizamos o argumento 'E'.
+
+#Para alterar o nível de significância, utilizamos o argumento 'p'.
+
+#A saída padrão é em Português. Caso queria em Inglês, utilizamos o argumento 'pt=F'.
+
+#A alocação de parcelas por estrato segue, por padrão, o método da alocação ótima de Neyman. Caso considere a alocação proporcional por área, utilize o argumento 'prop=T'.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?ace
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempdir()
+
+#O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
+
 ## 6. Método de Bitterlich
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
 
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+
+#Carregamos nossa planilha de exemplo:
+
+data("bit2")
+
+head(bit2)
+
+#Consideramos uma área total de 12 ha, fator de área basal igual a 2, erro requerido de 10% (padrão) e nível de significância de 5% (padrão):
+
+IF_bit <- bit(bit2,A=12,k=2)
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_bit$`.
+
+#Para alterar a amplitude dos centros de classe da distribuição diamétrica, utilizamos o argumento 'ampl' (padrão=5).
+
+#Para alterar o erro requerido, utilizamos o argumento 'E'.
+
+#Para alterar o nível de significância, utilizamos o argumento 'p'.
+
+#A saída padrão é em Português. Caso queria em Inglês, utilizamos o argumento 'pt=F'.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?bit
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempdir()
+
+#O arquivo é salvo com o nome "InventarioFlorestal" seguido de um código, como "InventarioFlorestal1fbc2fa1c72".
+
 ## 7. Parâmetros Fitossociológicos
 
 #Calculamos os parâmetros fitossociológicos com a função 'fito()'.
+
+#Precisamos de uma planilha contendo: Espécies (sp); parcelas (plot); e diâmetro (d).
+
+#Se tiver estratos, devem estar na primeira coluna (em numeral) e acrescentar na função o argumento 'stratum=T'.
+
+#Carregamos nossa planilha de exemplo:
+
+`data(simple1)`
+
+`head(simple1)`
+
+#Considerando uma área total de 27 ha:
+
+IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$Diameter, A=27)
+
+#A função retorna uma lista dos resultados. Podemos visualizar cada elemento da lista utilizando `IF_fito$`.
+
+#Outros argumentos podem ser visualizados na documentação da função:
+
+?fito
+
+#Um ARQUIVO DOCX é salvo na pasta de arquivos temporários do seu computador. Para encontrar a pasta, execute:
+
+tempdir()
+
+#O arquivo é salvo com o nome "Fitossociologia" seguido de um código, como "Fitossociologia1fbc2fa1c72".
 
 ## 8. Referências
 
@@ -176,4 +287,4 @@ Instagram: [@florestalpackage](https://www.instagram.com/florestalpackage/)
 
 Para citar 'florestal' em publicações, por favor use:
 
-Ferreira, Igor C. (2020). florestal: Results for Forest Inventories. R package version 0.1.1. Brasilia, Brazil. <<http://github.com/igorcobelo/florestal>>
+Ferreira, Igor C. (2020). florestal: Results for Forest Inventories. R package version 0.1.1. Brasilia, Brazil. <<https://cran.r-project.org/package=florestal>>
