@@ -13,7 +13,7 @@ bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=FALSE,pt=TRUE,save=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{A data frame with six columns: sample points in the first (in numerals), numbering of individuals in the second (in numerals), height in the third (in meters), diameter in the fourth (in centimeters), radial distance in the fifth (in meters) and volume in the last (in cubic meters).}
+  \item{x}{A data frame with seven columns: sample points in the first (in numerals), numbering of individuals in the second (in numerals), species in the third, height in the fourth (in meters), diameter in the fifth (in centimeters), radial distance in the sixth (in meters) and volume in the seventh (in cubic meters).}
   \item{A}{Total area, in hectares.}
   \item{k}{Basal area factor.}
   \item{E}{Required error, in decimal value. Default is 0.1.}

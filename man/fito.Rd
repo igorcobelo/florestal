@@ -42,7 +42,7 @@ head(simple1)
 
 #Calculate the phytosociological parameters
 
-IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$Diameter, A=27)
+IF_fito <- fito(sp=simple1$Specie, plot=simple1$Plot, d= simple1$`Diameter (cm)`, A=27)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

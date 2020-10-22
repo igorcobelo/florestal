@@ -8,7 +8,7 @@ Simple Casual Sampling and Phytosociological Parameters
 Calculates the simple casual and phytosociological sampling parameters.
 }
 \usage{
-acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE)
+acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=2,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ acs(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=5,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=
     \item{E}{Required error, in decimal value. Default is 0.1.}
     \item{p}{Significance level, in decimal value. Default is 0.05.}
     \item{prot}{Optional. Protected species.}
-    \item{ampl}{Amplitude of diameter class range. Default is 5.}
+    \item{ampl}{Amplitude of diameter class range. Default is 2.}
     \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
     \item{spivi}{number of species in the IVI plot. Default is 15.} 
     \item{un}{Logical argument. If TRUE, the species column have an unique specie, as a planted forest. If FALSE (default), have multiple species (more than one).}

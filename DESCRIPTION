@@ -1,7 +1,7 @@
 Package: florestal
 Type: Package
 Title: Results for Forest Inventories
-Version: 0.1.1
+Version: 0.1.2
 Author: Igor Cobelo Ferreira
 Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 Description: The functions return sampling parameters for forest inventories with tables and graphics. Methods used in the 

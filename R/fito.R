@@ -169,7 +169,7 @@ if(pt==TRUE){
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
           axis.title.y=element_text(size=12),
           legend.position="bottom",legend.direction = "horizontal")+
-    guides(fill = guide_legend(reverse=TRUE))
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
   
   
   p2 <- gg2 + theme(legend.position = "none")
@@ -190,7 +190,7 @@ if(pt==TRUE){
           axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
           axis.title.y=element_text(size=12),
           legend.position="bottom",legend.direction = "horizontal")+
-    guides(fill = guide_legend(reverse=TRUE))
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
   
   
   p2 <- gg2 + theme(legend.position = "none")
@@ -571,7 +571,7 @@ if(pt==TRUE){
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
       facet_wrap( ~ data[,1])+
-      guides(fill = guide_legend(reverse=TRUE))
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
     
     
     p2 <- gg2 + theme(legend.position = "none")
@@ -601,7 +601,7 @@ if(pt==TRUE){
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
       facet_wrap( ~ data[,1])+
-      guides(fill = guide_legend(reverse=TRUE))
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
     
     
     

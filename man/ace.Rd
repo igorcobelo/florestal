@@ -8,7 +8,7 @@ Stratified Casual Sampling and Phytosociological Parameters
 Calculates the stratified casual and phytosociological sampling parameters.
 }
 \usage{
-ace(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T)
+ace(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +17,7 @@ ace(x,a,aj,E=0.1,p=0.05,ampl=5,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T)
   \item{aj}{Area of each stratum, in hectares.}
   \item{E}{Required error, in decimal value. Default is 0.1.}
   \item{p}{Significance level, in decimal value. Default is 0.05.}
-  \item{ampl}{Amplitude of diameter class range. Default is 5.}
+  \item{ampl}{Amplitude of diameter class range. Default is 2.}
   \item{prot}{Protected species.}
   \item{prop}{Logical argument. If FALSE (default), the allocation of plots by stratum will follow Neyman's optimal allocation method. If TRUE, will follow the proportional allocation by area.}
   \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
