@@ -173,7 +173,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 #Calculamos a Amostragem Casual Estratificada com a função 'ace()'.
 
-#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
@@ -213,7 +213,7 @@ tempdir()
 
 #Calculamos a amostragem pelo Método de Bitterlich com a função 'bit()'.
 
-#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
+#O formato da planilha deve ser o mesmo descrito na seção [3. Volume Individual](#3-volume-individual), porém com a última coluna representando o volume individual (a função 'indvol' já retorna nesse formato).
 
 #Carregamos nossa planilha de exemplo:
 
