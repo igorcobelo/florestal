@@ -34,7 +34,7 @@ indvol(x, mens="plot", vol=FALSE, myeq=NULL, veg=NULL, f=NULL, circ=FALSE)
   \item{myeq}{Optional. User can calculate a diferent equation using height (h) and diameter (d), in quotes, e.g.:
   "0.000065661*d^(2.475293)*h^(0.300022)"
 }
-  \item{veg}{Optional. A vegetable formation. See all: \href{https://github.com/igorcobelo/florestal/blob/master/Equations.md}{Equations}
+  \item{veg}{Optional. A vegetable formation. See all: \href{https://github.com/igorcobelo/florestal/blob/master/inst/Equations.md}{Equations}
 
   }
   \item{f}{Optional. Form factor.}

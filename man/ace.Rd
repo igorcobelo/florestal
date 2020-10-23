@@ -24,12 +24,12 @@ ace(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=T,save=T)
     \item{spivi}{number of species in the IVI plot. Default is 15.} 
     \item{un}{Logical argument. If TRUE, the species column have an unique specie, as a planted forest. If FALSE (default), have multiple species (more than one).}
     \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
-    \item{save}{Logical argument. If TRUE (default), a docx file will be saved in the temporary files directory (run 'tempfile ()') (if save=TRUE) with the generated tables and graphics.}
+    \item{save}{Logical argument. If TRUE (default), a docx file will be saved in the temporary files directory (run 'tempdir()') (if save=TRUE) with the generated tables and graphics.}
 
 }
 
 \value{
-A list of tables and graphs, and a docx file saved in the temporary files directory (run 'tempfile ()') (if save=TRUE). The console displays the sampling intensity and whether there is significant difference between the strata from the F test of the single-factor ANOVA and a Tukey's test for significant differences between strata, with 95 per cent confidence.
+A list of tables and graphs, and a docx file saved in the temporary files directory (run 'tempdir()') (if save=TRUE). The console displays the sampling intensity and whether there is significant difference between the strata from the F test of the single-factor ANOVA and a Tukey's test for significant differences between strata, with 95 per cent confidence.
 
 }
 \references{

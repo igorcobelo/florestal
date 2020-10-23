@@ -21,12 +21,12 @@ bit(x,A,k,E=0.1,p=0.05,ampl=2,rn=FALSE,pt=TRUE,save=TRUE)
   \item{ampl}{Amplitude of diameter class range. Default is 2.}
   \item{rn}{Logical argument. If TRUE, calculates the sample intensity once again, with the degrees of freedom from the previous result.}
  \item{pt}{Logical argument. If TRUE (default), the language of the outputs is Portuguese. If FALSE, the language is English.}
- \item{save}{Logical argument. If TRUE (default), a docx file will be saved in the temporary files directory (run 'tempfile ()') (if save=TRUE) with the generated tables and graphics.}
+ \item{save}{Logical argument. If TRUE (default), a docx file will be saved in the temporary files directory (run 'tempdir()') (if save=TRUE) with the generated tables and graphics.}
 
 }
 
 \value{
-A list of tables and graphs, and a docx file saved in the temporary files directory (run 'tempfile ()') (if save=TRUE). The console displays the sampling intensity.
+A list of tables and graphs, and a docx file saved in the temporary files directory (run 'tempdir()') (if save=TRUE). The console displays the sampling intensity.
 }
 \references{
 Bitterlich, W. (1948). Die Winkelzahlprobe. Allg. Forst-u. Holzwirtsch. Ztg., 59 (1/2): 4-5.
