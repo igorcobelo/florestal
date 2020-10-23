@@ -5,11 +5,11 @@ citEntry(entry = "manual",
     title = "{florestal}: Results for Forest Inventories",
     author = "Igor C. Ferreira",
     address = "Brasilia, Brazil",
-    note = "R package version 0.1.2",
+    note = "R package version 0.1.3",
     year = "2020",
     url = "https://cran.r-project.org/package=florestal",
     textVersion  = paste("Ferreira, Igor C. (2020).",
         "florestal: Results for Forest Inventories.",
-        "R package version 0.1.1. Brasilia, Brazil.",
+        "R package version 0.1.3. Brasilia, Brazil.",
         "https://cran.r-project.org/package=florestal")
 )
