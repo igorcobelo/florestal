@@ -5,7 +5,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/igorcobelo/florestal/blob/master/img/logo.jpg" width="40%" height="40%">
+  <img src="https://github.com/igorcobelo/florestal/inst/img/logo.jpg" width="40%" height="40%">
 
 <div id="menu" />
 
