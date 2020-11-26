@@ -63,7 +63,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 `head(simple1)`
 
-![Example screenshot](.inst/img/head_simple1.png)
+![Example screenshot](https://github.com/igorcobelo/florestal/blob/master/inst/img/head_simple1.png)
 
 #Usando uma equação inserida pelo usuário:
 
@@ -87,7 +87,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 `head(est1)`
 
-![Example screenshot](.inst/img/head_est1.png)
+![Example screenshot](https://github.com/igorcobelo/florestal/blob/master/inst/img/head_est1.png)
 
 #Criamos um objeto para cada estrato e depois os unimos com 'rbind':
 
@@ -125,7 +125,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 `head(census1)`
 
-![Example screenshot](.inst/img/head_census1.png)
+![Example screenshot](https://github.com/igorcobelo/florestal/blob/master/inst/img/head_census1.png)
 
 `IF_census <- indvol(census1, mens="census", veg="cerradoss_df")`
 
