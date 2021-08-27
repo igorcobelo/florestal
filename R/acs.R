@@ -1,5 +1,5 @@
 acs<-function(x,A,a,E=0.1,p=0.05,prot=NULL,ampl=2,rn=FALSE,spivi=15,un=FALSE,pt=TRUE,save=TRUE){
-#
+
 nm <-deparse(substitute(x))
 
   #Distribuicao diametrica
