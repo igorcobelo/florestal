@@ -5,40 +5,40 @@ nm <-deparse(substitute(x))
   #Distribuicao diametrica
 
   x<-as.data.frame(x)
-  
-  
-  #####DISTRIBUIÇÃO DIAMÉTRICA###########
-  
+
+
+  #####DISTRIBUI??O DIAM?TRICA###########
+
   breaks <- seq(from=min(x[,5]),to=max(x[,5]),by=ampl)
-  
+
   d <- cut(x[,5],breaks=breaks,right=F,include.lowest = T)
-  
+
   data <- as.data.frame(table(d))
   data$d <- stri_replace_all_fixed(data$d,",", "<")
   data$d <- stri_replace_all_fixed(data$d,")", "")
   data$d <- stri_replace_all_fixed(data$d,"[", "")
   data$d <- stri_replace_all_fixed(data$d,"]", "")
-  
+
   if(pt==TRUE){
 
-    diam <- ggplot(data, aes(x=d, y=Freq)) + 
+    diam <- ggplot(data, aes(x=d, y=Freq)) +
       geom_bar(stat = "identity", width=0.5, fill="black",alpha=0.9)+
       theme_bw()+
-      xlab("\nClasse Diamétrica (cm)")+
-      ylab("Quantidade de Indivíduos\n")+
-      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"), 
+      xlab("\nClasse Diam?trica (cm)")+
+      ylab("Quantidade de Indiv?duos\n")+
+      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"),
                     y = Freq),
                 position = position_dodge(width = 1),
                 vjust = -0.5,color="black",size=2)
 
   }else{
 
-    diam <- ggplot(data, aes(x=d, y=Freq)) + 
+    diam <- ggplot(data, aes(x=d, y=Freq)) +
       geom_bar(stat = "identity", width=0.5, fill="black",alpha=0.9)+
       theme_bw()+
       xlab("\nDiameter Class (cm)")+
       ylab("Number of Individuals\n")+
-      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"), 
+      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"),
                     y = Freq),
                 position = position_dodge(width = 1),
                 vjust = -0.5,color="black",size=2)
@@ -353,17 +353,17 @@ nm <-deparse(substitute(x))
   dtt3[,11]<-format(round(dtt3[,11],2),nsmall=2)
 
   dtt5 <- as.data.frame(dtt3)
-  
+
   dtt3 <- flextable(dtt3)
   dtt3<-autofit(dtt3)
   dtt3 <- align(dtt3, align = "center", part="all")
   dtt3<-italic(dtt3,j=1)
 
-  
+
 #NOVA TABELA (individuos)
-  
+
   dtt<-dtt[order(-dtt$n),]
-  
+
 
   if(pt==TRUE){
     inds<-data.table(Especie=c(as.character(dtt$Especie),"Total"),`Ind. Amostrados`= c(dtt$n, sum(dtt$n)), `Ind./ha`= c(dtt$`DA (n/ha)`, sum(dtt$`DA (n/ha)`)), `Ind./Area Total`= c(dtt$`DA (n/ha)`*A, sum(dtt$`DA (n/ha)`*A)))
@@ -372,17 +372,17 @@ nm <-deparse(substitute(x))
     inds<-data.table(Specie=c(as.character(dtt$Specie),"Total"),`Sampled Ind.`= c(dtt$n, sum(dtt$n)), `Ind./ha`= c(dtt$`AD (n/ha)`, sum(dtt$`AD (n/ha)`)), `Ind./Total Area`= c(dtt$`AD (n/ha)`*A, sum(dtt$`AD (n/ha)`*A)))
     inds<-as.data.frame(inds)
   }
-  
+
   inds[,3]<-format(round(inds[,3],2),nsmall=2)
-  
+
   inds2<-as.data.frame(inds)
 
   inds <- flextable(inds)
   inds <- autofit(inds)
   inds <- align(inds, align = "center", part="all")
   inds <- italic(inds,j=1,i=1:nrow(dtt))
-  
-  
+
+
   #Grafico fito
 
 
@@ -411,7 +411,7 @@ nm <-deparse(substitute(x))
   value<-data.frame(b=unlist(t[2:4,],use.names=FALSE))
   condition <- data.frame(rep(rownames(t[2:4,]),ncol(t)))
   data <- data.frame(specie,condition,value)
-  
+
   if(pt==TRUE){
     colnames(x)[1]<-"Parcela"
     colnames(x)[2]<-"Individuo"
@@ -427,72 +427,72 @@ nm <-deparse(substitute(x))
     colnames(x)[5]<-"Diameter (cm)"
     colnames(x)[6]<-"Volume (m3)"
   }
-  
+
   x2<-as.data.frame(x)
-  
+
   x2[,1]<-format(round(x2[,1],0),nsmall=0)
   x2[,2]<-format(round(x2[,2],0),nsmall=0)
   x2[,4]<-format(round(x2[,4],2),nsmall=2)
   x2[,5]<-format(round(x2[,5],2),nsmall=2)
   x2[,6]<-format(round(x2[,6],4),nsmall=4)
-  
+
   anex <- flextable(x2)
   anex <- autofit(anex)
   anex <- align(anex, align = "center", part="all")
   anex<-italic(anex,j=3)
-  
-  
+
+
   # se tiver uma unica especie
   if(un==TRUE){
-  
+
     if(pt==TRUE){
       doc<-read_docx() %>%
-        
+
         body_add_par("Tabela 1. Parametros da amostragem casual simples.", style = "centered") %>%
         body_add_flextable(par) %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered") %>%
         body_add_par("Figura 1. Distribuicao diametrica.", style = "centered") %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_par("Tabela 2. Volume lenhoso por parcela.", style = "centered") %>%
         body_add_flextable(vopa2) %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_par("Tabela 3. Volume lenhoso individual.", style = "centered") %>%
         body_add_flextable(anex) %>%
         body_end_section_landscape()
-      
-      
+
+
     }else{
-      
+
       doc<-read_docx() %>%
-        
+
         body_add_par("Table 1. Simple casual sampling parameters.", style = "centered") %>%
         body_add_flextable(par) %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_gg(diam,style="centered") %>%
         body_add_par("Figure 1. Diameter distribution.", style = "centered") %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_par("Table 2. Woody volume by plot.", style = "centered") %>%
         body_add_flextable(vopa2) %>%
         body_end_section_landscape() %>%
-        
+
         body_add_break(pos="on") %>%
         body_add_par("Table 3. Individual woody volume.", style = "centered") %>%
         body_add_flextable(anex)%>%
         body_end_section_landscape()
-      
+
     }
-    
+
   if(save==TRUE){
   if(pt==TRUE){
     fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
@@ -500,30 +500,30 @@ nm <-deparse(substitute(x))
   }else{
     fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
     print(doc, target = fileout)
-    
+
   }
   }
-    
+
     if(pt==TRUE){
-      
+
       return(list(`vol individual`=x2,
                   `distribuicao diam`=diam,
                   `volume por parcela`=vopa3,
                   `parametros vol`=df))
     }else{
-      
+
       return(list(`individual vol`=x2,
                   `diam distribuction`=diam,
                   `volume by plot`=vopa3,
                   `vol parameters`=df))
     }
-    
-    
-    
+
+
+
   }else{
-    
+
     #mais de uma especie:
-    
+
   data$b<-as.character(data$b)
   data$b<-as.numeric(data$b)
 
@@ -552,7 +552,7 @@ nm <-deparse(substitute(x))
             axis.title.y=element_text(size=12),
             legend.position="bottom",legend.direction = "horizontal")+
       ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
-  
+
 
     p2 <- gg2 + theme(legend.position = "none")
     le1 <- cowplot::get_legend(gg2)
@@ -573,7 +573,7 @@ nm <-deparse(substitute(x))
                 axis.title.y=element_text(size=12),
                 legend.position="bottom",legend.direction = "horizontal")+
           ggplot2::guides(fill = ggplot2::guide_legend(reverse=TRUE))
-        
+
 
         p2 <- gg2 + theme(legend.position = "none")
         le1 <- cowplot::get_legend(gg2)
@@ -583,18 +583,18 @@ nm <-deparse(substitute(x))
 
 
   #CURVA DE ACUMULACAO DE ESPECIES
-  
+
   if(pt==TRUE){
   cc<-as.data.frame.matrix(table(x$Parcela, x$Especie))
   }else{
     cc<-as.data.frame.matrix(table(x$Plot, x$Specie))
   }
-  
+
 
   sp2 <- accumresult(cc, method = "exact",permutations=1000)
 
   h<-data.frame(r=sp2$richness,p=sp2$sites, sd=sp2$sd)
-  
+
   if(pt==TRUE){
   curve <- ggplot(h, aes(x=p, y=r))+
     geom_line() +
@@ -606,7 +606,7 @@ nm <-deparse(substitute(x))
     xlab("\nParcelas")+
     ylab("Riqueza\n")
   }else{
-    
+
     curve <- ggplot(h, aes(x=p, y=r))+
       geom_line() +
       geom_ribbon(aes(ymin=r-sd*2, ymax=r+sd*2), alpha = 0.2)+
@@ -617,8 +617,8 @@ nm <-deparse(substitute(x))
       xlab("\nPlot")+
       ylab("Richness\n")
   }
-  
-  
+
+
  #VOLUME POR SP
 
   x<-as.data.frame(x)
@@ -673,7 +673,7 @@ nm <-deparse(substitute(x))
   anex<-italic(anex,j=3)
 
   vvol<-vvol[order(-vvol[,1]),]
-  
+
   if(missing(prot)) {
     if(pt==TRUE){
       vt<-data.table(c(vvol[,2],"Total"), c(vvol[,1],sum(vvol[,1])), c(vvol[,1]/(a*length(vv)), sum(vvol[,1])/(a*length(vv))), c(vvol[,1]*A/(a*length(vv)), sum(vvol[,1])*A/(a*length(vv))))
@@ -706,7 +706,7 @@ nm <-deparse(substitute(x))
     }
 
     vtt3<-as.data.frame(vt)
-    
+
     vtt<-as.data.frame(vt)
     vtt <- flextable(vtt)
     vtt <- autofit(vtt)
@@ -735,7 +735,7 @@ if(pt==TRUE){
       body_add_par("Tabela 3. Volume lenhoso por especie.", style = "centered") %>%
       body_add_flextable(vtt) %>%
       body_end_section_landscape() %>%
-      
+
       body_add_break(pos="on") %>%
       body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
       body_add_flextable(inds) %>%
@@ -750,12 +750,12 @@ if(pt==TRUE){
       body_add_gg(gg3,style="centered")%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
-      
+
       body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered")%>%#grafico curva
       body_add_par("Figura 3. Curva de acumulacao de especies. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
       body_end_section_landscape() %>%
-      
+
       body_add_break(pos="on") %>%
       body_add_par("Tabela 6. Volume lenhoso individual.", style = "centered") %>%
       body_add_flextable(anex) %>%
@@ -782,7 +782,7 @@ if(pt==TRUE){
     body_add_par("Table 3. Woody volume by specie.", style = "centered") %>%
     body_add_flextable(vtt) %>%
     body_end_section_landscape() %>%
-    
+
     body_add_break(pos="on") %>%
     body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
     body_add_flextable(inds) %>%
@@ -797,7 +797,7 @@ if(pt==TRUE){
     body_add_gg(gg3,style="centered")%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
-    
+
     body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered")%>%#grafico curva
     body_add_par("Figure 3. Species accumulation curve. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
@@ -868,7 +868,7 @@ if(pt==TRUE){
 
 
     vtt3<-as.data.frame(vt)
-    
+
     vtt<-as.data.frame(vt)
     vtt <- flextable(vtt)
     vtt <- autofit(vtt)
@@ -916,7 +916,7 @@ if(pt==TRUE){
       body_add_par("Tabela 3. Volume lenhoso por especie.", style = "centered") %>%
       body_add_flextable(vtt) %>%
       body_end_section_landscape() %>%
-      
+
       body_add_break(pos="on") %>%
       body_add_par("Tabela 4. Quantidade de individuos por especie.", style = "centered") %>%
       body_add_flextable(inds) %>%
@@ -936,7 +936,7 @@ if(pt==TRUE){
       body_add_gg(gg3,style="centered")%>%#grafico fito
       body_add_par("Figura 2. Indice de Valor de Importancia por especie (soma de densidade relativa, dominancia relativa e frequencia relativa).", style = "centered") %>%
       body_end_section_landscape() %>%
-      
+
       body_add_break(pos="on") %>%
       body_add_gg(curve,style="centered")%>%#grafico curva
       body_add_par("Figura 3. Curva de acumulacao de especies. Foi utilizado o metodo Bootstrap para estimar o numero total extrapolado de especies na area, com 1000 permutacoes. O sombreamento em volta da linha representa o intervalo de confianca de 95% a partir do desvio-padrao.", style = "centered") %>%
@@ -970,7 +970,7 @@ if(pt==TRUE){
     body_add_par("Table 3. Woody volume by specie.", style = "centered") %>%
     body_add_flextable(vtt) %>%
     body_end_section_landscape() %>%
-    
+
     body_add_break(pos="on") %>%
     body_add_par("Table 4. Number of individuals by specie.", style = "centered") %>%
     body_add_flextable(inds) %>%
@@ -990,7 +990,7 @@ if(pt==TRUE){
     body_add_gg(gg3,style="centered")%>%#grafico fito
     body_add_par("Figure 2. Importance Value Index by specie (sum of relative density, relative dominancy and relative frequency).", style = "centered") %>%
     body_end_section_landscape() %>%
-    
+
     body_add_break(pos="on") %>%
     body_add_gg(curve,style="centered")%>%#grafico curva
     body_add_par("Figure 3. Species accumulation curve. The Bootstrap method was used to estimate the total extrapolated number of species in the area, with 1000 permutations. The shading around the line represents the 95% confidence interval from the standard deviation.", style = "centered") %>%
@@ -1006,7 +1006,7 @@ if(pt==TRUE){
   }
 
   if(save==TRUE){
-    
+
   if(pt==TRUE){
     fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
@@ -1018,9 +1018,9 @@ if(pt==TRUE){
   }
 
   if(missing(prot)){
-    
+
     if(pt==TRUE){
-      
+
     return(list(`vol individual`=x2,
                 `curva especies`=curve,
                 `grafico ivi`=gg3,
@@ -1031,7 +1031,7 @@ if(pt==TRUE){
                 `volume por parcela`=vopa3,
                 `parametros vol`=df))
     }else{
-      
+
       return(list(`individual vol`=x2,
       `species curve`=curve,
       `ivi plot`=gg3,
@@ -1042,12 +1042,12 @@ if(pt==TRUE){
       `volume by plot`=vopa3,
       `vol parameters`=df))
     }
-      
-      
+
+
   }else{
-    
+
     if(pt==TRUE){
-      
+
       return(list(`vol individual`=x2,
                   `curva especies`=curve,
                   `grafico ivi`=gg3,
@@ -1059,7 +1059,7 @@ if(pt==TRUE){
                   `volume por parcela`=vopa3,
                   `parametros vol`=df))
     }else{
-      
+
       return(list(`individual vol`=x2,
       `species curve`=curve,
       `ivi plot`=gg3,

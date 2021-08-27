@@ -18,5 +18,6 @@ Imports:
   flextable,
   officer,
   dplyr,
+  stringi,
   tidyr
 RoxygenNote: 7.1.0
