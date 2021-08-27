@@ -6,7 +6,7 @@ Author: Igor Cobelo Ferreira
 Maintainer: Igor Cobelo Ferreira <cobelo.igor@gmail.com>
 Description: The functions return sampling parameters for forest inventories with tables and graphics. Methods used in the 
   package refers to Pellico e Brena (1997) <https://bit.ly/2BDbHJI>. 
-License: GPL(>=3)
+License: file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
 Depends: R(>= 3.5.0)

@@ -28,7 +28,7 @@ As funções retornam parâmetros de amostragem para inventários florestais com
 
 Funções:
 
-- indvol(): calcula o volume individual a partir de uma equação inserida pelo usuário, por um fator de forma ou por uma das equações utilizadas no Inventário Florestal Nacional, listadas por estado e por fitofisionomia. Ver as equações: [Equações.](https://github.com/igorcobelo/florestal/blob/master/Equations.md)
+- indvol(): calcula o volume individual a partir de uma equação inserida pelo usuário, por um fator de forma ou por uma das equações utilizadas no Inventário Florestal Nacional, listadas por estado e por fitofisionomia. Ver as equações: [Equações.](https://github.com/igorcobelo/florestal/blob/master/inst/Equations.md)
 - acs(): retorna parâmetros amostrais para Amostragem Casual Simples.
 - ace(): retorna parâmetros amostrais para Amostragem Casual Estratificada.
 - bit(): retorna parâmetros amostrais para amostragem pelo Método de Bitterlich.
