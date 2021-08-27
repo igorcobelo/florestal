@@ -24,8 +24,8 @@ nm <-deparse(substitute(x))
     diam <- ggplot(data, aes(x=d, y=Freq)) +
       geom_bar(stat = "identity", width=0.5, fill="black",alpha=0.9)+
       theme_bw()+
-      xlab("\nClasse Diamétrica (cm)")+
-      ylab("Quantidade de Indivíduos\n")+
+      xlab("\nClasse Diametrica (cm)")+
+      ylab("Quantidade de Individuos\n")+
       geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"),
                     y = Freq),
                 position = position_dodge(width = 1),
