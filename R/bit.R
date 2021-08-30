@@ -135,30 +135,41 @@ vahh<-as.data.frame(vah)
 
   x<-as.data.frame(x)
 
+  breaks <- seq(from=min(x[,5]),to=max(x[,5]),by=ampl)
+
+  d <- cut(x[,5],breaks=breaks,right=F,include.lowest = T)
+
+  data <- as.data.frame(table(d))
+  data$d <- stri_replace_all_fixed(data$d,",", "<")
+  data$d <- stri_replace_all_fixed(data$d,")", "")
+  data$d <- stri_replace_all_fixed(data$d,"[", "")
+  data$d <- stri_replace_all_fixed(data$d,"]", "")
+
   if(pt==TRUE){
 
-    diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram( binwidth=ampl ,fill="black", color="#e9ecef", alpha=0.9) +
-      theme_bw(16)+
-      theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
-            axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
-            axis.title.y=element_text(size=12)) +
-      scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("\nClasse Diametrica (cm)") +
-      ylab("Frequencia\n")
+    diam <- ggplot(data, aes(x=d, y=Freq)) +
+      geom_bar(stat = "identity", width=0.5, fill="black",alpha=0.9)+
+      theme_bw()+
+      xlab("\nClasse Diametrica (cm)")+
+      ylab("Quantidade de Individuos\n")+
+      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"),
+                    y = Freq),
+                position = position_dodge(width = 1),
+                vjust = -0.5,color="black",size=2)
 
   }else{
 
-    diam<-ggplot(x, aes(x=x[,5])) +
-      geom_histogram(binwidth=ampl,fill="black", color="#e9ecef", alpha=0.9) +
-      theme_bw(16)+
-      theme(axis.text.y = element_text(size=10),legend.text=element_text(size=10),
-            axis.text.x= element_text(size=10), axis.title.x=element_text(size=12),
-            axis.title.y=element_text(size=12)) +
-      scale_x_continuous(breaks = seq(0, max, ampl)) +
-      xlab("\nDiameter Class (cm)") +
-      ylab("Frequency\n")
+    diam <- ggplot(data, aes(x=d, y=Freq)) +
+      geom_bar(stat = "identity", width=0.5, fill="black",alpha=0.9)+
+      theme_bw()+
+      xlab("\nDiameter Class (cm)")+
+      ylab("Number of Individuals\n")+
+      geom_text(aes(label = paste0(round((Freq*100)/sum(Freq),2),"%"),
+                    y = Freq),
+                position = position_dodge(width = 1),
+                vjust = -0.5,color="black",size=2)
   }
+
 
 
   #parametros
@@ -230,7 +241,7 @@ vahh<-as.data.frame(vah)
   df[,2]<-format(round(df[,2],4),nsmall=4)
 
   df <- as.data.frame(df)
-  
+
   par <- flextable(df)
   par <- align(par, align = "center")
   par <- align_text_col(par, align = "center")
@@ -244,7 +255,7 @@ vahh<-as.data.frame(vah)
       message("The sampling intensity satisfies the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
       message("\nTherefore, it is not necessary to sample more sample points.\n")
       message("--------------------------------------------------------------")
-      
+
 
     }else{
       message("\n--------------------------------------------------------------\n")
@@ -262,7 +273,7 @@ vahh<-as.data.frame(vah)
       message("The sample intensity does not satisfy the required error of ", E*100,"%, to a significance level of ",p*100,"%.")
       message("\nTherefore, it is necessary to sample ",ceiling(nn-n)," more sample points.\n")
       message("--------------------------------------------------------------")
-      
+
     }else{
 
       message("\n--------------------------------------------------------------\n")
@@ -273,7 +284,7 @@ vahh<-as.data.frame(vah)
   }
 
 
-  
+
     if(pt==TRUE){
       doc <- read_docx() %>%
         body_add_par("Tabela 1. Parametros da amostragem pelo metodo de Bitterlich.", style = "centered") %>%
@@ -322,9 +333,9 @@ vahh<-as.data.frame(vah)
 
 
 
-    
+
   if(save==TRUE){
-    
+
   if(pt==TRUE){
     fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
     print(doc, target = fileout)
@@ -340,12 +351,12 @@ vahh<-as.data.frame(vah)
               `distribuicao diam`=diam,
               `parametros vol`=df))
   }else{
-    
+
     return(list(`individual vol`=x2,
                 `G, N and V/ha`=vahh2,
                 `diam distribuction`=diam,
                 `vol parameters`=df))
-    
+
   }
 
 }

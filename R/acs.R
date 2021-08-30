@@ -7,7 +7,7 @@ nm <-deparse(substitute(x))
   x<-as.data.frame(x)
 
 
-  #####DISTRIBUI??O DIAM?TRICA###########
+  #####DISTRIBUICAO DIAMETRICA###########
 
   breaks <- seq(from=min(x[,5]),to=max(x[,5]),by=ampl)
 
@@ -43,6 +43,8 @@ nm <-deparse(substitute(x))
                 position = position_dodge(width = 1),
                 vjust = -0.5,color="black",size=2)
   }
+
+
 
 
   #volume/parcela
