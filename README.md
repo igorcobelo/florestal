@@ -41,7 +41,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 ## 2. Instalação
 
-`install.packages("florestal")`
+`remotes::install_github("igorcobelo/florestal")`
 
 `library(florestal)`
 
