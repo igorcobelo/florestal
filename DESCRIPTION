@@ -9,8 +9,7 @@ Description: The functions return sampling parameters for forest inventories wit
 License: file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
-Depends: R(>= 3.5.0)
-Imports:
+Depends:
   ggplot2,
   data.table,
   BiodiversityR,
