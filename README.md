@@ -1,4 +1,4 @@
-(https://cran.r-project.org/package=florestal) [![](https://cranlogs.r-pkg.org/badges/grand-total/florestal)](https://cran.r-project.org/package=florestal) [![](https://cranlogs.r-pkg.org/badges/florestal)](https://cran.r-project.org/package=florestal)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/florestal)](https://cran.r-project.org/package=florestal) [![](https://cranlogs.r-pkg.org/badges/florestal)](https://cran.r-project.org/package=florestal)
 
 # florestal
 > Resultados para Inventários Florestais.
