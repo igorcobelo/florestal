@@ -34,6 +34,9 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
     data$d <- stri_replace_all_fixed(data$d,"[", "")
     data$d <- stri_replace_all_fixed(data$d,"]", "")
 
+    data$d <- factor(data$d,levels=data$d)
+
+
     data$Estrato <- as.numeric(data$Estrato)
 
 

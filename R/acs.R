@@ -19,6 +19,8 @@ nm <-deparse(substitute(x))
   data$d <- stri_replace_all_fixed(data$d,"[", "")
   data$d <- stri_replace_all_fixed(data$d,"]", "")
 
+  data$d <- factor(data$d,levels=data$d)
+
   if(pt==TRUE){
 
     diam <- ggplot(data, aes(x=d, y=Freq)) +
