@@ -9,7 +9,7 @@ nm <-deparse(substitute(x))
 
   #####DISTRIBUICAO DIAMETRICA###########
 
-  breaks <- seq(from=min(x[,5]),to=max(x[,5]),by=ampl)
+  breaks <- seq(from=round(min(x[,5])),to=ceiling(max(x[,5]))+ampl,by=ampl)
 
   d <- cut(x[,5],breaks=breaks,right=F,include.lowest = T)
 
