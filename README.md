@@ -49,7 +49,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 #Para calcular o volume individual, usamos a função 'indvol()'.
 
-#Caso o mesmo indivíduo tenha mais de um fuste mensurado, a numeração do indivíduo deve se repetir na linha de baixo. Nesse caso, será considerada a maior altura e calculado o diâmetro médio quadrático.
+#Caso o mesmo indivíduo tenha mais de um fuste mensurado, a numeração do indivíduo deve se repetir na linha de baixo. Nesse caso, será considerada a maior altura e calculado o "diâmetro equivalente".
 
 #Para Amostragem Casual Simples, a planilha precisa necessariamente conter as colunas nesta ordem:
 
