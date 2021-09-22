@@ -13,7 +13,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
     d<-list()
     for(i in x[,1]){
 
-      breaks[i] <- list(seq(from=min(x[x[,1]==i,6]),to=max(x[x[,1]==i,6]),by=1))
+      breaks[i] <- list(seq(from=min(x[x[,1]==i,6]),to=max(x[x[,1]==i,6]),by=ampl))
 
       for(j in breaks){
         d[i] <- list(cut(x[x[,1]==i,6],breaks=j,right=F,include.lowest = T))
@@ -34,7 +34,7 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
     data$d <- stri_replace_all_fixed(data$d,"[", "")
     data$d <- stri_replace_all_fixed(data$d,"]", "")
 
-    data$d <- factor(data$d,levels=data$d)
+    data$d <- factor(data$d,levels=unique(data$d))
 
 
     data$Estrato <- as.numeric(data$Estrato)
