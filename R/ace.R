@@ -151,7 +151,6 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
     tt[i]<-c(sum(subset(ph2[,3], ph2[,1]==i)))
   }
 
-
   # Dados iniciais
   A<-sum(aj) #area total
   N<-A/a #parcelas que cabem na area total
@@ -159,7 +158,6 @@ ace<-function(x,a,aj,E=0.1,p=0.05,ampl=2,prot=NULL,prop=F,rn=F,spivi=15,un=F,pt=
   P<-estrat/N #P
   yi<-tt/ss #media/parcela pra cada estrato
   y<-sum(P*yi) #media estratificada (m3/parcela)
-
   s<-sqrt(var) #variancia geral
   erroabsreq<-y*E #erro requerido absoluto
 
@@ -314,7 +312,7 @@ if(f>=0.98){
 
   if(f>=0.98){
     #P/pop. infinita
-    s2y<-(sum(p*s)^2/n)
+    s2y<-(sum(P*s)^2/sum(ss))
   }
 
   #erro-padrao da media estratificada
