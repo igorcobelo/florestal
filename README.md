@@ -109,7 +109,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 `head(bit1)`
 
-![Example screenshot](.inst/img/head_bit1.png)
+![Example screenshot](https://github.com/igorcobelo/florestal/blob/master/inst/img/head_bit1.png)
 
 `IF_bit <- indvol(bit1, mens="bit", f=0.7)`
 
