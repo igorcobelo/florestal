@@ -499,7 +499,7 @@ nm <-deparse(substitute(x))
 
   if(save==TRUE){
   if(pt==TRUE){
-    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
+    fileout <- paste(getwd(),"/Inventario Florestal",".docx",sep="")
     print(doc, target = fileout)
   }else{
     fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
@@ -1012,7 +1012,7 @@ if(pt==TRUE){
   if(save==TRUE){
 
   if(pt==TRUE){
-    fileout <- tempfile(pattern="InventarioFlorestal", fileext=".docx")
+    fileout <- paste(getwd(),"/Inventario Florestal",".docx",sep="")
     print(doc, target = fileout)
   }else{
     fileout <- tempfile(pattern="ForestInventory", fileext=".docx")
