@@ -109,7 +109,7 @@ Obs. 2: O idioma das saídas é Português, por padrão. Pode-se alterar para In
 
 `head(bit1)`
 
-![Example screenshot](.inst/img/head_bit1.png)
+![Example screenshot](https://github.com/igorcobelo/florestal/blob/master/inst/img/head_bit1.png)
 
 `IF_bit <- indvol(bit1, mens="bit", f=0.7)`
 
@@ -288,4 +288,3 @@ Instagram: [@florestalpackage](https://www.instagram.com/florestalpackage/)
 Para citar 'florestal' em publicações, por favor use:
 
 Ferreira, Igor C. (2020). florestal: Results for Forest Inventories. R package version 0.1.3. Brasilia, Brazil. <<https://cran.r-project.org/package=florestal>>
->>>>>>> 17c2e886e722bdf46f0a3d819de5129ae4060e9a
