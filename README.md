@@ -1,4 +1,5 @@
-[![](https://cranlogs.r-pkg.org/badges/grand-total/florestal)](https://cran.r-project.org/package=florestal) [![](https://cranlogs.r-pkg.org/badges/florestal)](https://cran.r-project.org/package=florestal) [![](https://www.buymeacoffee.com/igorcobelo)](https://www.buymeacoffee.com/igorcobelo)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/florestal)](https://cran.r-project.org/package=florestal) [![](https://cranlogs.r-pkg.org/badges/florestal)](https://cran.r-project.org/package=florestal) <a href="https://www.buymeacoffee.com/igorcobelo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 
 # florestal
 > Resultados para Inventários Florestais.
